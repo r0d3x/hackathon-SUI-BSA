@@ -152,9 +152,9 @@ export default function CreatePage() {
 
             await createLottery({
                 nftId: selectedNFT.id,
-                wonkabarPrice: priceInMIST,
-                maxSupply: parseInt(maxSupply),
-                duration: durationInMs
+                wonkaBarPrice: priceInMIST.toString(),
+                maxSupply: maxSupply,
+                expirationDate: Date.now() + durationInMs
             });
 
             setSelectedNFT(null);
