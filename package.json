@@ -1,0 +1,18 @@
+{
+  "name": "meltyfi-sui",
+  "version": "1.0.0",
+  "description": "MeltyFi Protocol on Sui - NFT-collateralized lending through lottery mechanics",
+  "scripts": {
+    "build:contracts": "cd contracts/meltyfi && sui move build",
+    "test:contracts": "cd contracts/meltyfi && sui move test",
+    "deploy:devnet": "cd contracts/meltyfi && sui client publish --gas-budget 100000000",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "test:integration": "cd contracts/meltyfi && sui move test --integration",
+    "start:validator": "sui-test-validator",
+    "clean": "cd contracts/meltyfi && sui move clean"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

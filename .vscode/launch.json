@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Move Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "sui",
+      "args": [
+        "move",
+        "test",
+        "--test-threads",
+        "1"
+      ],
+      "cwd": "${workspaceFolder}/contracts/meltyfi",
+      "console": "integratedTerminal"
+    }
+  ]
+}
