@@ -1,23 +1,1055 @@
-[0;32m[2025-09-27 14:25:22] Starting MeltyFi Protocol deployment to Sui testnet...[0m
-[0;32m[2025-09-27 14:25:22] Checking prerequisites...[0m
+[0;32m[2025-09-27 16:59:54] Starting MeltyFi Protocol deployment to Sui testnet...[0m
+[0;32m[2025-09-27 16:59:54] Checking prerequisites...[0m
 [0;32m✅ All prerequisites met[0m
-[0;32m[2025-09-27 14:25:22] Setting up Sui environment...[0m
-[0;32m[2025-09-27 14:25:22] Active address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2[0m
-[0;33m[2025-09-27 14:25:22] WARNING: Low SUI balance detected (0 MIST). You might need more SUI for deployment.[0m
-[0;34m[2025-09-27 14:25:22] Get testnet SUI from: https://faucet.testnet.sui.io[0m
+[0;32m[2025-09-27 16:59:54] Setting up Sui environment...[0m
+[0;32m[2025-09-27 16:59:55] Active address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2[0m
+[0;34m[2025-09-27 16:59:55] Checking SUI balance for deployment...[0m
+[0;34m[2025-09-27 16:59:55] Current balance: 5.00 SUI (5007862360 MIST)[0m
+[0;32m✅ Sufficient SUI balance for deployment: 5.00 SUI[0m
+[0;34m[2025-09-27 16:59:55] Estimated deployment cost: ~.10 SUI[0m
+[0;34m[2025-09-27 16:59:55] Estimated remaining balance after deployment: ~4.90 SUI[0m
 [0;32m✅ Sui environment configured for testnet[0m
-[0;32m[2025-09-27 14:25:41] Installing dependencies...[0m
-[0;34m[2025-09-27 14:25:41] Installing root dependencies...[0m
-[0;34m[2025-09-27 14:25:42] Installing frontend dependencies...[0m
+[0;32m[2025-09-27 16:59:55] Installing dependencies...[0m
+[0;34m[2025-09-27 16:59:55] Installing root dependencies...[0m
+[0;34m[2025-09-27 16:59:58] Installing frontend dependencies...[0m
 [0;32m✅ Dependencies installed[0m
-[0;32m[2025-09-27 14:25:43] Building Move contracts...[0m
-Failed to build Move modules: Unable to parse Move package manifest
+[0;32m[2025-09-27 16:59:59] Building Move contracts...[0m
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING meltyfi
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:8:26
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::tx_context::[0m[33mTxContext[0m;
+  [0m[34m│[0m                          [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
-Caused by:
-    unexpected character found: `/` at line 1 column 1.
-Unable to parse Move package manifest
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:9:22
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::option::[0m[33mOption[0m;
+  [0m[34m│[0m                      [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
-Caused by:
-    unexpected character found: `/` at line 1 column 1
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:5:14
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:23
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:29
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:9:14
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/choco_chip.move:10:14
+   [0m[34m│[0m
+[0m[34m10[0m [0m[34m│[0m     use std::[0m[33moption[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:23
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID, ID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:29
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m, ID};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:34
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{Self, UID, [0m[33mID[0m};
+  [0m[34m│[0m                                  [0m[33m^^[0m [0m[33mUnnecessary alias 'ID' for module member 'sui::object::ID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:8:14
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:14:14
+   [0m[34m│[0m
+[0m[34m14[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:15:23
+   [0m[34m│[0m
+[0m[34m15[0m [0m[34m│[0m     use std::option::{[0m[33mSelf[0m, Option};
+   [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:15:29
+   [0m[34m│[0m
+[0m[34m15[0m [0m[34m│[0m     use std::option::{Self, [0m[33mOption[0m};
+   [0m[34m│[0m                             [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
+    [0m[34m┌─[0m ./sources/core.move:271:13
+    [0m[34m│[0m
+[0m[34m251[0m [0m[34m│[0m     ): WonkaBar {
+    [0m[34m│[0m        [0m[34m--------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
+    [0m[34m·[0m
+[0m[34m262[0m [0m[34m│[0m         let buyer = tx_context::sender(ctx);
+    [0m[34m│[0m                     [0m[34m-----------------------[0m [0m[34mTransaction sender address coming from here[0m
+    [0m[34m·[0m
+[0m[34m271[0m [0m[34m│[0m             [0m[33mtransfer::public_transfer(coin::from_balance(payment_balance, ctx), buyer)[0m;
+    [0m[34m│[0m             [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[33mTransfer of an object to transaction sender address[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
+    [0m[34m┌─[0m ./sources/core.move:406:17
+    [0m[34m│[0m
+[0m[34m369[0m [0m[34m│[0m     ): Option<T> {
+    [0m[34m│[0m        [0m[34m---------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
+[0m[34m370[0m [0m[34m│[0m         assert!(lottery.state != LOTTERY_ACTIVE, EInvalidLotteryState);
+[0m[34m371[0m [0m[34m│[0m         let claimer = tx_context::sender(ctx);
+    [0m[34m│[0m                       [0m[34m-----------------------[0m [0m[34mTransaction sender address coming from here[0m
+    [0m[34m·[0m
+[0m[34m406[0m [0m[34m│[0m                 [0m[33mtransfer::public_transfer(refund_coin, claimer)[0m;
+    [0m[34m│[0m                 [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[33mTransfer of an object to transaction sender address[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
+    [0m[34m┌─[0m ./sources/core.move:476:9
+    [0m[34m│[0m
+[0m[34m466[0m [0m[34m│[0m     public fun withdraw_protocol_fees(
+    [0m[34m│[0m                [0m[34m----------------------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
+    [0m[34m·[0m
+[0m[34m476[0m [0m[34m│[0m         [0m[33mtransfer::public_transfer(fee_coin, tx_context::sender(ctx))[0m;
+    [0m[34m│[0m         [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [0m[34m│[0m         [0m[33m│[0m                                   [0m[34m│[0m
+    [0m[34m│[0m         [0m[33m│[0m                                   [0m[34mTransaction sender address coming from here[0m
+    [0m[34m│[0m         [0m[33mTransfer of an object to transaction sender address[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+Please report feedback on the linter warnings at https://forums.sui.io
+
+Total number of linter warnings suppressed: 2 (unique lints: 1)
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING meltyfi
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./tests/meltyfi_tests.move:3:14
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use std::[0m[33moption[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./tests/meltyfi_tests.move:4:14
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m ./tests/meltyfi_tests.move:4:14
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnused 'use' of alias 'vector'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This alias does not shadow the built-in type 'vector' in type annotations.
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:10:14
+   [0m[34m│[0m
+[0m[34m10[0m [0m[34m│[0m     use sui::[0m[33mobject[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03002][0m[1m: unbound module[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:12:9
+   [0m[34m│[0m
+[0m[34m12[0m [0m[34m│[0m     use [0m[31mmeltyfi::meltyfi_core[0m::{Self, Protocol, Lottery, LotteryReceipt, AdminCap};
+   [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid 'use'. Unbound module: 'meltyfi::meltyfi_core'[0m
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:13:55
+   [0m[34m│[0m
+[0m[34m13[0m [0m[34m│[0m     use meltyfi::choco_chip::{Self, ChocolateFactory, [0m[33mFactoryAdmin[0m, CHOCO_CHIP};
+   [0m[34m│[0m                                                       [0m[33m^^^^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'FactoryAdmin'. Consider removing it[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:13:69
+   [0m[34m│[0m
+[0m[34m13[0m [0m[34m│[0m     use meltyfi::choco_chip::{Self, ChocolateFactory, FactoryAdmin, [0m[33mCHOCO_CHIP[0m};
+   [0m[34m│[0m                                                                     [0m[33m^^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'CHOCO_CHIP'. Consider removing it[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03002][0m[1m: unbound module[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:14:9
+   [0m[34m│[0m
+[0m[34m14[0m [0m[34m│[0m     use [0m[31mmeltyfi::wonka_bars[0m::{Self, WonkaBars};
+   [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid 'use'. Unbound module: 'meltyfi::wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:40:13
+   [0m[34m│[0m
+[0m[34m40[0m [0m[34m│[0m             [0m[31mmeltyfi_core[0m::init_for_testing(test_scenario::ctx(&mut scenario));
+   [0m[34m│[0m             [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E04005][0m[1m: expected a single type[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:48:13
+   [0m[34m│[0m
+[0m[34m48[0m [0m[34m│[0m         let [0m[31mrandom[0m = random::create_for_testing(test_scenario::ctx(&mut scenario));
+   [0m[34m│[0m             [0m[31m^^^^^^[0m [0m[31mInvalid type for local[0m
+   [0m[34m│[0m
+   [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/random.move:62:12
+   [0m[34m│[0m
+[0m[34m62[0m [0m[34m│[0m public fun create_for_testing(ctx: &mut TxContext) {
+   [0m[34m│[0m            [0m[34m------------------[0m [0m[34mExpected a single type, but found expression list type: '()'[0m
+
+[0m[1m[38;5;9merror[E04005][0m[1m: expected a single type[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:50:9
+   [0m[34m│[0m
+[0m[34m50[0m [0m[34m│[0m         [0m[31m(scenario, clock, random)[0m
+   [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid expression list type argument[0m
+   [0m[34m│[0m
+   [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/random.move:62:12
+   [0m[34m│[0m
+[0m[34m62[0m [0m[34m│[0m public fun create_for_testing(ctx: &mut TxContext) {
+   [0m[34m│[0m            [0m[34m------------------[0m [0m[34mExpected a single type, but found expression list type: '()'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:50:9
+   [0m[34m│[0m
+[0m[34m34[0m [0m[34m│[0m     fun setup_test_environment(): (test_scenario::Scenario, clock::Clock, random::Random) {
+   [0m[34m│[0m                                                                           [0m[34m--------------[0m [0m[34mExpected: 'sui::random::Random'[0m
+   [0m[34m·[0m
+[0m[34m50[0m [0m[34m│[0m         [0m[31m(scenario, clock, random)[0m
+   [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid return expression[0m
+   [0m[34m│[0m
+   [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/random.move:62:12
+   [0m[34m│[0m
+[0m[34m62[0m [0m[34m│[0m public fun create_for_testing(ctx: &mut TxContext) {
+   [0m[34m│[0m            [0m[34m------------------[0m [0m[34mGiven: '()'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:59:55
+   [0m[34m│[0m
+[0m[34m59[0m [0m[34m│[0m             let protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+   [0m[34m│[0m                                                       [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:63:63
+   [0m[34m│[0m
+[0m[34m63[0m [0m[34m│[0m             let (total_lotteries, treasury_balance, paused) = [0m[31mmeltyfi_core[0m::protocol_stats(&protocol);
+   [0m[34m│[0m                                                               [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:87:59
+   [0m[34m│[0m
+[0m[34m87[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+   [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:88:17
+   [0m[34m│[0m
+[0m[34m88[0m [0m[34m│[0m             let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+   [0m[34m│[0m                 [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+   [0m[34m┌─[0m ./tests/meltyfi_tests.move:90:27
+   [0m[34m│[0m
+[0m[34m90[0m [0m[34m│[0m             let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+   [0m[34m│[0m                           [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:100:21
+    [0m[34m│[0m
+[0m[34m100[0m [0m[34m│[0m             assert!([0m[31mmeltyfi_core[0m::receipt_lottery_id(&receipt) == 0, 0);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:103:43
+    [0m[34m│[0m
+[0m[34m103[0m [0m[34m│[0m             let (total_lotteries, _, _) = [0m[31mmeltyfi_core[0m::protocol_stats(&protocol);
+    [0m[34m│[0m                                           [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:121:59
+    [0m[34m│[0m
+[0m[34m121[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:122:17
+    [0m[34m│[0m
+[0m[34m122[0m [0m[34m│[0m             let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:123:27
+    [0m[34m│[0m
+[0m[34m123[0m [0m[34m│[0m             let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+    [0m[34m│[0m                           [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:139:59
+    [0m[34m│[0m
+[0m[34m139[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:140:58
+    [0m[34m│[0m
+[0m[34m140[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:142:17
+    [0m[34m│[0m
+[0m[34m142[0m [0m[34m│[0m             let [0m[33mpayment[0m = coin::mint_for_testing<SUI>(500, test_scenario::ctx(&mut scenario)); // 5 WonkaBars worth
+    [0m[34m│[0m                 [0m[33m^^^^^^^[0m [0m[33mUnused local variable 'payment'. Consider removing or prefixing with an underscore: '_payment'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:143:30
+    [0m[34m│[0m
+[0m[34m143[0m [0m[34m│[0m             let wonka_bars = [0m[31mmeltyfi_core[0m::buy_wonkabars(
+    [0m[34m│[0m                              [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:153:21
+    [0m[34m│[0m
+[0m[34m153[0m [0m[34m│[0m             assert!([0m[31mwonka_bars[0m::lottery_id(&wonka_bars) == 0, 0);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:154:21
+    [0m[34m│[0m
+[0m[34m154[0m [0m[34m│[0m             assert!([0m[31mwonka_bars[0m::quantity(&wonka_bars) == 5, 1);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:155:21
+    [0m[34m│[0m
+[0m[34m155[0m [0m[34m│[0m             assert!([0m[31mwonka_bars[0m::owner(&wonka_bars) == USER2, 2);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:158:53
+    [0m[34m│[0m
+[0m[34m158[0m [0m[34m│[0m             let (_, _, _, _, _, _, sold_count, _) = [0m[31mmeltyfi_core[0m::lottery_details(&lottery);
+    [0m[34m│[0m                                                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:162:21
+    [0m[34m│[0m
+[0m[34m162[0m [0m[34m│[0m             assert!([0m[31mmeltyfi_core[0m::user_participation(&lottery, USER2) == 5, 4);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:181:59
+    [0m[34m│[0m
+[0m[34m181[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:182:17
+    [0m[34m│[0m
+[0m[34m182[0m [0m[34m│[0m             let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:183:27
+    [0m[34m│[0m
+[0m[34m183[0m [0m[34m│[0m             let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+    [0m[34m│[0m                           [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:199:59
+    [0m[34m│[0m
+[0m[34m199[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:200:58
+    [0m[34m│[0m
+[0m[34m200[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:201:17
+    [0m[34m│[0m
+[0m[34m201[0m [0m[34m│[0m             let [0m[33mpayment[0m = coin::mint_for_testing<SUI>(300, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^^^^^[0m [0m[33mUnused local variable 'payment'. Consider removing or prefixing with an underscore: '_payment'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:202:30
+    [0m[34m│[0m
+[0m[34m202[0m [0m[34m│[0m             let wonka_bars = [0m[31mmeltyfi_core[0m::buy_wonkabars(&mut protocol, &mut lottery, payment, 3, &clock, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                              [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:210:59
+    [0m[34m│[0m
+[0m[34m210[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:211:58
+    [0m[34m│[0m
+[0m[34m211[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:212:17
+    [0m[34m│[0m
+[0m[34m212[0m [0m[34m│[0m             let [0m[33mpayment[0m = coin::mint_for_testing<SUI>(500, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^^^^^[0m [0m[33mUnused local variable 'payment'. Consider removing or prefixing with an underscore: '_payment'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:213:30
+    [0m[34m│[0m
+[0m[34m213[0m [0m[34m│[0m             let wonka_bars = [0m[31mmeltyfi_core[0m::buy_wonkabars(&mut protocol, &mut lottery, payment, 5, &clock, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                              [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:225:58
+    [0m[34m│[0m
+[0m[34m225[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:226:13
+    [0m[34m│[0m
+[0m[34m226[0m [0m[34m│[0m             [0m[31mmeltyfi_core[0m::draw_winner(&mut lottery, &random, &clock, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m             [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:229:53
+    [0m[34m│[0m
+[0m[34m229[0m [0m[34m│[0m             let (_, _, state, _, _, _, _, winner) = [0m[31mmeltyfi_core[0m::lottery_details(&lottery);
+    [0m[34m│[0m                                                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E04010][0m[1m: cannot infer type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:231:21
+    [0m[34m│[0m
+[0m[34m231[0m [0m[34m│[0m             assert!([0m[31moption::is_some(&winner)[0m, 1);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mCould not infer this type. Try adding an annotation[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:238:9
+    [0m[34m│[0m
+[0m[34m238[0m [0m[34m│[0m         [0m[31mrandom::destroy_for_testing[0m(random);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'destroy_for_testing' in module 'sui::random'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:249:59
+    [0m[34m│[0m
+[0m[34m249[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:250:17
+    [0m[34m│[0m
+[0m[34m250[0m [0m[34m│[0m             let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:251:27
+    [0m[34m│[0m
+[0m[34m251[0m [0m[34m│[0m             let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+    [0m[34m│[0m                           [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:266:13
+    [0m[34m│[0m
+[0m[34m266[0m [0m[34m│[0m         let [0m[33mwonka_bars[0m = {
+    [0m[34m│[0m             [0m[33m^^^^^^^^^^[0m [0m[33mUnused local variable 'wonka_bars'. Consider removing or prefixing with an underscore: '_wonka_bars'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:267:59
+    [0m[34m│[0m
+[0m[34m267[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:268:58
+    [0m[34m│[0m
+[0m[34m268[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:269:17
+    [0m[34m│[0m
+[0m[34m269[0m [0m[34m│[0m             let [0m[33mpayment[0m = coin::mint_for_testing<SUI>(500, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                 [0m[33m^^^^^^^[0m [0m[33mUnused local variable 'payment'. Consider removing or prefixing with an underscore: '_payment'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:270:30
+    [0m[34m│[0m
+[0m[34m270[0m [0m[34m│[0m             let wonka_bars = [0m[31mmeltyfi_core[0m::buy_wonkabars(&mut protocol, &mut lottery, payment, 5, &clock, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m                              [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:280:58
+    [0m[34m│[0m
+[0m[34m280[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:281:13
+    [0m[34m│[0m
+[0m[34m281[0m [0m[34m│[0m             [0m[31mmeltyfi_core[0m::draw_winner(&mut lottery, &random, &clock, test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m             [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:288:59
+    [0m[34m│[0m
+[0m[34m288[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:289:58
+    [0m[34m│[0m
+[0m[34m289[0m [0m[34m│[0m             let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                          [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:292:57
+    [0m[34m│[0m
+[0m[34m292[0m [0m[34m│[0m             let (nft_option, sui_payout, choco_chips) = [0m[31mmeltyfi_core[0m::redeem_wonkabars<TestNFT>(
+    [0m[34m│[0m                                                         [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:297:29
+    [0m[34m│[0m
+[0m[34m297[0m [0m[34m│[0m             let is_winner = [0m[31mmeltyfi_core[0m::is_lottery_winner(&lottery, USER2);
+    [0m[34m│[0m                             [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E04010][0m[1m: cannot infer type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:304:25
+    [0m[34m│[0m
+[0m[34m304[0m [0m[34m│[0m                 assert!([0m[31mcoin::value(&sui_payout)[0m > 0, 1);
+    [0m[34m│[0m                         [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mCould not infer this type. Try adding an annotation[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:307:21
+    [0m[34m│[0m
+[0m[34m307[0m [0m[34m│[0m             assert!([0m[31mchoco_chip::coin_value[0m(&choco_chips) == 500, 2); // 5 * 100 ChocoChips
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'coin_value' in module 'meltyfi::choco_chip'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:310:13
+    [0m[34m│[0m
+[0m[34m310[0m [0m[34m│[0m             [0m[31msui::object::delete(sui_payout)[0m;
+    [0m[34m│[0m             [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid call of 'sui::object::delete'. Invalid argument for parameter 'id'[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/coin.move:125:28
+    [0m[34m│[0m
+[0m[34m125[0m [0m[34m│[0m public fun value<T>(self: &Coin<T>): u64 {
+    [0m[34m│[0m                            [0m[34m-------[0m [0m[34mGiven: 'sui::coin::Coin<_>'[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/object.move:211:23
+    [0m[34m│[0m
+[0m[34m211[0m [0m[34m│[0m public fun delete(id: UID) {
+    [0m[34m│[0m                       [0m[34m---[0m [0m[34mExpected: 'sui::object::UID'[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:319:9
+    [0m[34m│[0m
+[0m[34m319[0m [0m[34m│[0m         [0m[31mrandom::destroy_for_testing[0m(random);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'destroy_for_testing' in module 'sui::random'[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:326:13
+    [0m[34m│[0m
+[0m[34m326[0m [0m[34m│[0m         let [0m[33mctx[0m = test_scenario::ctx(&mut scenario);
+    [0m[34m│[0m             [0m[33m^^^[0m [0m[33mUnused local variable 'ctx'. Consider removing or prefixing with an underscore: '_ctx'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:329:17
+    [0m[34m│[0m
+[0m[34m329[0m [0m[34m│[0m         let mut [0m[33mwonka_bars1[0m = wonka_bars::create_with_tickets_for_testing(1, 5, USER1, 1, 5, ctx);
+    [0m[34m│[0m                 [0m[33m^^^^^^^^^^^[0m [0m[33mUnused local variable 'wonka_bars1'. Consider removing or prefixing with an underscore: '_wonka_bars1'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:329:31
+    [0m[34m│[0m
+[0m[34m329[0m [0m[34m│[0m         let mut wonka_bars1 = [0m[31mwonka_bars[0m::create_with_tickets_for_testing(1, 5, USER1, 1, 5, ctx);
+    [0m[34m│[0m                               [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:330:13
+    [0m[34m│[0m
+[0m[34m330[0m [0m[34m│[0m         let [0m[33mwonka_bars2[0m = wonka_bars::create_with_tickets_for_testing(1, 3, USER1, 6, 8, ctx);
+    [0m[34m│[0m             [0m[33m^^^^^^^^^^^[0m [0m[33mUnused local variable 'wonka_bars2'. Consider removing or prefixing with an underscore: '_wonka_bars2'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:330:27
+    [0m[34m│[0m
+[0m[34m330[0m [0m[34m│[0m         let wonka_bars2 = [0m[31mwonka_bars[0m::create_with_tickets_for_testing(1, 3, USER1, 6, 8, ctx);
+    [0m[34m│[0m                           [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:333:13
+    [0m[34m│[0m
+[0m[34m333[0m [0m[34m│[0m         let [0m[33msplit_bars[0m = wonka_bars::split(&mut wonka_bars1, 2, ctx);
+    [0m[34m│[0m             [0m[33m^^^^^^^^^^[0m [0m[33mUnused local variable 'split_bars'. Consider removing or prefixing with an underscore: '_split_bars'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:333:26
+    [0m[34m│[0m
+[0m[34m333[0m [0m[34m│[0m         let split_bars = [0m[31mwonka_bars[0m::split(&mut wonka_bars1, 2, ctx);
+    [0m[34m│[0m                          [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:334:17
+    [0m[34m│[0m
+[0m[34m334[0m [0m[34m│[0m         assert!([0m[31mwonka_bars[0m::quantity(&wonka_bars1) == 3, 0);
+    [0m[34m│[0m                 [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:335:17
+    [0m[34m│[0m
+[0m[34m335[0m [0m[34m│[0m         assert!([0m[31mwonka_bars[0m::quantity(&split_bars) == 2, 1);
+    [0m[34m│[0m                 [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:338:9
+    [0m[34m│[0m
+[0m[34m338[0m [0m[34m│[0m         [0m[31mwonka_bars[0m::merge(&mut wonka_bars1, wonka_bars2);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:339:17
+    [0m[34m│[0m
+[0m[34m339[0m [0m[34m│[0m         assert!([0m[31mwonka_bars[0m::quantity(&wonka_bars1) == 6, 2); // 3 + 3
+    [0m[34m│[0m                 [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E04010][0m[1m: cannot infer type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:342:14
+    [0m[34m│[0m
+[0m[34m342[0m [0m[34m│[0m         let ([0m[31mstart[0m, end) = wonka_bars::ticket_range(&wonka_bars1);
+    [0m[34m│[0m              [0m[31m^^^^^[0m [0m[31mCould not infer this type. Try adding an annotation[0m
+
+[0m[1m[38;5;9merror[E04010][0m[1m: cannot infer type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:342:21
+    [0m[34m│[0m
+[0m[34m342[0m [0m[34m│[0m         let (start, [0m[31mend[0m) = wonka_bars::ticket_range(&wonka_bars1);
+    [0m[34m│[0m                     [0m[31m^^^[0m [0m[31mCould not infer this type. Try adding an annotation[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:342:28
+    [0m[34m│[0m
+[0m[34m342[0m [0m[34m│[0m         let (start, end) = [0m[31mwonka_bars[0m::ticket_range(&wonka_bars1);
+    [0m[34m│[0m                            [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:346:17
+    [0m[34m│[0m
+[0m[34m346[0m [0m[34m│[0m         assert!([0m[31mwonka_bars[0m::contains_ticket(&split_bars, 4), 4); // Should be in range
+    [0m[34m│[0m                 [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:347:18
+    [0m[34m│[0m
+[0m[34m347[0m [0m[34m│[0m         assert!(![0m[31mwonka_bars[0m::contains_ticket(&split_bars, 10), 5); // Should not be in range
+    [0m[34m│[0m                  [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:350:9
+    [0m[34m│[0m
+[0m[34m350[0m [0m[34m│[0m         [0m[31mwonka_bars[0m::transfer_wonka_bars(&mut wonka_bars1, USER2);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:351:17
+    [0m[34m│[0m
+[0m[34m351[0m [0m[34m│[0m         assert!([0m[31mwonka_bars[0m::owner(&wonka_bars1) == USER2, 6);
+    [0m[34m│[0m                 [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:354:9
+    [0m[34m│[0m
+[0m[34m354[0m [0m[34m│[0m         [0m[31mwonka_bars[0m::burn(wonka_bars1);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:355:9
+    [0m[34m│[0m
+[0m[34m355[0m [0m[34m│[0m         [0m[31mwonka_bars[0m::burn(split_bars);
+    [0m[34m│[0m         [0m[31m^^^^^^^^^^[0m [0m[31mCould not resolve the name 'wonka_bars'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:360:37
+    [0m[34m│[0m
+[0m[34m360[0m [0m[34m│[0m     #[expected_failure(abort_code = [0m[31mmeltyfi_core[0m::EInvalidAmount)]
+    [0m[34m│[0m                                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:364:55
+    [0m[34m│[0m
+[0m[34m364[0m [0m[34m│[0m         let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                       [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:365:13
+    [0m[34m│[0m
+[0m[34m365[0m [0m[34m│[0m         let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m             [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:368:23
+    [0m[34m│[0m
+[0m[34m368[0m [0m[34m│[0m         let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+    [0m[34m│[0m                       [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:385:37
+    [0m[34m│[0m
+[0m[34m385[0m [0m[34m│[0m     #[expected_failure(abort_code = [0m[31mmeltyfi_core[0m::EInsufficientPayment)]
+    [0m[34m│[0m                                     [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:389:55
+    [0m[34m│[0m
+[0m[34m389[0m [0m[34m│[0m         let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                       [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:390:13
+    [0m[34m│[0m
+[0m[34m390[0m [0m[34m│[0m         let [0m[33mnft[0m = create_test_nft(test_scenario::ctx(&mut scenario));
+    [0m[34m│[0m             [0m[33m^^^[0m [0m[33mUnused local variable 'nft'. Consider removing or prefixing with an underscore: '_nft'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:391:23
+    [0m[34m│[0m
+[0m[34m391[0m [0m[34m│[0m         let receipt = [0m[31mmeltyfi_core[0m::create_lottery(
+    [0m[34m│[0m                       [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:403:54
+    [0m[34m│[0m
+[0m[34m403[0m [0m[34m│[0m         let mut lottery = test_scenario::take_shared<[0m[31mLottery[0m>(&scenario);
+    [0m[34m│[0m                                                      [0m[31m^^^^^^^[0m [0m[31mUnbound type 'Lottery' in current scope[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:406:13
+    [0m[34m│[0m
+[0m[34m406[0m [0m[34m│[0m         let [0m[33mpayment[0m = coin::mint_for_testing<SUI>(50, test_scenario::ctx(&mut scenario)); // Only 50, need 100
+    [0m[34m│[0m             [0m[33m^^^^^^^[0m [0m[33mUnused local variable 'payment'. Consider removing or prefixing with an underscore: '_payment'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:407:26
+    [0m[34m│[0m
+[0m[34m407[0m [0m[34m│[0m         let wonka_bars = [0m[31mmeltyfi_core[0m::buy_wonkabars(
+    [0m[34m│[0m                          [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:437:21
+    [0m[34m│[0m
+[0m[34m437[0m [0m[34m│[0m             assert!([0m[31mchoco_chip::coin_value[0m(&coins) == 1000, 0);
+    [0m[34m│[0m                     [0m[31m^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'coin_value' in module 'meltyfi::choco_chip'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:442:13
+    [0m[34m│[0m
+[0m[34m442[0m [0m[34m│[0m             [0m[31msui::object::delete(coins)[0m;
+    [0m[34m│[0m             [0m[31m^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid call of 'sui::object::delete'. Invalid argument for parameter 'id'[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m ./sources/choco_chip.move:94:8
+    [0m[34m│[0m
+[0m[34m 94[0m [0m[34m│[0m     ): Coin<CHOCO_CHIP> {
+    [0m[34m│[0m        [0m[34m----------------[0m [0m[34mGiven: 'sui::coin::Coin<meltyfi::choco_chip::CHOCO_CHIP>'[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/object.move:211:23
+    [0m[34m│[0m
+[0m[34m211[0m [0m[34m│[0m public fun delete(id: UID) {
+    [0m[34m│[0m                       [0m[34m---[0m [0m[34mExpected: 'sui::object::UID'[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:455:59
+    [0m[34m│[0m
+[0m[34m455[0m [0m[34m│[0m             let mut protocol = test_scenario::take_shared<[0m[31mProtocol[0m>(&scenario);
+    [0m[34m│[0m                                                           [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'Protocol' in current scope[0m
+
+[0m[1m[38;5;9merror[E03004][0m[1m: unbound type[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:456:61
+    [0m[34m│[0m
+[0m[34m456[0m [0m[34m│[0m             let admin_cap = test_scenario::take_from_sender<[0m[31mAdminCap[0m>(&scenario);
+    [0m[34m│[0m                                                             [0m[31m^^^^^^^^[0m [0m[31mUnbound type 'AdminCap' in current scope[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:459:13
+    [0m[34m│[0m
+[0m[34m459[0m [0m[34m│[0m             [0m[31mmeltyfi_core[0m::set_protocol_pause(&mut protocol, &admin_cap, true);
+    [0m[34m│[0m             [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;9merror[E03006][0m[1m: unexpected name in this position[0m
+    [0m[34m┌─[0m ./tests/meltyfi_tests.move:462:34
+    [0m[34m│[0m
+[0m[34m462[0m [0m[34m│[0m             let (_, _, paused) = [0m[31mmeltyfi_core[0m::protocol_stats(&protocol);
+    [0m[34m│[0m                                  [0m[31m^^^^^^^^^^^^[0m [0m[31mCould not resolve the name 'meltyfi_core'[0m
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:8:26
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::tx_context::[0m[33mTxContext[0m;
+  [0m[34m│[0m                          [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:9:22
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::option::[0m[33mOption[0m;
+  [0m[34m│[0m                      [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:5:14
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:23
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:29
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:9:14
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/choco_chip.move:10:14
+   [0m[34m│[0m
+[0m[34m10[0m [0m[34m│[0m     use std::[0m[33moption[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:23
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID, ID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:29
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m, ID};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:3:34
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use sui::object::{Self, UID, [0m[33mID[0m};
+  [0m[34m│[0m                                  [0m[33m^^[0m [0m[33mUnnecessary alias 'ID' for module member 'sui::object::ID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/core.move:8:14
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:14:14
+   [0m[34m│[0m
+[0m[34m14[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:15:23
+   [0m[34m│[0m
+[0m[34m15[0m [0m[34m│[0m     use std::option::{[0m[33mSelf[0m, Option};
+   [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/core.move:15:29
+   [0m[34m│[0m
+[0m[34m15[0m [0m[34m│[0m     use std::option::{Self, [0m[33mOption[0m};
+   [0m[34m│[0m                             [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
 [0;32m✅ Contracts built successfully[0m
-[0;32m[2025-09-27 14:25:43] Deploying contracts to Sui testnet...[0m
+[0;32m[2025-09-27 17:00:05] Deploying contracts to Sui testnet...[0m

@@ -1,0 +1,14 @@
+{
+  "network": "testnet",
+  "deployer": "0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2",
+  "timestamp": "2025-09-27T16:11:20Z",
+  "packageId": "0xd1cf793770fbdba170c9dddd7fff26309416a3d7dac917ee5446d992959185f1",
+  "objects": {
+    "adminCap": "0x278a9613634968b085caa50e05e7994925a684313b0234b69dcc83e1c15b97d6",
+    "protocol": "0xcd5006cfda2e2e0c6aee03ecfab5c26b2153018b072ea6f6d6af585465f4f6cd",
+    "chocolateFactory": "0xa06c147ba8e748e49b20f6d3240da5b17c373978d128098436043377e9dc0241",
+    "factoryAdmin": "0x67f59ec64bb996298464f523530ec7fcbf80e39d4f660917ff309d84abb6d766",
+    "upgradeCap": "0x29dc92e61dd3e9070e580307fbab796f3efb52e6c9e95ba324b79fda62135611",
+    "coinMetadata": "0x32f583c7df2e465c2b0b645bdce054ff5765017c373ff5dfb05618446e3198b8"
+  }
+}
