@@ -19,7 +19,7 @@ module meltyfi::meltyfi {
         max_supply: u64,
         clock: &Clock,
         ctx: &mut TxContext
-    ): core::LotteryReceipt {
+    ) {  // <-- CHANGED: Removed return type
         core::create_lottery(protocol, nft, expiration_date, wonka_price, max_supply, clock, ctx)
     }
     

@@ -175,7 +175,7 @@ module meltyfi::core {
         max_supply: u64,
         clock: &Clock,
         ctx: &mut TxContext
-    ): LotteryReceipt {
+    ) {  // <-- CHANGED: Removed return type
         assert!(!protocol.paused, EProtocolPaused);
         let current_time = clock::timestamp_ms(clock);
         assert!(wonka_price > 0, EInvalidAmount);
@@ -232,7 +232,7 @@ module meltyfi::core {
         });
 
         transfer::share_object(lottery);
-        receipt
+        transfer::transfer(receipt, owner);  // <-- CHANGED: Transfer receipt to owner instead of returning
     }
 
     /// Purchase WonkaBars (lottery tickets)
