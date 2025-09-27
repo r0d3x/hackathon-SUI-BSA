@@ -1,0 +1,23 @@
+[0;32m[2025-09-27 14:25:22] Starting MeltyFi Protocol deployment to Sui testnet...[0m
+[0;32m[2025-09-27 14:25:22] Checking prerequisites...[0m
+[0;32m✅ All prerequisites met[0m
+[0;32m[2025-09-27 14:25:22] Setting up Sui environment...[0m
+[0;32m[2025-09-27 14:25:22] Active address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2[0m
+[0;33m[2025-09-27 14:25:22] WARNING: Low SUI balance detected (0 MIST). You might need more SUI for deployment.[0m
+[0;34m[2025-09-27 14:25:22] Get testnet SUI from: https://faucet.testnet.sui.io[0m
+[0;32m✅ Sui environment configured for testnet[0m
+[0;32m[2025-09-27 14:25:41] Installing dependencies...[0m
+[0;34m[2025-09-27 14:25:41] Installing root dependencies...[0m
+[0;34m[2025-09-27 14:25:42] Installing frontend dependencies...[0m
+[0;32m✅ Dependencies installed[0m
+[0;32m[2025-09-27 14:25:43] Building Move contracts...[0m
+Failed to build Move modules: Unable to parse Move package manifest
+
+Caused by:
+    unexpected character found: `/` at line 1 column 1.
+Unable to parse Move package manifest
+
+Caused by:
+    unexpected character found: `/` at line 1 column 1
+[0;32m✅ Contracts built successfully[0m
+[0;32m[2025-09-27 14:25:43] Deploying contracts to Sui testnet...[0m

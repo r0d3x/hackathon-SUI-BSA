@@ -1,0 +1,30 @@
+Sui testnet environment setup started at Sab 27 Set 2025 11:58:55 CEST
+2025-09-27 11:58:55 INFO: Starting Sui testnet environment setup for MeltyFi protocol...
+2025-09-27 11:58:55 INFO: This script will configure your Sui CLI for testnet deployment.
+2025-09-27 11:58:55 STEP: Checking prerequisites...
+2025-09-27 11:58:55 SUCCESS: Sui CLI found: sui 1.57.0-homebrew
+2025-09-27 11:58:55 STEP: Configuring Sui client for testnet...
+2025-09-27 11:58:55 INFO: Configuring testnet environment...
+2025-09-27 11:58:55 INFO: Testnet environment already exists
+2025-09-27 11:58:55 INFO: Switching to testnet...
+2025-09-27 11:58:55 SUCCESS: Switched to testnet
+2025-09-27 11:58:55 SUCCESS: Successfully configured for testnet
+2025-09-27 11:58:55 STEP: Setting up Sui address...
+2025-09-27 11:58:55 INFO: Checking for existing addresses...
+2025-09-27 11:58:55 SUCCESS: Existing address found
+2025-09-27 11:58:55 INFO: Found 1 address(es)
+2025-09-27 11:58:56 SUCCESS: Active address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2
+2025-09-27 11:58:56 STEP: Checking SUI balance and faucet setup...
+2025-09-27 11:58:56 INFO: Checking balance for address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2
+2025-09-27 11:58:56 INFO: Current balance: 6.00 SUI
+2025-09-27 11:58:56 SUCCESS: ✨ SUI balance available: 6.00 SUI
+2025-09-27 11:58:56 SUCCESS: Excellent balance for contract deployment!
+2025-09-27 11:58:56 STEP: Configuration Summary
+2025-09-27 11:58:56 SUCCESS: 🎉 Sui testnet environment setup complete!
+2025-09-27 11:58:56 INFO: 
+2025-09-27 11:58:56 INFO: Next steps:
+2025-09-27 11:58:56 INFO: 1. Run the deployment script: ./scripts/deployment.sh
+2025-09-27 11:58:56 INFO: 2. Or use the project scripts: npm run deploy:testnet
+2025-09-27 11:58:56 INFO: 
+2025-09-27 11:58:56 INFO: For troubleshooting, check the log: /Users/vincenzo/Documents/GitHub/meltyfi-sui/scripts/../sui_setup.log
+2025-09-27 11:58:57 INFO: Configuration saved to: /Users/vincenzo/Documents/GitHub/meltyfi-sui/scripts/../sui-config.txt

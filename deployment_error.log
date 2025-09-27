@@ -1,0 +1,489 @@
+[Note]: Dependency sources are no longer verified automatically during publication and upgrade. You can pass the `--verify-deps` option if you would like to verify them as part of publication or upgrade.
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING meltyfi
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:8:14
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09011][0m[1m: unused constant[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:15:11
+   [0m[34m│[0m
+[0m[34m15[0m [0m[34m│[0m     const [0m[33mEInvalidOperation[0m: u64 = 5;
+   [0m[34m│[0m           [0m[33m^^^^^^^^^^^^^^^^^[0m [0m[33mThe constant 'EInvalidOperation' is never used. Consider removing it.[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(unused_const)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:335:21
+    [0m[34m│[0m
+[0m[34m335[0m [0m[34m│[0m     fun create_name([0m[33mlottery_id[0m: u64, quantity: u64): String {
+    [0m[34m│[0m                     [0m[33m^^^^^^^^^^[0m [0m[33mUnused parameter 'lottery_id'. Consider removing or prefixing with an underscore: '_lottery_id'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:344:28
+    [0m[34m│[0m
+[0m[34m344[0m [0m[34m│[0m     fun create_description([0m[33mlottery_id[0m: u64): String {
+    [0m[34m│[0m                            [0m[33m^^^^^^^^^^[0m [0m[33mUnused parameter 'lottery_id'. Consider removing or prefixing with an underscore: '_lottery_id'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/wonka_bars.move:349:26
+    [0m[34m│[0m
+[0m[34m349[0m [0m[34m│[0m     fun create_image_url([0m[33mlottery_id[0m: u64): String {
+    [0m[34m│[0m                          [0m[33m^^^^^^^^^^[0m [0m[33mUnused parameter 'lottery_id'. Consider removing or prefixing with an underscore: '_lottery_id'[0m
+    [0m[34m│[0m
+    [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:4:58
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use meltyfi::meltyfi_core::{Self, Protocol, Lottery, [0m[33mAdminCap[0m, LotteryReceipt};
+  [0m[34m│[0m                                                          [0m[33m^^^^^^^^[0m [0m[33mUnused 'use' of alias 'AdminCap'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:5:31
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use meltyfi::choco_chip::{[0m[33mSelf[0m, ChocolateFactory, FactoryAdmin, CHOCO_CHIP};
+  [0m[34m│[0m                               [0m[33m^^^^[0m [0m[33mUnused 'use' of alias 'choco_chip'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:5:37
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use meltyfi::choco_chip::{Self, [0m[33mChocolateFactory[0m, FactoryAdmin, CHOCO_CHIP};
+  [0m[34m│[0m                                     [0m[33m^^^^^^^^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'ChocolateFactory'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:5:55
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use meltyfi::choco_chip::{Self, ChocolateFactory, [0m[33mFactoryAdmin[0m, CHOCO_CHIP};
+  [0m[34m│[0m                                                       [0m[33m^^^^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'FactoryAdmin'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:5:69
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use meltyfi::choco_chip::{Self, ChocolateFactory, FactoryAdmin, [0m[33mCHOCO_CHIP[0m};
+  [0m[34m│[0m                                                                     [0m[33m^^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'CHOCO_CHIP'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:6:31
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use meltyfi::wonka_bars::{[0m[33mSelf[0m, WonkaBars};
+  [0m[34m│[0m                               [0m[33m^^^^[0m [0m[33mUnused 'use' of alias 'wonka_bars'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:6:37
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use meltyfi::wonka_bars::{Self, [0m[33mWonkaBars[0m};
+  [0m[34m│[0m                                     [0m[33m^^^^^^^^^[0m [0m[33mUnused 'use' of alias 'WonkaBars'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:9:48
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     public use fun meltyfi_core::create_lottery[0m[31m;[0m
+  [0m[34m│[0m                                                [0m[31m^[0m
+  [0m[34m│[0m                                                [0m[31m│[0m
+  [0m[34m│[0m                                                [0m[31mUnexpected ';'[0m
+  [0m[34m│[0m                                                [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:10:47
+   [0m[34m│[0m
+[0m[34m10[0m [0m[34m│[0m     public use fun meltyfi_core::buy_wonkabars[0m[31m;[0m
+   [0m[34m│[0m                                               [0m[31m^[0m
+   [0m[34m│[0m                                               [0m[31m│[0m
+   [0m[34m│[0m                                               [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                               [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:11:50
+   [0m[34m│[0m
+[0m[34m11[0m [0m[34m│[0m     public use fun meltyfi_core::redeem_wonkabars[0m[31m;[0m
+   [0m[34m│[0m                                                  [0m[31m^[0m
+   [0m[34m│[0m                                                  [0m[31m│[0m
+   [0m[34m│[0m                                                  [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                  [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:12:44
+   [0m[34m│[0m
+[0m[34m12[0m [0m[34m│[0m     public use fun meltyfi_core::repay_loan[0m[31m;[0m
+   [0m[34m│[0m                                            [0m[31m^[0m
+   [0m[34m│[0m                                            [0m[31m│[0m
+   [0m[34m│[0m                                            [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                            [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:13:45
+   [0m[34m│[0m
+[0m[34m13[0m [0m[34m│[0m     public use fun meltyfi_core::draw_winner[0m[31m;[0m
+   [0m[34m│[0m                                             [0m[31m^[0m
+   [0m[34m│[0m                                             [0m[31m│[0m
+   [0m[34m│[0m                                             [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                             [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:16:49
+   [0m[34m│[0m
+[0m[34m16[0m [0m[34m│[0m     public use fun meltyfi_core::lottery_details[0m[31m;[0m
+   [0m[34m│[0m                                                 [0m[31m^[0m
+   [0m[34m│[0m                                                 [0m[31m│[0m
+   [0m[34m│[0m                                                 [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                 [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:17:48
+   [0m[34m│[0m
+[0m[34m17[0m [0m[34m│[0m     public use fun meltyfi_core::protocol_stats[0m[31m;[0m
+   [0m[34m│[0m                                                [0m[31m^[0m
+   [0m[34m│[0m                                                [0m[31m│[0m
+   [0m[34m│[0m                                                [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:18:52
+   [0m[34m│[0m
+[0m[34m18[0m [0m[34m│[0m     public use fun meltyfi_core::user_participation[0m[31m;[0m
+   [0m[34m│[0m                                                    [0m[31m^[0m
+   [0m[34m│[0m                                                    [0m[31m│[0m
+   [0m[34m│[0m                                                    [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                    [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:19:51
+   [0m[34m│[0m
+[0m[34m19[0m [0m[34m│[0m     public use fun meltyfi_core::is_lottery_winner[0m[31m;[0m
+   [0m[34m│[0m                                                   [0m[31m^[0m
+   [0m[34m│[0m                                                   [0m[31m│[0m
+   [0m[34m│[0m                                                   [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                   [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:22:50
+   [0m[34m│[0m
+[0m[34m22[0m [0m[34m│[0m     public use fun choco_chip::mint as mint_choco[0m[31m;[0m
+   [0m[34m│[0m                                                  [0m[31m^[0m
+   [0m[34m│[0m                                                  [0m[31m│[0m
+   [0m[34m│[0m                                                  [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                  [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:23:66
+   [0m[34m│[0m
+[0m[34m23[0m [0m[34m│[0m     public use fun choco_chip::total_supply as choco_total_supply[0m[31m;[0m
+   [0m[34m│[0m                                                                  [0m[31m^[0m
+   [0m[34m│[0m                                                                  [0m[31m│[0m
+   [0m[34m│[0m                                                                  [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                                  [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:24:52
+   [0m[34m│[0m
+[0m[34m24[0m [0m[34m│[0m     public use fun choco_chip::is_authorized_minter[0m[31m;[0m
+   [0m[34m│[0m                                                    [0m[31m^[0m
+   [0m[34m│[0m                                                    [0m[31m│[0m
+   [0m[34m│[0m                                                    [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                    [0m[34mExpected 'as'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:27:55
+   [0m[34m│[0m
+[0m[34m27[0m [0m[34m│[0m     public use fun wonka_bars::mint as mint_wonka_bars[0m[31m;[0m
+   [0m[34m│[0m                                                       [0m[31m^[0m
+   [0m[34m│[0m                                                       [0m[31m│[0m
+   [0m[34m│[0m                                                       [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                       [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:28:55
+   [0m[34m│[0m
+[0m[34m28[0m [0m[34m│[0m     public use fun wonka_bars::burn as burn_wonka_bars[0m[31m;[0m
+   [0m[34m│[0m                                                       [0m[31m^[0m
+   [0m[34m│[0m                                                       [0m[31m│[0m
+   [0m[34m│[0m                                                       [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                       [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:29:63
+   [0m[34m│[0m
+[0m[34m29[0m [0m[34m│[0m     public use fun wonka_bars::quantity as wonka_bars_quantity[0m[31m;[0m
+   [0m[34m│[0m                                                               [0m[31m^[0m
+   [0m[34m│[0m                                                               [0m[31m│[0m
+   [0m[34m│[0m                                                               [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                               [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;9merror[E01002][0m[1m: unexpected token[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:30:67
+   [0m[34m│[0m
+[0m[34m30[0m [0m[34m│[0m     public use fun wonka_bars::lottery_id as wonka_bars_lottery_id[0m[31m;[0m
+   [0m[34m│[0m                                                                   [0m[31m^[0m
+   [0m[34m│[0m                                                                   [0m[31m│[0m
+   [0m[34m│[0m                                                                   [0m[31mUnexpected ';'[0m
+   [0m[34m│[0m                                                                   [0m[34mExpected '.'[0m
+
+[0m[1m[38;5;11mwarning[W09002][0m[1m: unused variable[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi.move:53:55
+   [0m[34m│[0m
+[0m[34m53[0m [0m[34m│[0m     public fun is_protocol_admin(protocol: &Protocol, [0m[33maddress[0m: address): bool {
+   [0m[34m│[0m                                                       [0m[33m^^^^^^^[0m [0m[33mUnused parameter 'address'. Consider removing or prefixing with an underscore: '_address'[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(unused_variable)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:3:14
+  [0m[34m│[0m
+[0m[34m3[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:5:27
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:5:33
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:8:14
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W09001][0m[1m: unused alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:9:36
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use sui::coin_registry::{Self, [0m[33mCurrency[0m};
+  [0m[34m│[0m                                    [0m[33m^^^^^^^^[0m [0m[33mUnused 'use' of alias 'Currency'. Consider removing it[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;9merror[E04005][0m[1m: expected a single type[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:64:13
+    [0m[34m│[0m
+[0m[34m 64[0m [0m[34m│[0m         let [0m[31mcurrency[0m = coin_registry::new_currency_with_otw(
+    [0m[34m│[0m             [0m[31m^^^^^^^^[0m [0m[31mInvalid type for local[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/registries/coin_registry.move:205:4
+    [0m[34m│[0m
+[0m[34m205[0m [0m[34m│[0m ): (CurrencyInitializer<T>, TreasuryCap<T>) {
+    [0m[34m│[0m    [0m[34m----------------------------------------[0m [0m[34mExpected a single type, but found expression list type: '(sui::coin_registry::CurrencyInitializer<meltyfi::choco_chip::CHOCO_CHIP>, sui::coin::TreasuryCap<meltyfi::choco_chip::CHOCO_CHIP>)'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:64:24
+    [0m[34m│[0m  
+[0m[34m 64[0m [0m[34m│[0m           let currency = [0m[31mcoin_registry::new_currency_with_otw([0m
+    [0m[34m│[0m [0m[31m╭[0m[0m[31m────────────────────────^[0m
+[0m[34m 65[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            witness,[0m
+[0m[34m 66[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            DECIMALS,[0m
+[0m[34m 67[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"CHOC",[0m
+[0m[34m 68[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"ChocoChip",[0m
+[0m[34m 69[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"Governance token for MeltyFi Protocol - Earn rewards through lottery participation",[0m
+    [0m[34m│[0m [0m[31m│[0m             [0m[34m-------------------------------------------------------------------------------------[0m [0m[34mGiven: 'vector<u8>'[0m
+[0m[34m 70[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            std::option::some(url::new_unsafe_from_bytes(b"https://meltyfi.nft/images/choco-chip.png")),[0m
+[0m[34m 71[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            ctx[0m
+[0m[34m 72[0m [0m[34m│[0m [0m[31m│[0m [0m[31m        )[0m;
+    [0m[34m│[0m [0m[31m╰[0m[0m[31m─────────^ Invalid call of 'sui::coin_registry::new_currency_with_otw'. Invalid argument for parameter 'description'[0m
+    [0m[34m│[0m  
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/registries/coin_registry.move:202:18
+    [0m[34m│[0m
+[0m[34m202[0m [0m[34m│[0m     description: String,
+    [0m[34m│[0m                  [0m[34m------[0m [0m[34mExpected: 'std::string::String'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:64:24
+    [0m[34m│[0m  
+[0m[34m 64[0m [0m[34m│[0m           let currency = [0m[31mcoin_registry::new_currency_with_otw([0m
+    [0m[34m│[0m [0m[31m╭[0m[0m[31m────────────────────────^[0m
+[0m[34m 65[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            witness,[0m
+[0m[34m 66[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            DECIMALS,[0m
+[0m[34m 67[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"CHOC",[0m
+    [0m[34m·[0m [0m[31m│[0m
+[0m[34m 71[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            ctx[0m
+[0m[34m 72[0m [0m[34m│[0m [0m[31m│[0m [0m[31m        )[0m;
+    [0m[34m│[0m [0m[31m╰[0m[0m[31m─────────^ Invalid call of 'sui::coin_registry::new_currency_with_otw'. Invalid argument for parameter 'icon_url'[0m
+    [0m[34m│[0m  
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/move-stdlib/sources/option.move:26:39
+    [0m[34m│[0m
+[0m[34m 26[0m [0m[34m│[0m public fun some<Element>(e: Element): Option<Element> {
+    [0m[34m│[0m                                       [0m[34m---------------[0m [0m[34mGiven: 'std::option::Option<sui::url::Url>'[0m
+    [0m[34m│[0m
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/registries/coin_registry.move:203:15
+    [0m[34m│[0m
+[0m[34m203[0m [0m[34m│[0m     icon_url: String,
+    [0m[34m│[0m               [0m[34m------[0m [0m[34mExpected: 'std::string::String'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:64:24
+    [0m[34m│[0m  
+[0m[34m 64[0m [0m[34m│[0m           let currency = [0m[31mcoin_registry::new_currency_with_otw([0m
+    [0m[34m│[0m [0m[31m╭[0m[0m[31m────────────────────────^[0m
+[0m[34m 65[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            witness,[0m
+[0m[34m 66[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            DECIMALS,[0m
+[0m[34m 67[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"CHOC",[0m
+[0m[34m 68[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"ChocoChip",[0m
+    [0m[34m│[0m [0m[31m│[0m             [0m[34m------------[0m [0m[34mGiven: 'vector<u8>'[0m
+    [0m[34m·[0m [0m[31m│[0m
+[0m[34m 71[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            ctx[0m
+[0m[34m 72[0m [0m[34m│[0m [0m[31m│[0m [0m[31m        )[0m;
+    [0m[34m│[0m [0m[31m╰[0m[0m[31m─────────^ Invalid call of 'sui::coin_registry::new_currency_with_otw'. Invalid argument for parameter 'name'[0m
+    [0m[34m│[0m  
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/registries/coin_registry.move:201:11
+    [0m[34m│[0m
+[0m[34m201[0m [0m[34m│[0m     name: String,
+    [0m[34m│[0m           [0m[34m------[0m [0m[34mExpected: 'std::string::String'[0m
+
+[0m[1m[38;5;9merror[E04007][0m[1m: incompatible types[0m
+    [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:64:24
+    [0m[34m│[0m  
+[0m[34m 64[0m [0m[34m│[0m           let currency = [0m[31mcoin_registry::new_currency_with_otw([0m
+    [0m[34m│[0m [0m[31m╭[0m[0m[31m────────────────────────^[0m
+[0m[34m 65[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            witness,[0m
+[0m[34m 66[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            DECIMALS,[0m
+[0m[34m 67[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            b"CHOC",[0m
+    [0m[34m│[0m [0m[31m│[0m             [0m[34m-------[0m [0m[34mGiven: 'vector<u8>'[0m
+    [0m[34m·[0m [0m[31m│[0m
+[0m[34m 71[0m [0m[34m│[0m [0m[31m│[0m [0m[31m            ctx[0m
+[0m[34m 72[0m [0m[34m│[0m [0m[31m│[0m [0m[31m        )[0m;
+    [0m[34m│[0m [0m[31m╰[0m[0m[31m─────────^ Invalid call of 'sui::coin_registry::new_currency_with_otw'. Invalid argument for parameter 'symbol'[0m
+    [0m[34m│[0m  
+    [0m[34m┌─[0m /Users/vincenzo/.move/https___github_com_MystenLabs_sui_git_framework__testnet/crates/sui-framework/packages/sui-framework/sources/registries/coin_registry.move:200:13
+    [0m[34m│[0m
+[0m[34m200[0m [0m[34m│[0m     symbol: String,
+    [0m[34m│[0m             [0m[34m------[0m [0m[34mExpected: 'std::string::String'[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:74:28
+   [0m[34m│[0m
+[0m[34m74[0m [0m[34m│[0m         let treasury_cap = [0m[31mcoin::treasury_cap[0m(&currency);
+   [0m[34m│[0m                            [0m[31m^^^^^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'treasury_cap' in module 'sui::coin'[0m
+
+[0m[1m[38;5;9merror[E03003][0m[1m: unbound module member[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/choco_chip.move:93:40
+   [0m[34m│[0m
+[0m[34m93[0m [0m[34m│[0m         transfer::public_freeze_object([0m[31mcoin::metadata[0m(&currency));
+   [0m[34m│[0m                                        [0m[31m^^^^^^^^^^^^^^[0m [0m[31mInvalid module access. Unbound function 'metadata' in module 'sui::coin'[0m
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:4:14
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:5:23
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use std::option::{[0m[33mSelf[0m, Option};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:5:29
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use std::option::{Self, [0m[33mOption[0m};
+  [0m[34m│[0m                             [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:6:23
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID, ID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:6:29
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m, ID};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:6:34
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, UID, [0m[33mID[0m};
+  [0m[34m│[0m                                  [0m[33m^^[0m [0m[33mUnnecessary alias 'ID' for module member 'sui::object::ID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:7:27
+  [0m[34m│[0m
+[0m[34m7[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:7:33
+  [0m[34m│[0m
+[0m[34m7[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m /Users/vincenzo/Documents/GitHub/meltyfi-sui/contracts/meltyfi/sources/meltyfi_core.move:16:14
+   [0m[34m│[0m
+[0m[34m16[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+Failed to build Move modules: Compilation error.
