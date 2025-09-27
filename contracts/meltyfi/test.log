@@ -1,0 +1,2 @@
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+Found non-unique dev address assignment 'meltyfi = 0x0' in root package 'meltyfi'. Dev address assignments must not conflict with any other assignments in order to ensure that the package will compile with any possible address assignment. Assignment conflicts with previous assignments: meltyfi = 0x0

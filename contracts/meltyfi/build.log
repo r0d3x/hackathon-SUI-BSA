@@ -1,0 +1,24 @@
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+From https://github.com/MystenLabs/sui
+ * [new branch]          cgswords/dc-pkg_3         -> origin/cgswords/dc-pkg_3
+ + 38782c488...ac23d8d02 gh-pages                  -> origin/gh-pages  (forced update)
+ * [new branch]          indexer-framework-no-synthetic-watermark-on-start -> origin/indexer-framework-no-synthetic-watermark-on-start
+   632ca5af7..2303d2106  main                      -> origin/main
+   734072bd1..731795750  mdgeorge/pkg-alt-modes    -> origin/mdgeorge/pkg-alt-modes
+ + b6f9cbf47...679454989 mdgeorge/sui-pkg-alt-modes -> origin/mdgeorge/sui-pkg-alt-modes  (forced update)
+   c7010814f..b52bf6c5e  prom_snapshot_restore_2   -> origin/prom_snapshot_restore_2
+   07009cc8d..0cddd6bec  releases/sui-v1.57.0-release -> origin/releases/sui-v1.57.0-release
+ + faead510a...4036cb29e sui-pkg-alt               -> origin/sui-pkg-alt  (forced update)
+ * [new branch]          tmw/debug-fatal           -> origin/tmw/debug-fatal
+ + 9b95a4cdb...daf829c64 tzakian/bc-adapt-10       -> origin/tzakian/bc-adapt-10  (forced update)
+ + 29cafe18b...c523c3365 tzakian/bc-adapt-11       -> origin/tzakian/bc-adapt-11  (forced update)
+ + 91be3dc17...e60aca28f tzakian/bc-adapt-12       -> origin/tzakian/bc-adapt-12  (forced update)
+ * [new tag]             sui_v1.57.1_1758839402_release -> sui_v1.57.1_1758839402_release
+ * [new tag]             sui_v1.58.0_1758830418_ci -> sui_v1.58.0_1758830418_ci
+ * [new tag]             sui_v1.58.0_1758846006_rel_notes -> sui_v1.58.0_1758846006_rel_notes
+ * [new tag]             sui_v1.58.0_1758834299_rel_notes -> sui_v1.58.0_1758834299_rel_notes
+ * [new tag]             sui_v1.58.0_1758837936_ci -> sui_v1.58.0_1758837936_ci
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+Failed to build Move modules: Found non-unique dev address assignment 'meltyfi = 0x0' in root package 'meltyfi'. Dev address assignments must not conflict with any other assignments in order to ensure that the package will compile with any possible address assignment. Assignment conflicts with previous assignments: meltyfi = 0x0.
