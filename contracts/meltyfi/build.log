@@ -4,78 +4,6 @@ INCLUDING DEPENDENCY Sui
 INCLUDING DEPENDENCY MoveStdlib
 BUILDING meltyfi
 [0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/meltyfi.move:8:26
-  [0m[34m│[0m
-[0m[34m8[0m [0m[34m│[0m     use sui::tx_context::[0m[33mTxContext[0m;
-  [0m[34m│[0m                          [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/meltyfi.move:9:22
-  [0m[34m│[0m
-[0m[34m9[0m [0m[34m│[0m     use std::option::[0m[33mOption[0m;
-  [0m[34m│[0m                      [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:4:27
-  [0m[34m│[0m
-[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
-  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:4:33
-  [0m[34m│[0m
-[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
-  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:5:14
-  [0m[34m│[0m
-[0m[34m5[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
-  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:6:23
-  [0m[34m│[0m
-[0m[34m6[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID};
-  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:6:29
-  [0m[34m│[0m
-[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m};
-  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-  [0m[34m┌─[0m ./sources/choco_chip.move:9:14
-  [0m[34m│[0m
-[0m[34m9[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
-  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
-  [0m[34m│[0m
-  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
-   [0m[34m┌─[0m ./sources/choco_chip.move:10:14
-   [0m[34m│[0m
-[0m[34m10[0m [0m[34m│[0m     use std::[0m[33moption[0m;
-   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
-   [0m[34m│[0m
-   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
-
-[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
   [0m[34m┌─[0m ./sources/core.move:3:23
   [0m[34m│[0m
 [0m[34m3[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID, ID};
@@ -148,60 +76,132 @@ BUILDING meltyfi
    [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
 [0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
-    [0m[34m┌─[0m ./sources/core.move:271:13
+    [0m[34m┌─[0m ./sources/core.move:266:13
     [0m[34m│[0m
-[0m[34m251[0m [0m[34m│[0m     ): WonkaBar {
+[0m[34m246[0m [0m[34m│[0m     ): WonkaBar {
     [0m[34m│[0m        [0m[34m--------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
     [0m[34m·[0m
-[0m[34m262[0m [0m[34m│[0m         let buyer = tx_context::sender(ctx);
+[0m[34m257[0m [0m[34m│[0m         let buyer = tx_context::sender(ctx);
     [0m[34m│[0m                     [0m[34m-----------------------[0m [0m[34mTransaction sender address coming from here[0m
     [0m[34m·[0m
-[0m[34m271[0m [0m[34m│[0m             [0m[33mtransfer::public_transfer(coin::from_balance(payment_balance, ctx), buyer)[0m;
+[0m[34m266[0m [0m[34m│[0m             [0m[33mtransfer::public_transfer(coin::from_balance(payment_balance, ctx), buyer)[0m;
     [0m[34m│[0m             [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[33mTransfer of an object to transaction sender address[0m
     [0m[34m│[0m
     [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
 [0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
-    [0m[34m┌─[0m ./sources/core.move:402:17
+    [0m[34m┌─[0m ./sources/core.move:397:17
     [0m[34m│[0m
-[0m[34m365[0m [0m[34m│[0m     ): Option<T> {
+[0m[34m360[0m [0m[34m│[0m     ): Option<T> {
     [0m[34m│[0m        [0m[34m---------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
-[0m[34m366[0m [0m[34m│[0m         assert!(lottery.state != LOTTERY_ACTIVE, EInvalidLotteryState);
-[0m[34m367[0m [0m[34m│[0m         let claimer = tx_context::sender(ctx);
+[0m[34m361[0m [0m[34m│[0m         assert!(lottery.state != LOTTERY_ACTIVE, EInvalidLotteryState);
+[0m[34m362[0m [0m[34m│[0m         let claimer = tx_context::sender(ctx);
     [0m[34m│[0m                       [0m[34m-----------------------[0m [0m[34mTransaction sender address coming from here[0m
     [0m[34m·[0m
-[0m[34m402[0m [0m[34m│[0m                 [0m[33mtransfer::public_transfer(refund_coin, claimer)[0m;
+[0m[34m397[0m [0m[34m│[0m                 [0m[33mtransfer::public_transfer(refund_coin, claimer)[0m;
     [0m[34m│[0m                 [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[33mTransfer of an object to transaction sender address[0m
     [0m[34m│[0m
     [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
 [0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
-    [0m[34m┌─[0m ./sources/core.move:441:13
+    [0m[34m┌─[0m ./sources/core.move:436:13
     [0m[34m│[0m
-[0m[34m417[0m [0m[34m│[0m     public fun cancel_lottery(
+[0m[34m412[0m [0m[34m│[0m     public fun cancel_lottery(
     [0m[34m│[0m                [0m[34m--------------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
     [0m[34m·[0m
-[0m[34m428[0m [0m[34m│[0m         let sender = tx_context::sender(ctx);
+[0m[34m423[0m [0m[34m│[0m         let sender = tx_context::sender(ctx);
     [0m[34m│[0m                      [0m[34m-----------------------[0m [0m[34mTransaction sender address coming from here[0m
     [0m[34m·[0m
-[0m[34m441[0m [0m[34m│[0m             [0m[33mtransfer::public_transfer(coin::from_balance(payment_balance, ctx), sender)[0m;
+[0m[34m436[0m [0m[34m│[0m             [0m[33mtransfer::public_transfer(coin::from_balance(payment_balance, ctx), sender)[0m;
     [0m[34m│[0m             [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [0m[33mTransfer of an object to transaction sender address[0m
     [0m[34m│[0m
     [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
 [0m[1m[38;5;11mwarning[Lint W99001][0m[1m: non-composable transfer to sender[0m
-    [0m[34m┌─[0m ./sources/core.move:491:9
+    [0m[34m┌─[0m ./sources/core.move:486:9
     [0m[34m│[0m
-[0m[34m481[0m [0m[34m│[0m     public fun withdraw_protocol_fees(
+[0m[34m476[0m [0m[34m│[0m     public fun withdraw_protocol_fees(
     [0m[34m│[0m                [0m[34m----------------------[0m [0m[34mReturning an object from a function, allows a caller to use the object and enables composability via programmable transactions.[0m
     [0m[34m·[0m
-[0m[34m491[0m [0m[34m│[0m         [0m[33mtransfer::public_transfer(fee_coin, tx_context::sender(ctx))[0m;
+[0m[34m486[0m [0m[34m│[0m         [0m[33mtransfer::public_transfer(fee_coin, tx_context::sender(ctx))[0m;
     [0m[34m│[0m         [0m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
     [0m[34m│[0m         [0m[33m│[0m                                   [0m[34m│[0m
     [0m[34m│[0m         [0m[33m│[0m                                   [0m[34mTransaction sender address coming from here[0m
     [0m[34m│[0m         [0m[33mTransfer of an object to transaction sender address[0m
     [0m[34m│[0m
     [0m[34m=[0m This warning can be suppressed with '#[allow(lint(self_transfer))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:8:26
+  [0m[34m│[0m
+[0m[34m8[0m [0m[34m│[0m     use sui::tx_context::[0m[33mTxContext[0m;
+  [0m[34m│[0m                          [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/meltyfi.move:9:22
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::option::[0m[33mOption[0m;
+  [0m[34m│[0m                      [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'Option' for module member 'std::option::Option'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:27
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{[0m[33mSelf[0m, TxContext};
+  [0m[34m│[0m                           [0m[33m^^^^[0m [0m[33mUnnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:4:33
+  [0m[34m│[0m
+[0m[34m4[0m [0m[34m│[0m     use sui::tx_context::{Self, [0m[33mTxContext[0m};
+  [0m[34m│[0m                                 [0m[33m^^^^^^^^^[0m [0m[33mUnnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:5:14
+  [0m[34m│[0m
+[0m[34m5[0m [0m[34m│[0m     use sui::[0m[33mtransfer[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^^^[0m [0m[33mUnnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:23
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{[0m[33mSelf[0m, UID};
+  [0m[34m│[0m                       [0m[33m^^^^[0m [0m[33mUnnecessary alias 'object' for module 'sui::object'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:6:29
+  [0m[34m│[0m
+[0m[34m6[0m [0m[34m│[0m     use sui::object::{Self, [0m[33mUID[0m};
+  [0m[34m│[0m                             [0m[33m^^^[0m [0m[33mUnnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+  [0m[34m┌─[0m ./sources/choco_chip.move:9:14
+  [0m[34m│[0m
+[0m[34m9[0m [0m[34m│[0m     use std::[0m[33mvector[0m;
+  [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'vector' for module 'std::vector'. This alias is provided by default[0m
+  [0m[34m│[0m
+  [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+[0m[1m[38;5;11mwarning[W02021][0m[1m: duplicate alias[0m
+   [0m[34m┌─[0m ./sources/choco_chip.move:10:14
+   [0m[34m│[0m
+[0m[34m10[0m [0m[34m│[0m     use std::[0m[33moption[0m;
+   [0m[34m│[0m              [0m[33m^^^^^^[0m [0m[33mUnnecessary alias 'option' for module 'std::option'. This alias is provided by default[0m
+   [0m[34m│[0m
+   [0m[34m=[0m This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
 
 Please report feedback on the linter warnings at https://forums.sui.io
 

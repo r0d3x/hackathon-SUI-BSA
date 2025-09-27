@@ -19,8 +19,6 @@ module meltyfi::core {
     const PROTOCOL_VERSION: u64 = 1;
     const PROTOCOL_FEE_BPS: u64 = 500; // 5%
     const BASIS_POINTS: u64 = 10000;
-    const MIN_LOTTERY_DURATION: u64 = 86400000; // 24 hours in ms
-    const MAX_LOTTERY_DURATION: u64 = 2592000000; // 30 days in ms
     const MAX_WONKA_SUPPLY: u64 = 10000;
     
     // ===== Lottery States =====
@@ -38,7 +36,6 @@ module meltyfi::core {
     const EMaxSupplyReached: u64 = 6;
     const EInsufficientPayment: u64 = 7;
     const ENotLotteryOwner: u64 = 9;
-    const EInvalidDuration: u64 = 11;
     const EProtocolPaused: u64 = 12;
 
     // ===== Core Types =====
@@ -181,8 +178,6 @@ module meltyfi::core {
     ): LotteryReceipt {
         assert!(!protocol.paused, EProtocolPaused);
         let current_time = clock::timestamp_ms(clock);
-        let duration = expiration_date - current_time;
-        assert!(duration >= MIN_LOTTERY_DURATION && duration <= MAX_LOTTERY_DURATION, EInvalidDuration);
         assert!(wonka_price > 0, EInvalidAmount);
         assert!(max_supply > 0 && max_supply <= MAX_WONKA_SUPPLY, EInvalidAmount);
 

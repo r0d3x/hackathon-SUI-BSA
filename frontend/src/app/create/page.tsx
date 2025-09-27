@@ -148,7 +148,9 @@ export default function CreatePage() {
 
         try {
             const priceInMIST = Math.floor(parseFloat(wonkabarPrice) * 1_000_000_000);
-            const durationInMs = parseInt(duration) * 24 * 60 * 60 * 1000;
+
+            // FIX: Use parseFloat instead of parseInt to handle decimal days (like 0.00347222 for 5 minutes)
+            const durationInMs = Math.floor(parseFloat(duration) * 24 * 60 * 60 * 1000);
 
             await createLottery({
                 nftId: selectedNFT.id,
@@ -390,19 +392,29 @@ export default function CreatePage() {
                                 <div>
                                     <label className="block text-white font-medium mb-2 flex items-center gap-2">
                                         <Calendar className="w-4 h-4" />
-                                        Duration (Days)
+                                        Lottery Duration
                                     </label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        max="30"
+                                    <select
                                         value={duration}
                                         onChange={(e) => setDuration(e.target.value)}
-                                        placeholder="7"
-                                        className="w-full p-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20"
-                                    />
+                                        className="w-full p-4 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 appearance-none cursor-pointer"
+                                        style={{
+                                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                                            backgroundRepeat: 'no-repeat',
+                                            backgroundPosition: 'right 1rem center',
+                                            backgroundSize: '1.5em 1.5em',
+                                            paddingRight: '3rem'
+                                        }}
+                                    >
+                                        <option value="" disabled className="bg-gray-900">Select duration</option>
+                                        <option value="0.00347222" className="bg-gray-900">5 Minutes (Testing)</option>
+                                        <option value="1" className="bg-gray-900">1 Day</option>
+                                        <option value="7" className="bg-gray-900">7 Days</option>
+                                        <option value="30" className="bg-gray-900">30 Days</option>
+                                        <option value="90" className="bg-gray-900">90 Days</option>
+                                    </select>
                                     <p className="text-white/60 text-sm mt-2">
-                                        How long the lottery will run (1-30 days)
+                                        Choose how long the lottery will run
                                     </p>
                                 </div>
                             </div>
