@@ -6,7 +6,7 @@ export const FACTORY_ADMIN_ID = process.env.NEXT_PUBLIC_FACTORY_ADMIN_ID || '0x9
 
 // Token types
 export const CHOCO_CHIP_TYPE = process.env.NEXT_PUBLIC_CHOCO_CHIP_TYPE || `${MELTYFI_PACKAGE_ID}::choco_chip::CHOCO_CHIP`;
-export const WONKA_BAR_TYPE = process.env.NEXT_PUBLIC_WONKA_BAR_TYPE || `${MELTYFI_PACKAGE_ID}::wonka_bars::WonkaBars`;
+export const WONKA_BAR_TYPE = process.env.NEXT_PUBLIC_WONKA_BAR_TYPE || `${MELTYFI_PACKAGE_ID}::meltyfi_core::WonkaBar`;
 
 // Network configurations
 export const NETWORK_CONFIG = {

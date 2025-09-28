@@ -75,6 +75,7 @@ function parseWonkaBar(obj: SuiObjectResponse): WonkaBar | null {
     if (!fields || !obj.data?.objectId) return null;
 
     try {
+        console.log('🎫 Parsing WonkaBar fields:', fields);
         return {
             id: obj.data.objectId,
             lotteryId: fields.lottery_id?.toString() || '0',
@@ -83,7 +84,7 @@ function parseWonkaBar(obj: SuiObjectResponse): WonkaBar | null {
             purchasedAt: parseInt(fields.purchased_at || '0')
         };
     } catch (error) {
-        console.error('Error parsing WonkaBar:', error);
+        console.error('Error parsing WonkaBar:', error, 'Fields:', fields);
         return null;
     }
 }
@@ -108,13 +109,15 @@ export function useMeltyFi() {
                     order: 'descending'
                 });
 
-                // Get lottery objects from events and fetch actual lottery objects
+                // Get lottery objects from events and fetch actual lottery objects with real data
                 const lotteryPromises = objects.data.map(async (event) => {
                     try {
                         const parsedJson = event.parsedJson as any;
                         if (parsedJson?.lottery_id) {
                             // Get the actual lottery object ID from the transaction that created it
                             let lotteryObjectId = null;
+                            let lotteryData = null;
+                            
                             try {
                                 if (event.id?.txDigest) {
                                     const txDetails = await suiClient.getTransactionBlock({
@@ -133,23 +136,49 @@ export function useMeltyFi() {
                                     if (lotteryObject && 'objectId' in lotteryObject) {
                                         lotteryObjectId = lotteryObject.objectId;
                                         console.log(`✅ Found lottery object ID: ${lotteryObjectId} for lottery ${parsedJson.lottery_id}`);
+                                        
+                                        // Fetch the actual lottery object data
+                                        try {
+                                            const lotteryObj = await suiClient.getObject({
+                                                id: lotteryObjectId,
+                                                options: { showContent: true }
+                                            });
+                                            
+                                            if (lotteryObj.data?.content?.dataType === 'moveObject') {
+                                                lotteryData = (lotteryObj.data.content as any).fields;
+                                                console.log(`📊 Fetched lottery data for ${parsedJson.lottery_id}:`, lotteryData);
+                                            }
+                                        } catch (err) {
+                                            console.warn('Could not fetch lottery object data:', err);
+                                        }
                                     }
                                 }
                             } catch (err) {
                                 console.warn('Could not fetch lottery object ID:', err);
                             }
 
+                            // Use real data if available, otherwise fallback to event data
+                            const soldCount = lotteryData?.sold_count || '0';
+                            const totalRaised = lotteryData?.total_raised || '0';
+                            const participants = lotteryData?.participants?.fields?.contents?.length || 0;
+                            const state = lotteryData?.state === 0 ? 'ACTIVE' : 
+                                         lotteryData?.state === 1 ? 'CONCLUDED' : 
+                                         lotteryData?.state === 2 ? 'CANCELLED' : 'ACTIVE';
+                            const winner = lotteryData?.winner?.fields?.vec?.[0] || undefined;
+
                             return {
                                 id: lotteryObjectId || `lottery_${parsedJson.lottery_id}`,
                                 lotteryId: parsedJson.lottery_id?.toString() || '0',
                                 owner: parsedJson.owner || '',
-                                state: 'ACTIVE' as const,
-                                createdAt: Date.now(),
+                                state: state as 'ACTIVE' | 'CANCELLED' | 'CONCLUDED',
+                                createdAt: parseInt(lotteryData?.created_at || Date.now().toString()),
                                 expirationDate: parseInt(parsedJson.expiration_date || '0'),
                                 wonkaBarPrice: parsedJson.wonka_price?.toString() || '0',
                                 maxSupply: parsedJson.max_supply?.toString() || '0',
-                                soldCount: '0',
-                                totalRaised: '0',
+                                soldCount: soldCount.toString(),
+                                totalRaised: totalRaised.toString(),
+                                winner: winner,
+                                winningTicket: lotteryData?.winning_ticket?.toString(),
                                 // Read actual NFT metadata from event
                                 nftName: parsedJson.nft_name || 'Collateral NFT',
                                 nftDescription: parsedJson.nft_description || 'NFT used as collateral for this lottery',
@@ -162,7 +191,7 @@ export function useMeltyFi() {
                                     collection: parsedJson.nft_type || 'Unknown Collection',
                                     type: parsedJson.nft_type || 'Unknown'
                                 },
-                                participants: 0
+                                participants: participants
                             } as Lottery;
                         }
                         return null;
@@ -189,6 +218,9 @@ export function useMeltyFi() {
             if (!currentAccount?.address) return [];
 
             try {
+                console.log('🔍 Fetching WonkaBars for address:', currentAccount.address);
+                console.log('🔍 Using WONKA_BAR_TYPE:', WONKA_BAR_TYPE);
+                
                 const objects = await suiClient.getOwnedObjects({
                     owner: currentAccount.address,
                     filter: { StructType: WONKA_BAR_TYPE },
@@ -199,9 +231,15 @@ export function useMeltyFi() {
                     },
                 });
 
-                return objects.data
+                console.log('🎫 Found WonkaBar objects:', objects.data.length);
+                console.log('🎫 Raw WonkaBar objects:', objects.data);
+
+                const parsedWonkaBars = objects.data
                     .map((obj: any) => parseWonkaBar(obj))
                     .filter((wonkaBar): wonkaBar is WonkaBar => wonkaBar !== null);
+
+                console.log('🎫 Parsed WonkaBars:', parsedWonkaBars);
+                return parsedWonkaBars;
             } catch (error) {
                 console.error('Error fetching WonkaBars:', error);
                 return [];
@@ -650,11 +688,126 @@ export function useMeltyFi() {
         },
     });
 
+    // Fetch user's lottery receipts
+    const { data: userLotteryReceipts = [] } = useQuery({
+        queryKey: ['lotteryReceipts', currentAccount?.address],
+        queryFn: async () => {
+            if (!currentAccount?.address) return [];
+
+            try {
+                const objects = await suiClient.getOwnedObjects({
+                    owner: currentAccount.address,
+                    filter: { StructType: `${MELTYFI_PACKAGE_ID}::meltyfi_core::LotteryReceipt` },
+                    options: {
+                        showContent: true,
+                        showDisplay: true,
+                        showType: true,
+                    },
+                });
+
+                return objects.data
+                    .map((obj: any) => {
+                        if (obj.data?.content?.dataType === 'moveObject') {
+                            const fields = obj.data.content.fields;
+                            return {
+                                id: obj.data.objectId,
+                                lotteryId: fields.lottery_id?.toString() || '0',
+                                owner: fields.owner || ''
+                            };
+                        }
+                        return null;
+                    })
+                    .filter((receipt): receipt is { id: string; lotteryId: string; owner: string } => receipt !== null);
+            } catch (error) {
+                console.error('Error fetching lottery receipts:', error);
+                return [];
+            }
+        },
+        enabled: !!currentAccount?.address,
+        refetchInterval: 15000,
+    });
+
+    // Cancel/Repay lottery mutation (for lottery owners)
+    const { mutateAsync: cancelLottery, isPending: isCancellingLottery } = useMutation({
+        mutationFn: async ({ lotteryId }: { lotteryId: string }) => {
+            if (!currentAccount?.address) throw new Error('Wallet not connected');
+
+            console.log('🚫 Cancelling lottery:', { lotteryId });
+
+            // Find the lottery receipt for this lottery
+            const receipt = userLotteryReceipts.find(r => r.lotteryId === lotteryId);
+            if (!receipt) {
+                throw new Error('Lottery receipt not found. You may not own this lottery.');
+            }
+
+            // Find the lottery to get the total raised amount
+            const lottery = lotteries.find(l => l.id === lotteryId);
+            if (!lottery) {
+                throw new Error('Lottery not found');
+            }
+
+            const totalRaisedMist = parseInt(lottery.totalRaised);
+            console.log('💰 Total raised to repay:', totalRaisedMist, 'MIST');
+
+            const tx = new Transaction();
+
+            // Create repayment coin - we need to repay the total raised amount
+            let repaymentCoin;
+            if (totalRaisedMist > 0) {
+                [repaymentCoin] = tx.splitCoins(tx.gas, [totalRaisedMist]);
+            } else {
+                // If no funds raised, we still need to provide a coin (can be 0 value)
+                [repaymentCoin] = tx.splitCoins(tx.gas, [0]);
+            }
+
+            // Call cancel_lottery function which allows owner to repay and get NFT back
+            tx.moveCall({
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::cancel_lottery`,
+                arguments: [
+                    tx.object(PROTOCOL_OBJECT_ID),    // protocol: &mut Protocol
+                    tx.object(lotteryId),             // lottery: &mut Lottery
+                    tx.object(receipt.id),            // receipt: &LotteryReceipt
+                    repaymentCoin,                    // repayment: Coin<SUI>
+                ],
+            });
+
+            const result = await signAndExecuteTransaction({
+                transaction: tx
+            });
+
+            console.log('✅ Lottery cancelled:', result);
+            return result;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['lotteries'] });
+            queryClient.invalidateQueries({ queryKey: ['lotteryReceipts'] });
+            queryClient.invalidateQueries({ queryKey: ['suiBalance'] });
+            toast.success('Lottery cancelled and NFT returned!');
+        },
+        onError: (error) => {
+            console.error('Error cancelling lottery:', error);
+            if (error.message.includes('ENotLotteryOwner')) {
+                toast.error('Only the lottery owner can cancel the lottery');
+            } else if (error.message.includes('EInvalidLotteryState')) {
+                toast.error('Lottery cannot be cancelled in its current state');
+            } else if (error.message.includes('Lottery receipt not found')) {
+                toast.error('Lottery receipt not found. You may not own this lottery.');
+            } else if (error.message.includes('EInsufficientPayment')) {
+                toast.error('Insufficient balance to repay the loan. You need to repay the participants.');
+            } else {
+                toast.error(`Failed to cancel lottery: ${error.message}`);
+            }
+        },
+    });
+
     return {
         // Data
         lotteries,
         userWonkaBars,
+        userLotteryReceipts,
         userStats,
+        chocoChipBalance,
+        suiBalance,
 
         // Loading states
         isLoadingLotteries,
@@ -669,5 +822,7 @@ export function useMeltyFi() {
         isResolvingLottery,
         redeemWonkaBars,
         isRedeemingWonkaBars,
+        cancelLottery,
+        isCancellingLottery,
     };
 }

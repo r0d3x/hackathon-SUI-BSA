@@ -85,6 +85,39 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.sui.io',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.bigfootdigital.co.uk',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.example.com',
+      },
+      // Allow common image hosting domains
+      {
+        protocol: 'https',
+        hostname: '**.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.github.io',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.githubusercontent.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.netlify.app',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
       }
     ],
     formats: ['image/webp', 'image/avif'],

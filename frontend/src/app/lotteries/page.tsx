@@ -9,17 +9,21 @@ import {
     Search,
     Ticket
 } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
+import SafeImage from '@/components/SafeImage';
 
 interface LotteryCardProps {
     lottery: any;
     onBuyWonkaBars: (lotteryId: string, quantity: number, totalCost: string) => void;
+    onCancelLottery: (lotteryId: string) => void;
     isBuying: boolean;
+    isCancelling: boolean;
     isConnected: boolean;
+    currentUserAddress?: string;
+    userLotteryReceipts?: Array<{ id: string; lotteryId: string; owner: string }>;
 }
 
-function LotteryCard({ lottery, onBuyWonkaBars, isBuying, isConnected }: LotteryCardProps) {
+function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCancelling, isConnected, currentUserAddress, userLotteryReceipts }: LotteryCardProps) {
     const [quantity, setQuantity] = useState(1);
 
     const wonkaBarPrice = parseInt(lottery.wonkaBarPrice);
@@ -29,6 +33,9 @@ function LotteryCard({ lottery, onBuyWonkaBars, isBuying, isConnected }: Lottery
     const isExpired = Date.now() > lottery.expirationDate;
     const isSoldOut = parseInt(lottery.soldCount) >= parseInt(lottery.maxSupply);
     const canPurchase = isConnected && !isExpired && !isSoldOut && lottery.state === 'ACTIVE';
+    const isOwner = currentUserAddress && lottery.owner === currentUserAddress;
+    const hasReceipt = userLotteryReceipts?.some(r => r.lotteryId === lottery.lotteryId);
+    const canCancel = isOwner && hasReceipt && lottery.state === 'ACTIVE' && parseInt(lottery.soldCount) === 0;
 
     const timeLeft = lottery.expirationDate - Date.now();
     const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -36,22 +43,15 @@ function LotteryCard({ lottery, onBuyWonkaBars, isBuying, isConnected }: Lottery
 
     return (
         <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:bg-white/10 transition-all duration-300">
-            {/* NFT Image */}
-            <div className="relative h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-                {lottery.collateralNft.imageUrl !== '/placeholder-nft.svg' ? (
-                    <Image
-                        src={lottery.collateralNft.imageUrl}
-                        alt={lottery.collateralNft.name}
-                        fill
-                        className="object-cover"
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                            <Ticket className="w-8 h-8 text-white" />
-                        </div>
-                    </div>
-                )}
+                    {/* NFT Image */}
+        <div className="relative h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+            <SafeImage
+                src={lottery.collateralNft.imageUrl}
+                alt={lottery.collateralNft.name}
+                fill
+                className="object-cover"
+                fallbackIcon={<Ticket className="w-8 h-8 text-white" />}
+            />
 
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4">
@@ -120,8 +120,37 @@ function LotteryCard({ lottery, onBuyWonkaBars, isBuying, isConnected }: Lottery
                     </div>
                 </div>
 
-                {/* Purchase Section */}
-                {canPurchase ? (
+                {/* Purchase/Action Section */}
+                {isOwner ? (
+                    <div className="space-y-3">
+                        <div className="text-center py-2">
+                            <div className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-sm mb-3 inline-block">
+                                🎨 This is your NFT
+                            </div>
+                            {canCancel ? (
+                                <>
+                                    <p className="text-sm text-white/60 mb-3">No participants yet - you can cancel and get your NFT back</p>
+                                    <button
+                                        onClick={() => onCancelLottery(lottery.id)}
+                                        disabled={isCancelling}
+                                        className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
+                                    >
+                                        {isCancelling ? 'Cancelling...' : 'Repay Loan & Get NFT Back'}
+                                    </button>
+                                </>
+                            ) : (
+                                <p className="text-sm text-yellow-400">
+                                    {parseInt(lottery.soldCount) > 0 
+                                        ? 'Cannot repay - WonkaBars already sold' 
+                                        : lottery.state !== 'ACTIVE' 
+                                            ? 'Lottery not active' 
+                                            : 'Cannot repay at this time'
+                                    }
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                ) : canPurchase ? (
                     <div className="space-y-3">
                         <div className="flex items-center gap-2">
                             <label htmlFor={`quantity-${lottery.id}`} className="text-sm text-white/80">
@@ -186,6 +215,9 @@ export default function LotteriesPage() {
         lotteries,
         buyWonkaBars,
         isBuyingWonkaBars,
+        cancelLottery,
+        isCancellingLottery,
+        userLotteryReceipts,
         isLoadingLotteries
     } = useMeltyFi();
 
@@ -206,6 +238,15 @@ export default function LotteriesPage() {
             });
         } catch (error) {
             console.error('Failed to buy WonkaBars:', error);
+        }
+    };
+
+    const handleCancelLottery = async (lotteryId: string) => {
+        try {
+            console.log('🚫 Cancelling lottery:', { lotteryId });
+            await cancelLottery({ lotteryId });
+        } catch (error) {
+            console.error('Failed to cancel lottery:', error);
         }
     };
 
@@ -360,8 +401,12 @@ export default function LotteriesPage() {
                                 key={lottery.id}
                                 lottery={lottery}
                                 onBuyWonkaBars={handleBuyWonkaBars}
+                                onCancelLottery={handleCancelLottery}
                                 isBuying={isBuyingWonkaBars}
+                                isCancelling={isCancellingLottery}
                                 isConnected={!!currentAccount}
+                                currentUserAddress={currentAccount?.address}
+                                userLotteryReceipts={userLotteryReceipts}
                             />
                         ))}
                     </div>
