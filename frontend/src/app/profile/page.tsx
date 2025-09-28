@@ -4,6 +4,7 @@ import { getExplorerUrl } from '@/constants/contracts';
 import { useMeltyFi } from '@/hooks/useMeltyFi';
 import { shortenAddress } from '@/lib/utils';
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit';
+import { useQueryClient } from '@tanstack/react-query';
 import {
     AlertCircle,
     CheckCircle,
@@ -13,6 +14,7 @@ import {
     DollarSign,
     ExternalLink,
     Gift,
+    RefreshCw,
     Sparkles,
     Ticket,
     Trophy,
@@ -372,6 +374,7 @@ function WonkaBarGrid({ wonkaBars, lotteries, currentUserAddress, meltWonkaBar, 
 
 export default function ProfilePage() {
     const currentAccount = useCurrentAccount();
+    const queryClient = useQueryClient();
     const { data: balance } = useSuiClientQuery(
         'getBalance',
         { owner: currentAccount?.address || '' },
@@ -651,6 +654,22 @@ export default function ProfilePage() {
                 <div>
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-bold text-white">My WonkaBars</h2>
+                        <div className="flex items-center gap-4">
+                            <span className="text-sm text-text-muted">
+                                Found: {userWonkaBars.length} WonkaBars
+                            </span>
+                            <button
+                                onClick={() => {
+                                    console.log('🔄 Manual refresh triggered');
+                                    console.log('🎫 Current WonkaBars:', userWonkaBars);
+                                    queryClient.refetchQueries({ queryKey: ['wonkaBars'] });
+                                }}
+                                className="flex items-center gap-2 px-4 py-2 bg-surface hover:bg-surface-elevated rounded-lg border border-border text-text-secondary hover:text-text-primary transition-colors"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                <span>Refresh</span>
+                            </button>
+                        </div>
                     </div>
 
                     {isLoadingWonkaBars ? (

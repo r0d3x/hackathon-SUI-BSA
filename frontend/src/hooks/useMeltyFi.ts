@@ -222,6 +222,19 @@ export function useMeltyFi() {
                 console.log('🔍 Fetching WonkaBars for address:', currentAccount.address);
                 console.log('🔍 Using WONKA_BAR_TYPE:', WONKA_BAR_TYPE);
                 
+                // First, let's check all owned objects to see what we have
+                const allObjects = await suiClient.getOwnedObjects({
+                    owner: currentAccount.address,
+                    options: {
+                        showContent: true,
+                        showDisplay: true,
+                        showType: true,
+                    },
+                });
+
+                console.log('🔍 ALL owned objects:', allObjects.data.length);
+                console.log('🔍 ALL owned object types:', allObjects.data.map(obj => obj.data?.type).filter(Boolean));
+                
                 const objects = await suiClient.getOwnedObjects({
                     owner: currentAccount.address,
                     filter: { StructType: WONKA_BAR_TYPE },
@@ -589,11 +602,24 @@ export function useMeltyFi() {
             console.log('✅ WonkaBar purchase transaction executed:', result);
             return result;
         },
-        onSuccess: () => {
+        onSuccess: (result) => {
+            console.log('🎉 WonkaBar purchase successful! Transaction result:', result);
+            
+            // Invalidate queries to refresh data
             queryClient.invalidateQueries({ queryKey: ['lotteries'] });
             queryClient.invalidateQueries({ queryKey: ['wonkaBars'] });
             queryClient.invalidateQueries({ queryKey: ['suiBalance'] });
-            toast.success('WonkaBars purchased successfully!');
+            
+            // Add a small delay before showing success to allow for data refresh
+            setTimeout(() => {
+                toast.success('WonkaBars purchased successfully! Check your profile.');
+            }, 1000);
+            
+            // Also manually refetch wonkaBars after a short delay
+            setTimeout(() => {
+                console.log('🔄 Manually refetching WonkaBars...');
+                queryClient.refetchQueries({ queryKey: ['wonkaBars'] });
+            }, 2000);
         },
         onError: (error) => {
             console.error('Error buying WonkaBars:', error);
