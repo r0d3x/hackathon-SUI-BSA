@@ -113,32 +113,26 @@ export function useMeltyFi() {
                     try {
                         const parsedJson = event.parsedJson as any;
                         if (parsedJson?.lottery_id) {
-                            // Try to find the actual lottery object by querying all objects of Lottery type
+                            // Get the actual lottery object ID from the transaction that created it
                             let lotteryObjectId = null;
                             try {
-                                const lotteryObjects = await suiClient.queryEvents({
-                                    query: {
-                                        MoveEventType: `${MELTYFI_PACKAGE_ID}::meltyfi_core::LotteryCreated`
-                                    },
-                                    limit: 1,
-                                    order: 'descending'
-                                });
-                                
-                                // Use the transaction digest to find created objects
                                 if (event.id?.txDigest) {
                                     const txDetails = await suiClient.getTransactionBlock({
                                         digest: event.id.txDigest,
                                         options: { showObjectChanges: true }
                                     });
                                     
-                                    // Find the created Lottery object
+                                    // Find the created shared Lottery object (not the LotteryReceipt)
                                     const lotteryObject = txDetails.objectChanges?.find(change => 
                                         change.type === 'created' && 
-                                        change.objectType?.includes('::meltyfi_core::Lottery')
+                                        change.objectType?.includes('::meltyfi_core::Lottery') &&
+                                        !change.objectType?.includes('LotteryReceipt') &&
+                                        'owner' in change && typeof change.owner === 'object' && change.owner !== null && 'Shared' in change.owner
                                     );
                                     
                                     if (lotteryObject && 'objectId' in lotteryObject) {
                                         lotteryObjectId = lotteryObject.objectId;
+                                        console.log(`✅ Found lottery object ID: ${lotteryObjectId} for lottery ${parsedJson.lottery_id}`);
                                     }
                                 }
                             } catch (err) {
@@ -509,6 +503,11 @@ export function useMeltyFi() {
 
             console.log('🎫 Buying WonkaBars:', { lotteryId, quantity, paymentAmount });
 
+            // Validate that lotteryId looks like a valid object ID
+            if (!lotteryId || lotteryId.startsWith('lottery_')) {
+                throw new Error('Invalid lottery ID. Please refresh the page and try again.');
+            }
+
             const tx = new Transaction();
 
             // Convert SUI amount to MIST (multiply by 10^9)
@@ -518,7 +517,16 @@ export function useMeltyFi() {
             // Create a coin for the payment
             const [coin] = tx.splitCoins(tx.gas, [paymentAmountMist]);
 
-            tx.moveCall({
+            console.log('🎯 Transaction details:', {
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::buy_wonka_bars`,
+                protocol: PROTOCOL_OBJECT_ID,
+                lottery: lotteryId,
+                quantity,
+                paymentAmountMist
+            });
+
+            // Call buy_wonka_bars and transfer the returned WonkaBar to the buyer
+            const [wonkaBar] = tx.moveCall({
                 target: `${MELTYFI_PACKAGE_ID}::meltyfi::buy_wonka_bars`,
                 arguments: [
                     tx.object(PROTOCOL_OBJECT_ID),    // protocol: &mut Protocol
@@ -529,7 +537,11 @@ export function useMeltyFi() {
                 ],
             });
 
+            // Transfer the WonkaBar to the current user
+            tx.transferObjects([wonkaBar], currentAccount.address);
+
             console.log('📝 Transaction prepared for WonkaBar purchase');
+            console.log('🎯 WonkaBar will be transferred to:', currentAccount.address);
 
             const result = await signAndExecuteTransaction({
                 transaction: tx
@@ -546,7 +558,19 @@ export function useMeltyFi() {
         },
         onError: (error) => {
             console.error('Error buying WonkaBars:', error);
-            toast.error('Failed to buy WonkaBars');
+            
+            // More specific error messages
+            if (error.message.includes('Invalid lottery ID')) {
+                toast.error('Invalid lottery ID. Please refresh the page and try again.');
+            } else if (error.message.includes('not signed by the correct sender')) {
+                toast.error('Transaction signing error. Please try again.');
+            } else if (error.message.includes('Object') && error.message.includes('is owned by')) {
+                toast.error('Cannot access lottery object. Please refresh and try again.');
+            } else if (error.message.includes('CommandArgumentError')) {
+                toast.error('Transaction argument error. The lottery may not exist or be invalid.');
+            } else {
+                toast.error(`Failed to buy WonkaBars: ${error.message}`);
+            }
         },
     });
 

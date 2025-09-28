@@ -202,7 +202,7 @@ module meltyfi::meltyfi_core {
         let initial_payout = max_earnings - protocol_fee;
 
         let nft_type_name = string::utf8(b"NFT"); // Can be enhanced to get actual type name
-        
+
         let mut lottery = Lottery {
             id: object::new(ctx),
             lottery_id,
@@ -237,7 +237,7 @@ module meltyfi::meltyfi_core {
             owner,
         };
 
-        // Emit creation event  
+        // Emit creation event
         event::emit(LotteryCreated {
             lottery_id,
             owner,
