@@ -1,5 +1,5 @@
 /// MeltyFi Protocol - Core lottery and NFT liquidity protocol
-module meltyfi::core {
+module meltyfi::meltyfi_core {
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{Self, TxContext};
     use sui::balance::{Self, Balance};
@@ -41,7 +41,7 @@ module meltyfi::core {
     // ===== Core Types =====
 
     /// One-time witness for package initialization
-    public struct CORE has drop {}
+    public struct MELTYFI_CORE has drop {}
 
     /// Main protocol state
     public struct Protocol has key {
@@ -75,6 +75,11 @@ module meltyfi::core {
         winning_ticket: u64,
         funds: Balance<SUI>,
         participants: VecMap<address, u64>, // address -> ticket count
+        // NFT metadata
+        nft_name: String,
+        nft_description: String,
+        nft_image_url: String,
+        nft_type: String,
     }
 
     /// Receipt for lottery creation (allows owner to manage lottery)
@@ -98,6 +103,9 @@ module meltyfi::core {
     public struct LotteryCreated has copy, drop {
         lottery_id: u64,
         owner: address,
+        nft_name: String,
+        nft_description: String,
+        nft_image_url: String,
         nft_type: String,
         expiration_date: u64,
         wonka_price: u64,
@@ -137,7 +145,7 @@ module meltyfi::core {
 
     // ===== Initialization =====
 
-    fun init(_witness: CORE, ctx: &mut TxContext) {
+    fun init(_witness: MELTYFI_CORE, ctx: &mut TxContext) {
         let admin = tx_context::sender(ctx);
         
         let protocol = Protocol {
@@ -173,9 +181,12 @@ module meltyfi::core {
         expiration_date: u64,
         wonka_price: u64,
         max_supply: u64,
+        nft_name: String,
+        nft_description: String, 
+        nft_image_url: String,
         clock: &Clock,
         ctx: &mut TxContext
-    ) {  // <-- CHANGED: Removed return type
+    ) {
         assert!(!protocol.paused, EProtocolPaused);
         let current_time = clock::timestamp_ms(clock);
         assert!(wonka_price > 0, EInvalidAmount);
@@ -190,6 +201,8 @@ module meltyfi::core {
         let protocol_fee = (max_earnings * PROTOCOL_FEE_BPS) / BASIS_POINTS;
         let initial_payout = max_earnings - protocol_fee;
 
+        let nft_type_name = string::utf8(b"NFT"); // Can be enhanced to get actual type name
+        
         let mut lottery = Lottery {
             id: object::new(ctx),
             lottery_id,
@@ -205,6 +218,10 @@ module meltyfi::core {
             winning_ticket: 0,
             funds: balance::zero<SUI>(),
             participants: vec_map::empty(),
+            nft_name,
+            nft_description,
+            nft_image_url,
+            nft_type: nft_type_name,
         };
 
         // Store NFT as dynamic field
@@ -220,11 +237,14 @@ module meltyfi::core {
             owner,
         };
 
-        // Emit creation event
+        // Emit creation event  
         event::emit(LotteryCreated {
             lottery_id,
             owner,
-            nft_type: string::utf8(b"Generic NFT"),
+            nft_name,
+            nft_description,
+            nft_image_url,
+            nft_type: nft_type_name,
             expiration_date,
             wonka_price,
             max_supply,
@@ -548,7 +568,7 @@ module meltyfi::core {
 
     #[test_only]
     public fun init_for_testing(ctx: &mut TxContext) {
-        let witness = CORE {};
+        let witness = MELTYFI_CORE {};
         init(witness, ctx);
     }
 }

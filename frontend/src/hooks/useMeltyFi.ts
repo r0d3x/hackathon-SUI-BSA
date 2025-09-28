@@ -30,6 +30,11 @@ export interface Lottery {
     totalRaised: string;
     winner?: string;
     winningTicket?: string;
+    // Updated NFT metadata
+    nftName: string;
+    nftDescription: string;
+    nftImageUrl: string;
+    nftType: string;
     collateralNft: {
         id: string;
         name: string;
@@ -97,19 +102,51 @@ export function useMeltyFi() {
                 // Fetch lottery creation events
                 const objects = await suiClient.queryEvents({
                     query: {
-                        MoveEventType: `${MELTYFI_PACKAGE_ID}::core::LotteryCreated`
+                        MoveEventType: `${MELTYFI_PACKAGE_ID}::meltyfi_core::LotteryCreated`
                     },
                     limit: 100,
                     order: 'descending'
                 });
 
-                // Get lottery objects from events
+                // Get lottery objects from events and fetch actual lottery objects
                 const lotteryPromises = objects.data.map(async (event) => {
                     try {
                         const parsedJson = event.parsedJson as any;
                         if (parsedJson?.lottery_id) {
+                            // Try to find the actual lottery object by querying all objects of Lottery type
+                            let lotteryObjectId = null;
+                            try {
+                                const lotteryObjects = await suiClient.queryEvents({
+                                    query: {
+                                        MoveEventType: `${MELTYFI_PACKAGE_ID}::meltyfi_core::LotteryCreated`
+                                    },
+                                    limit: 1,
+                                    order: 'descending'
+                                });
+                                
+                                // Use the transaction digest to find created objects
+                                if (event.id?.txDigest) {
+                                    const txDetails = await suiClient.getTransactionBlock({
+                                        digest: event.id.txDigest,
+                                        options: { showObjectChanges: true }
+                                    });
+                                    
+                                    // Find the created Lottery object
+                                    const lotteryObject = txDetails.objectChanges?.find(change => 
+                                        change.type === 'created' && 
+                                        change.objectType?.includes('::meltyfi_core::Lottery')
+                                    );
+                                    
+                                    if (lotteryObject && 'objectId' in lotteryObject) {
+                                        lotteryObjectId = lotteryObject.objectId;
+                                    }
+                                }
+                            } catch (err) {
+                                console.warn('Could not fetch lottery object ID:', err);
+                            }
+
                             return {
-                                id: `lottery_${parsedJson.lottery_id}`,
+                                id: lotteryObjectId || `lottery_${parsedJson.lottery_id}`,
                                 lotteryId: parsedJson.lottery_id?.toString() || '0',
                                 owner: parsedJson.owner || '',
                                 state: 'ACTIVE' as const,
@@ -119,11 +156,17 @@ export function useMeltyFi() {
                                 maxSupply: parsedJson.max_supply?.toString() || '0',
                                 soldCount: '0',
                                 totalRaised: '0',
+                                // Read actual NFT metadata from event
+                                nftName: parsedJson.nft_name || 'Collateral NFT',
+                                nftDescription: parsedJson.nft_description || 'NFT used as collateral for this lottery',
+                                nftImageUrl: parsedJson.nft_image_url || '/placeholder-nft.svg',
+                                nftType: parsedJson.nft_type || 'Unknown',
                                 collateralNft: {
                                     id: 'nft_placeholder',
-                                    name: 'Collateral NFT',
-                                    imageUrl: '/placeholder-nft.png',
-                                    collection: 'Unknown'
+                                    name: parsedJson.nft_name || 'Collateral NFT',
+                                    imageUrl: parsedJson.nft_image_url || '/placeholder-nft.svg',
+                                    collection: parsedJson.nft_type || 'Unknown Collection',
+                                    type: parsedJson.nft_type || 'Unknown'
                                 },
                                 participants: 0
                             } as Lottery;
@@ -291,10 +334,54 @@ export function useMeltyFi() {
                 const owner = nftObject.data.owner;
                 console.log('👤 NFT Owner:', owner);
 
-                if (owner && 'AddressOwner' in owner && owner.AddressOwner !== currentAccount.address) {
+                if (owner && typeof owner === 'object' && 'AddressOwner' in owner && owner.AddressOwner !== currentAccount.address) {
                     console.error('❌ NFT not owned by current account');
                     throw new Error('You do not own this NFT');
                 }
+
+                // Extract NFT metadata
+                let nftName = "Lottery NFT";
+                let nftDescription = "NFT used as collateral in MeltyFi lottery"; 
+                let nftImageUrl = "/placeholder-nft.svg";
+
+                try {
+                    const nftContent = nftObject.data.content;
+                    console.log('🔍 NFT Content:', JSON.stringify(nftContent, null, 2));
+                    
+                    if (nftContent && 'fields' in nftContent) {
+                        const fields = nftContent.fields as any;
+                        console.log('📋 NFT Fields:', JSON.stringify(fields, null, 2));
+                        
+                        // Try different field names for NFT metadata
+                        if (fields.name) nftName = String(fields.name);
+                        else if (fields.title) nftName = String(fields.title);
+                        
+                        if (fields.description) nftDescription = String(fields.description);
+                        else if (fields.desc) nftDescription = String(fields.desc);
+                        
+                        if (fields.image_url) nftImageUrl = String(fields.image_url);
+                        else if (fields.url) nftImageUrl = String(fields.url);
+                        else if (fields.image) nftImageUrl = String(fields.image);
+                        
+                        console.log('✅ Extracted NFT metadata:', { nftName, nftDescription, nftImageUrl });
+                    }
+                    
+                    // Also check if there's a display field (common in Sui NFTs)
+                    if (nftObject.data.display) {
+                        const display = nftObject.data.display as any;
+                        console.log('🖼️ NFT Display:', JSON.stringify(display, null, 2));
+                        
+                        if (display.data) {
+                            if (display.data.name) nftName = String(display.data.name);
+                            if (display.data.description) nftDescription = String(display.data.description);
+                            if (display.data.image_url) nftImageUrl = String(display.data.image_url);
+                        }
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Could not extract NFT metadata, using defaults:', error);
+                }
+
+                console.log('🎨 Final NFT metadata:', { nftName, nftDescription, nftImageUrl });
 
                 console.log('🔧 Creating transaction...');
                 const tx = new Transaction();
@@ -325,23 +412,28 @@ export function useMeltyFi() {
                     throw new Error('Max supply must be greater than 0');
                 }
 
-                // Call create_lottery function with the correct type argument
+                // Call create_lottery function with NFT metadata
                 console.log('📝 Adding moveCall to transaction...');
+                console.log('🎨 Using NFT metadata:', { nftName, nftDescription, nftImageUrl });
+                
                 tx.moveCall({
-                    target: `${MELTYFI_PACKAGE_ID}::core::create_lottery`,
+                    target: `${MELTYFI_PACKAGE_ID}::meltyfi::create_lottery`,
                     arguments: [
                         tx.object(PROTOCOL_OBJECT_ID),         // protocol: &mut Protocol
                         tx.object(nftId),                      // nft: T (transferred to contract)
                         tx.pure.u64(expirationDateNum),       // expiration_date: u64
                         tx.pure.u64(wonkaBarPriceNum),        // wonka_price: u64
                         tx.pure.u64(maxSupplyNum),            // max_supply: u64
+                        tx.pure.vector('u8', Array.from(new TextEncoder().encode(nftName))),           // nft_name: vector<u8>
+                        tx.pure.vector('u8', Array.from(new TextEncoder().encode(nftDescription))),    // nft_description: vector<u8>
+                        tx.pure.vector('u8', Array.from(new TextEncoder().encode(nftImageUrl))),       // nft_image_url: vector<u8>
                         tx.object('0x6'),                     // clock: &Clock
                     ],
                     typeArguments: [nftType], // Specify the NFT type
                 });
 
                 console.log('✅ Transaction prepared successfully:', {
-                    target: `${MELTYFI_PACKAGE_ID}::core::create_lottery`,
+                    target: `${MELTYFI_PACKAGE_ID}::meltyfi::create_lottery`,
                     nftId,
                     nftType,
                     expirationDate: expirationDateNum,
@@ -407,31 +499,43 @@ export function useMeltyFi() {
         mutationFn: async ({
             lotteryId,
             quantity,
-            payment,
+            paymentAmount,
         }: {
             lotteryId: string;
             quantity: number;
-            payment: string;
+            paymentAmount: string;
         }) => {
             if (!currentAccount?.address) throw new Error('Wallet not connected');
 
+            console.log('🎫 Buying WonkaBars:', { lotteryId, quantity, paymentAmount });
+
             const tx = new Transaction();
 
+            // Convert SUI amount to MIST (multiply by 10^9)
+            const paymentAmountMist = Math.floor(parseFloat(paymentAmount) * 1_000_000_000);
+            console.log('💰 Payment amount in MIST:', paymentAmountMist);
+
+            // Create a coin for the payment
+            const [coin] = tx.splitCoins(tx.gas, [paymentAmountMist]);
+
             tx.moveCall({
-                target: `${MELTYFI_PACKAGE_ID}::core::buy_wonka_bars`,
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::buy_wonka_bars`,
                 arguments: [
-                    tx.object(PROTOCOL_OBJECT_ID),
-                    tx.object(lotteryId),
-                    tx.object(payment),
-                    tx.pure.u64(quantity),
-                    tx.object('0x6'), // Clock object
+                    tx.object(PROTOCOL_OBJECT_ID),    // protocol: &mut Protocol
+                    tx.object(lotteryId),             // lottery: &mut Lottery (this should be the shared lottery object ID)
+                    coin,                             // payment: Coin<SUI>
+                    tx.pure.u64(quantity),           // quantity: u64
+                    tx.object('0x6'),                // clock: &Clock
                 ],
             });
+
+            console.log('📝 Transaction prepared for WonkaBar purchase');
 
             const result = await signAndExecuteTransaction({
                 transaction: tx
             });
 
+            console.log('✅ WonkaBar purchase transaction executed:', result);
             return result;
         },
         onSuccess: () => {
@@ -454,7 +558,7 @@ export function useMeltyFi() {
             const tx = new Transaction();
 
             tx.moveCall({
-                target: `${MELTYFI_PACKAGE_ID}::core::resolve_lottery`,
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::resolve_lottery`,
                 arguments: [
                     tx.object(PROTOCOL_OBJECT_ID),
                     tx.object(lotteryId),
@@ -495,7 +599,7 @@ export function useMeltyFi() {
 
             // This function would need to be implemented in your Move contract
             tx.moveCall({
-                target: `${MELTYFI_PACKAGE_ID}::core::redeem_wonka_bar`,
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::redeem_wonka_bar`,
                 arguments: [
                     tx.object(PROTOCOL_OBJECT_ID),
                     tx.object(lotteryId),

@@ -37,7 +37,56 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: ['images.unsplash.com', 'ipfs.io'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudfront.net',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.arweave.net',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.pinata.cloud',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.nftstorage.link',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.gateway.pinata.cloud',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.sui.io',
+      }
+    ],
     formats: ['image/webp', 'image/avif'],
   },
 

@@ -1,5 +1,5 @@
 # Sui Configuration for MeltyFi
 Environment: testnet
-Address: 0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2
-Setup Date: Sab 27 Set 2025 11:58:57 CEST
-Log File: /Users/vincenzo/Documents/GitHub/meltyfi-sui/scripts/../sui_setup.log
+Address: 0xafc389a84a1c4f478a3bc849875b50c704954fdfbe3f12758306dcec90934e8f
+Setup Date: Sun Sep 28 01:09:45 CEST 2025
+Log File: /Users/youssef/Desktop/hackathon-SUI-BSA/scripts/../sui_setup.log

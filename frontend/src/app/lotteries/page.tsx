@@ -38,7 +38,7 @@ function LotteryCard({ lottery, onBuyWonkaBars, isBuying, isConnected }: Lottery
         <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden hover:bg-white/10 transition-all duration-300">
             {/* NFT Image */}
             <div className="relative h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-                {lottery.collateralNft.imageUrl !== '/placeholder-nft.png' ? (
+                {lottery.collateralNft.imageUrl !== '/placeholder-nft.svg' ? (
                     <Image
                         src={lottery.collateralNft.imageUrl}
                         alt={lottery.collateralNft.name}
@@ -195,7 +195,15 @@ export default function LotteriesPage() {
 
     const handleBuyWonkaBars = async (lotteryId: string, quantity: number, totalCost: string) => {
         try {
-            await buyWonkaBars({ lotteryId, quantity, payment: totalCost });
+            // Convert from MIST to SUI for display
+            const paymentAmountSui = (parseInt(totalCost) / 1_000_000_000).toString();
+            console.log('🎫 Purchasing WonkaBars:', { lotteryId, quantity, totalCost, paymentAmountSui });
+            
+            await buyWonkaBars({ 
+                lotteryId, 
+                quantity, 
+                paymentAmount: paymentAmountSui 
+            });
         } catch (error) {
             console.error('Failed to buy WonkaBars:', error);
         }

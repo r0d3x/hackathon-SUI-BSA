@@ -1,70 +1,77 @@
 /// MeltyFi Protocol - Main entry point module
 module meltyfi::meltyfi {
-    use meltyfi::core;
+    use meltyfi::meltyfi_core;
     use meltyfi::choco_chip;
     use sui::coin::Coin;
     use sui::clock::Clock;
     use sui::random::Random;
     use sui::tx_context::TxContext;
     use std::option::Option;
+    use std::string;
     
     // ===== Core Protocol Functions =====
     
     /// Create a new lottery with NFT collateral
     public fun create_lottery<T: key + store>(
-        protocol: &mut core::Protocol,
+        protocol: &mut meltyfi_core::Protocol,
         nft: T,
         expiration_date: u64,
         wonka_price: u64,
         max_supply: u64,
+        nft_name: vector<u8>,
+        nft_description: vector<u8>,
+        nft_image_url: vector<u8>,
         clock: &Clock,
         ctx: &mut TxContext
-    ) {  // <-- CHANGED: Removed return type
-        core::create_lottery(protocol, nft, expiration_date, wonka_price, max_supply, clock, ctx)
+    ) {
+        let name_str = string::utf8(nft_name);
+        let desc_str = string::utf8(nft_description); 
+        let image_str = string::utf8(nft_image_url);
+        meltyfi_core::create_lottery(protocol, nft, expiration_date, wonka_price, max_supply, name_str, desc_str, image_str, clock, ctx)
     }
     
     /// Purchase WonkaBars (lottery tickets)
     public fun buy_wonka_bars(
-        protocol: &mut core::Protocol,
-        lottery: &mut core::Lottery,
+        protocol: &mut meltyfi_core::Protocol,
+        lottery: &mut meltyfi_core::Lottery,
         payment: Coin<sui::sui::SUI>,
         quantity: u64,
         clock: &Clock,
         ctx: &mut TxContext
-    ): core::WonkaBar {
-        core::buy_wonka_bars(protocol, lottery, payment, quantity, clock, ctx)
+    ): meltyfi_core::WonkaBar {
+        meltyfi_core::buy_wonka_bars(protocol, lottery, payment, quantity, clock, ctx)
     }
     
     /// Resolve lottery (draw winner or cancel)
     #[allow(lint(public_random))]
     public fun resolve_lottery(
-        protocol: &mut core::Protocol,
-        lottery: &mut core::Lottery,
+        protocol: &mut meltyfi_core::Protocol,
+        lottery: &mut meltyfi_core::Lottery,
         random: &Random,
         clock: &Clock,
         ctx: &mut TxContext
     ) {
-        core::resolve_lottery(protocol, lottery, random, clock, ctx)
+        meltyfi_core::resolve_lottery(protocol, lottery, random, clock, ctx)
     }
     
     /// Claim winnings or refund
     public fun claim_rewards<T: key + store>(
-        lottery: &mut core::Lottery,
-        wonka_bar: core::WonkaBar,
+        lottery: &mut meltyfi_core::Lottery,
+        wonka_bar: meltyfi_core::WonkaBar,
         ctx: &mut TxContext
     ): Option<T> {
-        core::claim_rewards<T>(lottery, wonka_bar, ctx)
+        meltyfi_core::claim_rewards<T>(lottery, wonka_bar, ctx)
     }
     
     /// Cancel lottery (owner only)
     public fun cancel_lottery(
-        protocol: &mut core::Protocol,
-        lottery: &mut core::Lottery,
-        receipt: &core::LotteryReceipt,
+        protocol: &mut meltyfi_core::Protocol,
+        lottery: &mut meltyfi_core::Lottery,
+        receipt: &meltyfi_core::LotteryReceipt,
         repayment: Coin<sui::sui::SUI>,
         ctx: &mut TxContext
     ) {
-        core::cancel_lottery(protocol, lottery, receipt, repayment, ctx)
+        meltyfi_core::cancel_lottery(protocol, lottery, receipt, repayment, ctx)
     }
     
     // ===== ChocoChip Token Functions =====
@@ -92,50 +99,50 @@ module meltyfi::meltyfi {
     // ===== View Functions =====
     
     /// Get protocol stats
-    public fun get_protocol_stats(protocol: &core::Protocol): (u64, u64, u64, bool) {
-        core::get_protocol_stats(protocol)
+    public fun get_protocol_stats(protocol: &meltyfi_core::Protocol): (u64, u64, u64, bool) {
+        meltyfi_core::get_protocol_stats(protocol)
     }
     
     /// Get lottery details
-    public fun get_lottery_info(lottery: &core::Lottery): (u64, address, u8, u64, u64, u64, u64, u64, Option<address>) {
-        core::get_lottery_info(lottery)
+    public fun get_lottery_info(lottery: &meltyfi_core::Lottery): (u64, address, u8, u64, u64, u64, u64, u64, Option<address>) {
+        meltyfi_core::get_lottery_info(lottery)
     }
     
     /// Check if address is lottery participant
-    public fun is_participant(lottery: &core::Lottery, participant: address): bool {
-        core::is_participant(lottery, participant)
+    public fun is_participant(lottery: &meltyfi_core::Lottery, participant: address): bool {
+        meltyfi_core::is_participant(lottery, participant)
     }
     
     /// Get participant ticket count
-    public fun get_participant_tickets(lottery: &core::Lottery, participant: address): u64 {
-        core::get_participant_tickets(lottery, participant)
+    public fun get_participant_tickets(lottery: &meltyfi_core::Lottery, participant: address): u64 {
+        meltyfi_core::get_participant_tickets(lottery, participant)
     }
     
     /// Get WonkaBar info
-    public fun get_wonka_bar_info(wonka_bar: &core::WonkaBar): (u64, u64, address, u64) {
-        core::get_wonka_bar_info(wonka_bar)
+    public fun get_wonka_bar_info(wonka_bar: &meltyfi_core::WonkaBar): (u64, u64, address, u64) {
+        meltyfi_core::get_wonka_bar_info(wonka_bar)
     }
     
     // ===== Admin Functions =====
     
     /// Pause/unpause protocol (admin only)
     public fun set_protocol_pause(
-        protocol: &mut core::Protocol,
-        admin_cap: &core::AdminCap,
+        protocol: &mut meltyfi_core::Protocol,
+        admin_cap: &meltyfi_core::AdminCap,
         paused: bool,
         ctx: &mut TxContext
     ) {
-        core::set_protocol_pause(protocol, admin_cap, paused, ctx)
+        meltyfi_core::set_protocol_pause(protocol, admin_cap, paused, ctx)
     }
     
     /// Withdraw protocol fees (admin only)
     public fun withdraw_protocol_fees(
-        protocol: &mut core::Protocol,
-        admin_cap: &core::AdminCap,
+        protocol: &mut meltyfi_core::Protocol,
+        admin_cap: &meltyfi_core::AdminCap,
         amount: u64,
         ctx: &mut TxContext
     ) {
-        core::withdraw_protocol_fees(protocol, admin_cap, amount, ctx)
+        meltyfi_core::withdraw_protocol_fees(protocol, admin_cap, amount, ctx)
     }
     
     /// Authorize new ChocoChip minter (admin only)

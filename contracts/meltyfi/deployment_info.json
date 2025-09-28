@@ -1,14 +1,18 @@
 {
+  "packageId": "0xa015bb87003d4bc71f5a0a14b38a2d65b72eaa12cbb48b7a772dc2abfc288f0d",
+  "protocolObjectId": "0x4afa56bb19cc72b588968bd7b79accbb88e2df72c92456c0ad622598d0d55933",
+  "chocolateFactoryId": "0xc106f26a521c59e808fbf8aa95a3203b627507e28178d3f72d27bd23576059b9",
+  "adminCapId": "0x9780564db5a3da125e5dc08c25161fa624220adc36bc20d325187b58934b3e25",
+  "factoryAdminId": "0x9a44e3d837041eaac7fa40813305b7d65227876dc4a23b65e437cf09f43df92a",
+  "upgradeCapId": "0x7c048aa6352f557b88117377836b1c4bb5923a6167cded6928187897940d10b0",
+  "coinMetadataId": "0x3b7a0529a954bda5057c3f87eba2704ccc41d95f9cf2da2d619381f3ae082ee5",
+  "transactionDigest": "2gXaKgX5oxJ55rMYeQvSsdbuPtbuYYzaJSesG35xoxJd",
+  "deployedAt": "2024-12-28T23:45:00Z",
   "network": "testnet",
-  "deployer": "0x25d9c6fb66db81d2d794625d0c9c7294ddfb84c48a4c81557e321da8f457ced2",
-  "timestamp": "2025-09-27T21:07:08Z",
-  "packageId": "0x78970c10acf7afb564bdc54b2a38f39bc8f1d9a1ddb7d0f93410ddebb7d11527",
-  "objects": {
-    "adminCap": "",
-    "protocol": "0x54dfbd64b8a8213919a2939ec83f9f1fe0aa01b383925fe8ddc7bb3288b998e4",
-    "chocolateFactory": "0x3c78084cb4744811ae23162db3825a4c066328eb987d6168960d88c7e4926d85",
-    "factoryAdmin": "",
-    "upgradeCap": "0x6566672895be8845cb409299f18cadf6702c1623a1e7785734e6022f2e9f19af",
-    "coinMetadata": ""
-  }
+  "features": [
+    "Enhanced NFT metadata in lottery events",
+    "Fixed WonkaBar purchasing with proper payment handling",
+    "Improved event structure with nft_name, nft_description, nft_image_url",
+    "Corrected frontend integration for NFT metadata display"
+  ]
 }
