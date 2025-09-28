@@ -50,18 +50,18 @@ function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCan
     return (
         <div className="card-premium overflow-hidden group hover:glow-blue transition-all duration-300">
                     {/* NFT Image */}
-        <div className="relative h-56 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+        <div className="relative h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
             <SafeImage
                 src={lottery.collateralNft.imageUrl}
                 alt={lottery.collateralNft.name}
                 fill
                 className="object-cover"
-                fallbackIcon={<Ticket className="w-10 h-10 text-white" />}
+                fallbackIcon={<Ticket className="w-8 h-8 text-white" />}
             />
 
                 {/* Status Badge */}
-                <div className="absolute top-5 left-5">
-                    <div className={`px-3 py-1.5 rounded-full text-xs font-medium ${lottery.state === 'ACTIVE' && !isExpired && !isSoldOut
+                <div className="absolute top-4 left-4">
+                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${lottery.state === 'ACTIVE' && !isExpired && !isSoldOut
                         ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                         : isExpired
                             ? 'bg-red-500/20 text-red-400 border border-red-500/30'
@@ -74,53 +74,53 @@ function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCan
                 </div>
 
                 {/* Lottery ID */}
-                <div className="absolute top-5 right-5">
-                    <div className="px-3 py-1.5 bg-black/50 rounded text-xs text-white/80">
+                <div className="absolute top-4 right-4">
+                    <div className="px-2 py-1 bg-black/50 rounded text-xs text-white/80">
                         #{lottery.lotteryId}
                     </div>
                 </div>
             </div>
 
-            <div className="p-8">
+            <div className="p-6">
                 {/* Header */}
-                <div className="mb-6">
-                    <h3 className="text-xl font-semibold text-white mb-2">{lottery.collateralNft.name}</h3>
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-white mb-1">{lottery.collateralNft.name}</h3>
                     {lottery.collateralNft.collection && (
                         <p className="text-sm text-white/60">{lottery.collateralNft.collection}</p>
                     )}
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <span className="text-xs text-white/60 block mb-1">Price per WonkaBar</span>
-                        <p className="text-base font-medium text-white">{formatSuiAmount(wonkaBarPrice)} SUI</p>
+                        <span className="text-xs text-white/60">Price per WonkaBar</span>
+                        <p className="text-sm font-medium text-white">{formatSuiAmount(wonkaBarPrice)} SUI</p>
                     </div>
                     <div>
-                        <span className="text-xs text-white/60 block mb-1">Sold</span>
-                        <p className="text-base font-medium text-white">{lottery.soldCount}/{lottery.maxSupply}</p>
+                        <span className="text-xs text-white/60">Sold</span>
+                        <p className="text-sm font-medium text-white">{lottery.soldCount}/{lottery.maxSupply}</p>
                     </div>
                     <div>
-                        <span className="text-xs text-white/60 block mb-1">Participants</span>
-                        <p className="text-base font-medium text-white">{lottery.participants}</p>
+                        <span className="text-xs text-white/60">Participants</span>
+                        <p className="text-sm font-medium text-white">{lottery.participants}</p>
                     </div>
                     <div>
-                        <span className="text-xs text-white/60 block mb-1">Time Left</span>
-                        <p className="text-base font-medium text-white">
+                        <span className="text-xs text-white/60">Time Left</span>
+                        <p className="text-sm font-medium text-white">
                             {isExpired ? 'Expired' : `${daysLeft}d ${hoursLeft}h`}
                         </p>
                     </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="mb-8">
-                    <div className="flex justify-between text-xs text-white/60 mb-3">
+                <div className="mb-4">
+                    <div className="flex justify-between text-xs text-white/60 mb-2">
                         <span>Progress</span>
                         <span>{Math.round((parseInt(lottery.soldCount) / parseInt(lottery.maxSupply)) * 100)}%</span>
                     </div>
-                    <div className="w-full bg-white/10 rounded-full h-3">
+                    <div className="w-full bg-white/10 rounded-full h-2">
                         <div
-                            className="bg-gradient-primary h-3 rounded-full transition-all duration-300"
+                            className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${(parseInt(lottery.soldCount) / parseInt(lottery.maxSupply)) * 100}%` }}
                         />
                     </div>
@@ -355,66 +355,59 @@ export default function LotteriesPage() {
     }).length;
 
     return (
-        <div className="min-h-screen bg-background py-16">
-            {/* Background Elements */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-40 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-                <div className="absolute top-20 right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-40 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-            </div>
-            <div className="relative z-10 max-w-6xl mx-auto px-8">
+        <div className="min-h-screen bg-background py-12">
+            <div className="max-w-7xl mx-auto px-6">
                 {/* Header */}
-                <div className="text-center mb-20 animate-slide-up">
-                    <div className="flex justify-center mb-8 fade-in">
-                        
+                <div className="text-center mb-16 animate-slide-up">
+                    <div className="inline-flex items-center space-x-3 mb-6">
+                        <div className="w-12 h-12 rounded-xl border border-border flex items-center justify-center animate-float">
+                            <Ticket className="w-6 h-6 text-text-secondary" />
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-black">
+                            <span className="gradient-text">Active</span> Lotteries
+                        </h1>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-10 slide-up">
-                        Discover
-                        
-                        <span className="text-gradient"> Lotteries</span>
-                    </h1>
-                    <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-                        Join lotteries for a chance to win incredible digital assets at a fraction of their value
+                    <p className="text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
+                        Discover premium NFTs and join lotteries for a chance to win incredible digital assets at fraction of their value
                     </p>
                 </div>
 
                 {/* Professional Stats Overview */}
-                <div className="mb-24 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                    <div className="card-premium p-10">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-2xl font-semibold text-text-primary">Marketplace Overview</h3>
+                <div className="mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                    <div className="card-premium p-8">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-semibold text-text-primary">Marketplace Overview</h3>
                             <div className="flex items-center space-x-2 text-text-muted">
                                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                                 <span className="text-sm">Live Data</span>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="flex items-center space-x-5 p-6 bg-surface rounded-lg border border-border group hover:border-border-hover transition-colors">
-                                <div className="w-12 h-12 rounded-lg border border-border flex items-center justify-center group-hover:border-border-hover transition-colors">
-                                    <Ticket className="w-6 h-6 text-gradient" />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="flex items-center space-x-4 p-4 bg-surface rounded-lg border border-border">
+                                <div className="w-10 h-10 rounded-lg border border-border flex items-center justify-center">
+                                    <Ticket className="w-5 h-5 text-text-secondary" />
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-text-primary">{lotteries.length}</div>
-                                    <div className="text-sm text-text-secondary mt-1">Total Lotteries</div>
+                                    <div className="text-2xl font-bold text-text-primary">{lotteries.length}</div>
+                                    <div className="text-sm text-text-secondary">Total Lotteries</div>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-5 p-6 bg-surface rounded-lg border border-border group hover:border-border-hover transition-colors">
-                                <div className="w-12 h-12 rounded-lg border border-border flex items-center justify-center group-hover:border-border-hover transition-colors">
-                                    <TrendingUp className="w-6 h-6 text-gradient" />
+                            <div className="flex items-center space-x-4 p-4 bg-surface rounded-lg border border-border">
+                                <div className="w-10 h-10 rounded-lg border border-border flex items-center justify-center">
+                                    <TrendingUp className="w-5 h-5 text-text-secondary" />
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-text-primary">{activeLotteriesCount}</div>
-                                    <div className="text-sm text-text-secondary mt-1">Active Now</div>
+                                    <div className="text-2xl font-bold text-text-primary">{activeLotteriesCount}</div>
+                                    <div className="text-sm text-text-secondary">Active Now</div>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-5 p-6 bg-surface rounded-lg border border-border group hover:border-border-hover transition-colors">
-                                <div className="w-12 h-12 rounded-lg border border-border flex items-center justify-center group-hover:border-border-hover transition-colors">
-                                    <Clock className="w-6 h-6 text-gradient" />
+                            <div className="flex items-center space-x-4 p-4 bg-surface rounded-lg border border-border">
+                                <div className="w-10 h-10 rounded-lg border border-border flex items-center justify-center">
+                                    <Clock className="w-5 h-5 text-text-secondary" />
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-text-primary">{endingSoonCount}</div>
-                                    <div className="text-sm text-text-secondary mt-1">Ending Soon</div>
+                                    <div className="text-2xl font-bold text-text-primary">{endingSoonCount}</div>
+                                    <div className="text-sm text-text-secondary">Ending Soon</div>
                                 </div>
                             </div>
                         </div>
@@ -422,40 +415,40 @@ export default function LotteriesPage() {
                 </div>
 
                 {/* Filters and Search */}
-                <div className="mb-20 space-y-8 md:space-y-0 md:flex md:items-center md:justify-between animate-slide-up" style={{ animationDelay: '0.4s' }}>
+                <div className="mb-12 space-y-6 md:space-y-0 md:flex md:items-center md:justify-between animate-slide-up" style={{ animationDelay: '0.4s' }}>
                     {/* Search */}
                     <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                             type="text"
                             placeholder="Search lotteries by name or type..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="input pl-14 pr-5 py-4 text-base"
+                            className="input pl-12 pr-4 py-3"
                         />
                     </div>
 
                     {/* Filters */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4">
                         <select
                             value={filterState}
                             onChange={(e) => setFilterState(e.target.value as any)}
-                            className="input px-5 py-4 text-base min-w-[180px]"
+                            className="input px-4 py-3"
                         >
-                            <option value="all" className="bg-surface-elevated py-2">All Lotteries</option>
-                            <option value="active" className="bg-surface-elevated py-2">Active Only</option>
-                            <option value="ending-soon" className="bg-surface-elevated py-2">Ending Soon</option>
+                            <option value="all" className="bg-surface-elevated">All Lotteries</option>
+                            <option value="active" className="bg-surface-elevated">Active Only</option>
+                            <option value="ending-soon" className="bg-surface-elevated">Ending Soon</option>
                         </select>
 
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value as any)}
-                            className="input px-5 py-4 text-base min-w-[200px]"
+                            className="input px-4 py-3"
                         >
-                            <option value="newest" className="bg-surface-elevated py-2">Newest First</option>
-                            <option value="ending-soon" className="bg-surface-elevated py-2">Ending Soon</option>
-                            <option value="price-low" className="bg-surface-elevated py-2">Price: Low to High</option>
-                            <option value="price-high" className="bg-surface-elevated py-2">Price: High to Low</option>
+                            <option value="newest" className="bg-surface-elevated">Newest First</option>
+                            <option value="ending-soon" className="bg-surface-elevated">Ending Soon</option>
+                            <option value="price-low" className="bg-surface-elevated">Price: Low to High</option>
+                            <option value="price-high" className="bg-surface-elevated">Price: High to Low</option>
                         </select>
                     </div>
                 </div>
@@ -464,7 +457,7 @@ export default function LotteriesPage() {
                 {isLoadingLotteries && (
                     <div className="text-center py-24 animate-fade-in">
                         <div className="w-16 h-16 mx-auto mb-6 rounded-2xl border border-border flex items-center justify-center">
-                            <div className="w-8 h-8 border-2 border-border border-t-gradient rounded-full animate-spin"></div>
+                            <div className="w-8 h-8 border-2 border-text-secondary/30 border-t-text-secondary rounded-full animate-spin"></div>
                         </div>
                         <h3 className="text-xl font-semibold text-text-primary mb-2">Loading Lotteries</h3>
                         <p className="text-text-secondary">Fetching the latest NFT opportunities...</p>
@@ -475,7 +468,7 @@ export default function LotteriesPage() {
                 {!isLoadingLotteries && filteredLotteries.length === 0 && (
                     <div className="text-center py-24 animate-fade-in">
                         <div className="w-24 h-24 mx-auto mb-8 rounded-3xl border border-border flex items-center justify-center">
-                            <Ticket className="w-12 h-12 text-gradient" />
+                            <Ticket className="w-12 h-12 text-text-secondary" />
                         </div>
                         <h3 className="text-2xl font-bold text-text-primary mb-4">
                             {searchQuery || filterState !== 'all' ? 'No lotteries match your criteria' : 'No lotteries available'}
@@ -496,41 +489,40 @@ export default function LotteriesPage() {
 
                 {/* Lotteries Grid */}
                 {!isLoadingLotteries && filteredLotteries.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 animate-slide-up" style={{ animationDelay: '0.6s' }}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up" style={{ animationDelay: '0.6s' }}>
                         {filteredLotteries.map((lottery) => (
-                            <div className="transform hover:-translate-y-2 transition-transform duration-300" key={lottery.id}>
-                                <LotteryCard
-                                    lottery={lottery}
-                                    onBuyWonkaBars={handleBuyWonkaBars}
-                                    onCancelLottery={handleCancelLottery}
-                                    isBuying={isBuyingWonkaBars}
-                                    isCancelling={isCancellingLottery}
-                                    isConnected={!!currentAccount}
-                                    currentUserAddress={currentAccount?.address}
-                                    userLotteryReceipts={userLotteryReceipts}
-                                />
-                            </div>
+                            <LotteryCard
+                                key={lottery.id}
+                                lottery={lottery}
+                                onBuyWonkaBars={handleBuyWonkaBars}
+                                onCancelLottery={handleCancelLottery}
+                                isBuying={isBuyingWonkaBars}
+                                isCancelling={isCancellingLottery}
+                                isConnected={!!currentAccount}
+                                currentUserAddress={currentAccount?.address}
+                                userLotteryReceipts={userLotteryReceipts}
+                            />
                         ))}
                     </div>
                 )}
 
                 {/* Connection Warning */}
                 {!currentAccount && !isLoadingLotteries && (
-                    <div className="mt-24 mb-12 card-premium p-10 animate-slide-up" style={{ animationDelay: '0.8s' }}>
-                        <div className="flex items-start space-x-6">
-                            <div className="w-16 h-16 rounded-xl border border-border flex items-center justify-center flex-shrink-0">
-                                <AlertCircle className="w-8 h-8 text-gradient" />
+                    <div className="mt-12 card-premium animate-slide-up" style={{ animationDelay: '0.8s' }}>
+                        <div className="flex items-start space-x-4">
+                            <div className="w-12 h-12 rounded-xl border border-border flex items-center justify-center flex-shrink-0">
+                                <AlertCircle className="w-6 h-6 text-text-secondary" />
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-xl font-semibold text-text-primary mb-4">Connect Your Wallet</h3>
-                                <p className="text-text-secondary mb-6 text-lg max-w-2xl">
+                                <h3 className="text-lg font-semibold text-text-primary mb-2">Connect Your Wallet</h3>
+                                <p className="text-text-secondary mb-4">
                                     Connect your Sui wallet to participate in lotteries, purchase WonkaBars, and start winning amazing NFTs!
                                 </p>
-                                <div className="flex items-center space-x-4">
+                                <div className="flex items-center space-x-3">
                                     <span className="text-sm text-text-muted">Supported wallets:</span>
-                                    <div className="flex items-center space-x-3">
-                                        <span className="px-3 py-2 bg-surface rounded-md border border-border text-text-secondary text-sm">Sui Wallet</span>
-                                        <span className="px-3 py-2 bg-surface rounded-md border border-border text-text-secondary text-sm">Suiet</span>
+                                    <div className="flex items-center space-x-2">
+                                        <span className="px-2 py-1 bg-surface rounded-md border border-border text-text-secondary text-xs">Sui Wallet</span>
+                                        <span className="px-2 py-1 bg-surface rounded-md border border-border text-text-secondary text-xs">Suiet</span>
                                     </div>
                                 </div>
                             </div>

@@ -41,7 +41,7 @@ export function ConfigValidator({ children }: { children: React.ReactNode }) {
 
                         <div className="mt-6 flex gap-2">
                             <a
-                                href={CURRENT_CONFIG.faucet}
+                                href="https://sui.io/testnet-faucet"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-md transition-colors flex items-center justify-center gap-2"
@@ -67,15 +67,6 @@ export function ConfigValidator({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            {/* Configuration Status Banner */}
-            <div className="bg-green-600/10 border-b border-green-500/20 px-4 py-2">
-                <div className="container mx-auto flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-400" />
-                    <span className="text-sm text-green-200">
-                        Connected to MeltyFi on {CURRENT_CONFIG.name}
-                    </span>
-                </div>
-            </div>
             {children}
         </>
     );

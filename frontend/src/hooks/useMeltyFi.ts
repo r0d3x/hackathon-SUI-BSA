@@ -850,7 +850,7 @@ export function useMeltyFi() {
             queryClient.invalidateQueries({ queryKey: ['lotteries'] });
             queryClient.invalidateQueries({ queryKey: ['chocoChipBalance'] });
             queryClient.invalidateQueries({ queryKey: ['suiBalance'] });
-            toast.success('WonkaBar melted! You received ChocoChips! 🍫✨');
+            toast.success('WonkaBar melted! You received ChocoChips!');
         },
         onError: (error) => {
             console.error('Melt WonkaBar error:', error);

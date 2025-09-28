@@ -10,7 +10,8 @@ import {
     Loader2,
     Plus,
     Sparkles,
-    Zap
+    Zap,
+    Ticket
 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -97,10 +98,9 @@ const detectUserNFTs = async (suiClient: any, ownerAddress: string): Promise<NFT
             }
         }
 
-        console.log(`Successfully processed ${nfts.length} NFTs`);
         return nfts;
     } catch (error) {
-        console.error('Error detecting NFTs:', error);
+        console.error('Error fetching NFTs:', error);
         return [];
     }
 };
@@ -111,24 +111,17 @@ export default function CreatePage() {
     const { createLottery, isCreatingLottery } = useMeltyFi();
 
     const [nfts, setNfts] = useState<NFT[]>([]);
-    const [selectedNFT, setSelectedNFT] = useState<NFT | null>(null);
     const [isLoadingNFTs, setIsLoadingNFTs] = useState(false);
     const [showNFTGrid, setShowNFTGrid] = useState(false);
-
-    // Form state
+    const [selectedNFT, setSelectedNFT] = useState<NFT | null>(null);
+    
     const [wonkabarPrice, setWonkabarPrice] = useState('');
     const [maxSupply, setMaxSupply] = useState('');
     const [duration, setDuration] = useState('');
 
-    useEffect(() => {
-        if (currentAccount?.address) {
-            loadUserNFTs();
-        }
-    }, [currentAccount?.address]);
-
     const loadUserNFTs = async () => {
-        if (!currentAccount?.address) return;
-
+        if (!currentAccount) return;
+        
         setIsLoadingNFTs(true);
         try {
             const userNFTs = await detectUserNFTs(suiClient, currentAccount.address);
@@ -140,9 +133,14 @@ export default function CreatePage() {
         }
     };
 
+    useEffect(() => {
+        if (currentAccount) {
+            loadUserNFTs();
+        }
+    }, [currentAccount]);
+
     const handleCreateLottery = async () => {
         if (!selectedNFT || !wonkabarPrice || !maxSupply || !duration) {
-            alert('Please fill in all fields');
             return;
         }
 
@@ -170,17 +168,17 @@ export default function CreatePage() {
 
     if (!currentAccount) {
         return (
-            <div className="min-h-screen flex items-center justify-center px-6">
+            <div className="min-h-screen bg-background flex items-center justify-center px-6">
                 <div className="text-center max-w-md mx-auto">
-                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Zap className="w-10 h-10 text-white" />
+                    <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Zap className="w-10 h-10 text-black" />
                     </div>
-                    <h1 className="text-3xl font-bold text-white mb-4">Connect Your Wallet</h1>
-                    <p className="text-white/60 mb-8">
+                    <h1 className="text-3xl font-bold text-text-primary mb-4">Connect Your Wallet</h1>
+                    <p className="text-text-secondary mb-8">
                         Connect your Sui wallet to start creating lotteries with your NFTs.
                     </p>
-                    <div className="p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm">
-                        <p className="text-white/80 text-sm">
+                    <div className="card-premium p-6">
+                        <p className="text-text-primary text-sm">
                             Click the Connect Wallet button in the top navigation to get started.
                         </p>
                     </div>
@@ -190,292 +188,291 @@ export default function CreatePage() {
     }
 
     return (
-        <div className="min-h-screen px-6 py-12">
-            <div className="container mx-auto max-w-6xl">
-                {/* Header Section */}
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full mb-6">
-                        <Sparkles className="w-4 h-4 text-purple-400" />
-                        <span className="text-purple-300 text-sm font-medium">Create New Lottery</span>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Turn Your NFT Into
-                        <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> Instant Liquidity</span>
-                    </h1>
-                    <p className="text-xl text-white/60 max-w-2xl mx-auto">
-                        Create a lottery with your NFT as the prize and receive immediate liquidity.
-                        Set your terms and let the community participate.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* NFT Selection Panel */}
-                    <div className="space-y-6">
-                        <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6">
-                            <h2 className="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
-                                <ImageIcon className="w-6 h-6 text-purple-400" />
-                                Select Your NFT
-                            </h2>
-
-                            {!selectedNFT ? (
-                                <div className="space-y-4">
-                                    <button
-                                        onClick={() => setShowNFTGrid(!showNFTGrid)}
-                                        disabled={isLoadingNFTs}
-                                        className="w-full p-4 border-2 border-dashed border-white/20 hover:border-purple-400/50 rounded-lg transition-colors group"
-                                    >
-                                        <div className="flex flex-col items-center gap-3">
-                                            {isLoadingNFTs ? (
-                                                <Loader2 className="w-12 h-12 text-white/40 animate-spin" />
-                                            ) : (
-                                                <Plus className="w-12 h-12 text-white/40 group-hover:text-purple-400 transition-colors" />
-                                            )}
-                                            <div className="text-center">
-                                                <p className="text-white font-medium mb-1">
-                                                    {isLoadingNFTs ? 'Loading your NFTs...' : 'Choose an NFT'}
-                                                </p>
-                                                <p className="text-white/60 text-sm">
-                                                    {isLoadingNFTs ? 'Please wait while we scan your wallet' : `Found ${nfts.length} NFTs in your wallet`}
-                                                </p>
-                                            </div>
-                                            <ChevronDown className={`w-5 h-5 text-white/40 transition-transform ${showNFTGrid ? 'rotate-180' : ''}`} />
-                                        </div>
-                                    </button>
-
-                                    {showNFTGrid && nfts.length > 0 && (
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-96 overflow-y-auto custom-scrollbar">
-                                            {nfts.map((nft) => (
-                                                <button
-                                                    key={nft.id}
-                                                    onClick={() => {
-                                                        setSelectedNFT(nft);
-                                                        setShowNFTGrid(false);
-                                                    }}
-                                                    className="group p-3 rounded-lg border border-white/10 hover:border-purple-400/50 bg-white/5 hover:bg-white/10 transition-all"
-                                                >
-                                                    <div className="aspect-square relative mb-2 rounded-lg overflow-hidden">
-                                                        <Image
-                                                            src={getSafeImageUrl(nft.imageUrl)}
-                                                            alt={nft.name}
-                                                            fill
-                                                            className="object-cover group-hover:scale-105 transition-transform"
-                                                            unoptimized
-                                                            onError={(e) => {
-                                                                const target = e.target as HTMLImageElement;
-                                                                target.src = '/placeholder-nft.png';
-                                                            }}
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-1">
-                                                        <p className="text-white text-sm font-medium truncate" title={nft.name}>
-                                                            {nft.name}
-                                                        </p>
-                                                        {nft.collection && (
-                                                            <p className="text-purple-300 text-xs truncate" title={nft.collection}>
-                                                                {nft.collection.length > 20 ? `${nft.collection.slice(0, 20)}...` : nft.collection}
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    {showNFTGrid && nfts.length === 0 && !isLoadingNFTs && (
-                                        <div className="text-center py-8">
-                                            <ImageIcon className="w-12 h-12 text-white/40 mx-auto mb-3" />
-                                            <p className="text-white/60">No NFTs found in your wallet</p>
-                                            <button
-                                                onClick={loadUserNFTs}
-                                                className="text-purple-400 hover:text-purple-300 text-sm mt-2"
-                                            >
-                                                Refresh
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <div className="p-4 rounded-lg border border-purple-400/30 bg-purple-500/10">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                                            <Image
-                                                src={getSafeImageUrl(selectedNFT.imageUrl)}
-                                                alt={selectedNFT.name}
-                                                width={80}
-                                                height={80}
-                                                className="w-full h-full object-cover"
-                                                unoptimized
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.src = '/placeholder-nft.png';
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="text-xl font-semibold text-white mb-2" title={selectedNFT.name}>
-                                                {selectedNFT.name}
-                                            </h3>
-                                            <div className="space-y-2">
-                                                {selectedNFT.collection && (
-                                                    <div>
-                                                        <p className="text-purple-300 text-sm font-medium" title={selectedNFT.collection}>
-                                                            Collection: {selectedNFT.collection.length > 30 ? `${selectedNFT.collection.slice(0, 30)}...` : selectedNFT.collection}
-                                                        </p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <button
-                                            onClick={() => setSelectedNFT(null)}
-                                            className="text-white/60 hover:text-white/80 p-2 rounded-lg hover:bg-white/10 transition-colors"
-                                        >
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
+        <div className="min-h-screen bg-background">
+            {/* Background Elements */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-40 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute top-20 right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-40 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+            </div>
+            
+            <div className="relative z-10 py-16 px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto">
+                    {/* Header Section */}
+                    <div className="text-center mb-16 animate-slide-up">
+                        <div className="flex justify-center mb-8 fade-in">
+                            <div className="bg-surface-elevated border border-border px-6 py-3 rounded-full">
+                                <span className="text-xl font-bold text-gradient">Create Your Lottery</span>
+                            </div>
                         </div>
+                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 slide-up">
+                            <span className="text-gradient">Loan</span> Against Your NFT
+                        </h1>
+                        <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+                            Get immediate liquidity without selling your valuable NFTs
+                        </p>
                     </div>
 
-                    {/* Lottery Configuration Panel */}
-                    <div className="space-y-6">
-                        <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6">
-                            <h2 className="text-2xl font-semibold text-white mb-6 flex items-center gap-2">
-                                <Coins className="w-6 h-6 text-purple-400" />
-                                Lottery Settings
-                            </h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* Configure Lottery Panel */}
+                        <div className="space-y-6">
+                            <div className="card-premium p-6">
+                                <h2 className="text-2xl font-semibold text-text-primary mb-6 flex items-center gap-2">
+                                    <Coins className="w-6 h-6 text-gradient stroke-[1.5]" />
+                                    Configure Lottery
+                                </h2>
 
-                            <div className="space-y-6">
-                                {/* WonkaBar Price */}
-                                <div>
-                                    <label className="block text-white font-medium mb-2">
-                                        WonkaBar Price
-                                    </label>
-                                    <div className="relative">
+                                <div className="space-y-6">
+                                    {/* WonkaBar Price */}
+                                    <div>
+                                        <label className="block text-white font-medium mb-2 flex items-center gap-2">
+                                            <Coins className="w-4 h-4 stroke-[1.5]" />
+                                            Price per WonkaBar (SUI)
+                                        </label>
                                         <input
                                             type="number"
-                                            step="0.01"
-                                            min="0.01"
                                             value={wonkabarPrice}
                                             onChange={(e) => setWonkabarPrice(e.target.value)}
-                                            placeholder="0.1"
-                                            className="w-full p-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20"
+                                            placeholder="e.g. 0.1"
+                                            min="0.000000001"
+                                            step="0.01"
+                                            className="input w-full"
                                         />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60">SUI</span>
+                                        <p className="text-white/60 text-sm mt-2">
+                                            Price for each lottery ticket in SUI
+                                        </p>
                                     </div>
-                                    <p className="text-white/60 text-sm mt-2">
-                                        Price per lottery ticket in SUI tokens
-                                    </p>
-                                </div>
 
-                                {/* Max Supply */}
-                                <div>
-                                    <label className="block text-white font-medium mb-2">
-                                        Maximum Tickets
-                                    </label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        value={maxSupply}
-                                        onChange={(e) => setMaxSupply(e.target.value)}
-                                        placeholder="1000"
-                                        className="w-full p-4 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20"
-                                    />
-                                    <p className="text-white/60 text-sm mt-2">
-                                        Total number of tickets available for purchase
-                                    </p>
-                                </div>
-
-                                {/* Duration */}
-                                <div>
-                                    <label className="block text-white font-medium mb-2 flex items-center gap-2">
-                                        <Calendar className="w-4 h-4" />
-                                        Lottery Duration
-                                    </label>
-                                    <select
-                                        value={duration}
-                                        onChange={(e) => setDuration(e.target.value)}
-                                        className="w-full p-4 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 appearance-none cursor-pointer"
-                                        style={{
-                                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                                            backgroundRepeat: 'no-repeat',
-                                            backgroundPosition: 'right 1rem center',
-                                            backgroundSize: '1.5em 1.5em',
-                                            paddingRight: '3rem'
-                                        }}
-                                    >
-                                        <option value="" disabled className="bg-gray-900">Select duration</option>
-                                        <option value="0.00347222" className="bg-gray-900">5 Minutes (Testing)</option>
-                                        <option value="1" className="bg-gray-900">1 Day</option>
-                                        <option value="7" className="bg-gray-900">7 Days</option>
-                                        <option value="30" className="bg-gray-900">30 Days</option>
-                                        <option value="90" className="bg-gray-900">90 Days</option>
-                                    </select>
-                                    <p className="text-white/60 text-sm mt-2">
-                                        Choose how long the lottery will run
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Lottery Preview */}
-                            {wonkabarPrice && maxSupply && (
-                                <div className="mt-6 p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                                    <h3 className="text-white font-medium mb-3">Lottery Preview</h3>
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex justify-between text-white/80">
-                                            <span>Total Potential Revenue:</span>
-                                            <span className="font-medium">{(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0')).toFixed(2)} SUI</span>
-                                        </div>
-                                        <div className="flex justify-between text-white/80">
-                                            <span>You Receive Upfront (95%):</span>
-                                            <span className="font-medium text-green-400">
-                                                {(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0') * 0.95).toFixed(2)} SUI
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between text-white/60">
-                                            <span>Protocol Fee (5%):</span>
-                                            <span>{(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0') * 0.05).toFixed(2)} SUI</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Important Notice */}
-                            <div className="mt-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                                <div className="flex items-start gap-3">
-                                    <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                    {/* Max Supply */}
                                     <div>
-                                        <h3 className="text-yellow-300 font-medium mb-2">Important Notice</h3>
-                                        <ul className="text-yellow-200/80 text-sm space-y-1">
-                                            <li>• You receive 95% of potential funds immediately</li>
-                                            <li>• Your NFT is held in escrow until lottery ends</li>
-                                            <li>• You can repay to reclaim your NFT anytime</li>
-                                            <li>• If lottery completes, winner gets the NFT</li>
-                                        </ul>
+                                        <label className="block text-white font-medium mb-2 flex items-center gap-2">
+                                            <Ticket className="w-4 h-4 stroke-[1.5]" />
+                                            Maximum Tickets
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={maxSupply}
+                                            onChange={(e) => setMaxSupply(e.target.value)}
+                                            placeholder="e.g. 100"
+                                            min="1"
+                                            step="1"
+                                            className="input w-full"
+                                        />
+                                        <p className="text-white/60 text-sm mt-2">
+                                            Total number of tickets available for purchase
+                                        </p>
+                                    </div>
+
+                                    {/* Duration */}
+                                    <div>
+                                        <label className="block text-white font-medium mb-2 flex items-center gap-2">
+                                            <Calendar className="w-4 h-4 stroke-[1.5]" />
+                                            Lottery Duration
+                                        </label>
+                                        <select
+                                            value={duration}
+                                            onChange={(e) => setDuration(e.target.value)}
+                                            className="input w-full appearance-none cursor-pointer"
+                                            style={{
+                                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                                                backgroundRepeat: 'no-repeat',
+                                                backgroundPosition: 'right 1rem center',
+                                                backgroundSize: '1.5em 1.5em',
+                                                paddingRight: '3rem'
+                                            }}
+                                        >
+                                            <option value="" disabled className="bg-surface-elevated">Select duration</option>
+                                            <option value="0.00347222" className="bg-surface-elevated">5 Minutes (Testing)</option>
+                                            <option value="1" className="bg-surface-elevated">1 Day</option>
+                                            <option value="7" className="bg-surface-elevated">7 Days</option>
+                                            <option value="30" className="bg-surface-elevated">30 Days</option>
+                                            <option value="90" className="bg-surface-elevated">90 Days</option>
+                                        </select>
+                                        <p className="text-white/60 text-sm mt-2">
+                                            Choose how long the lottery will run
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Lottery Preview */}
+                                {wonkabarPrice && maxSupply && (
+                                    <div className="mt-6 p-4 rounded-lg bg-surface-elevated border border-border">
+                                        <h3 className="text-white font-medium mb-3">Lottery Preview</h3>
+                                        <div className="space-y-2 text-sm">
+                                            <div className="flex justify-between text-text-secondary">
+                                                <span>Total Potential Revenue:</span>
+                                                <span className="font-medium">{(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0')).toFixed(2)} SUI</span>
+                                            </div>
+                                            <div className="flex justify-between text-text-secondary">
+                                                <span>You Receive Upfront (95%):</span>
+                                                <span className="font-medium text-gradient">
+                                                    {(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0') * 0.95).toFixed(2)} SUI
+                                                </span>
+                                            </div>
+                                            <div className="flex justify-between text-text-muted">
+                                                <span>Protocol Fee (5%):</span>
+                                                <span>{(parseFloat(wonkabarPrice || '0') * parseInt(maxSupply || '0') * 0.05).toFixed(2)} SUI</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Important Notice */}
+                                <div className="mt-6 p-4 rounded-lg bg-surface-elevated border border-border">
+                                    <div className="flex items-start gap-3">
+                                        <AlertCircle className="w-5 h-5 text-gradient flex-shrink-0 mt-0.5 stroke-[1.5]" />
+                                        <div>
+                                            <h3 className="text-text-primary font-medium mb-2">Important Notice</h3>
+                                            <ul className="text-text-secondary text-sm space-y-1">
+                                                <li>• You receive 95% of potential funds immediately</li>
+                                                <li>• Your NFT is held in escrow until lottery ends</li>
+                                                <li>• You can repay to reclaim your NFT anytime</li>
+                                                <li>• If not repaid, a winner gets your NFT</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Create Button */}
-                            <button
-                                onClick={handleCreateLottery}
-                                disabled={!selectedNFT || !wonkabarPrice || !maxSupply || !duration || isCreatingLottery}
-                                className="w-full mt-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 flex items-center justify-center gap-2"
-                            >
-                                {isCreatingLottery ? (
-                                    <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        Creating Lottery...
-                                    </>
+                        {/* NFT Selection Panel */}
+                        <div className="space-y-6">
+                            <div className="card-premium p-6">
+                                <h2 className="text-2xl font-semibold text-text-primary mb-6 flex items-center gap-2">
+                                    <ImageIcon className="w-6 h-6 text-gradient stroke-[1.5]" />
+                                    Select Your NFT
+                                </h2>
+
+                                {!selectedNFT ? (
+                                    <div className="space-y-4">
+                                        <button
+                                            onClick={() => setShowNFTGrid(!showNFTGrid)}
+                                            disabled={isLoadingNFTs}
+                                            className="w-full p-4 border-2 border-dashed border-white/20 hover:border-border-hover rounded-lg transition-colors group"
+                                        >
+                                            <div className="flex flex-col items-center gap-3">
+                                                {isLoadingNFTs ? (
+                                                    <Loader2 className="w-12 h-12 text-white/40 animate-spin" />
+                                                ) : (
+                                                    <Plus className="w-12 h-12 text-white/40 group-hover:text-gradient transition-colors stroke-[1.5]" />
+                                                )}
+                                                <div className="text-center">
+                                                    <p className="text-white font-medium mb-1">
+                                                        {isLoadingNFTs ? 'Loading your NFTs...' : 'Choose an NFT'}
+                                                    </p>
+                                                    <p className="text-white/60 text-sm">
+                                                        {isLoadingNFTs ? 'Please wait while we scan your wallet' : `Found ${nfts.length} NFTs in your wallet`}
+                                                    </p>
+                                                </div>
+                                                <ChevronDown className={`w-5 h-5 text-white/40 transition-transform stroke-[1.5] ${showNFTGrid ? 'rotate-180' : ''}`} />
+                                            </div>
+                                        </button>
+
+                                        {showNFTGrid && nfts.length > 0 && (
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-96 overflow-y-auto custom-scrollbar">
+                                                {nfts.map((nft) => (
+                                                    <button
+                                                        key={nft.id}
+                                                        onClick={() => {
+                                                            setSelectedNFT(nft);
+                                                            setShowNFTGrid(false);
+                                                        }}
+                                                        className="group p-3 rounded-lg border border-border hover:border-border-hover bg-surface hover:bg-surface-elevated transition-all"
+                                                    >
+                                                        <div className="aspect-square relative mb-2 rounded-lg overflow-hidden">
+                                                            <Image
+                                                                src={getSafeImageUrl(nft.imageUrl)}
+                                                                alt={nft.name}
+                                                                fill
+                                                                className="object-cover group-hover:scale-105 transition-transform"
+                                                                unoptimized
+                                                                onError={(e) => {
+                                                                    const target = e.target as HTMLImageElement;
+                                                                    target.src = '/placeholder-nft.png';
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="text-white text-sm font-medium truncate" title={nft.name}>
+                                                                {nft.name}
+                                                            </p>
+                                                            {nft.collection && (
+                                                                <p className="text-text-secondary text-xs truncate" title={nft.collection}>
+                                                                    {nft.collection.length > 20 ? `${nft.collection.slice(0, 20)}...` : nft.collection}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {showNFTGrid && nfts.length === 0 && !isLoadingNFTs && (
+                                            <div className="text-center py-8">
+                                                <ImageIcon className="w-12 h-12 text-white/40 mx-auto mb-3 stroke-[1.5]" />
+                                                <p className="text-white/60">No NFTs found in your wallet</p>
+                                                <button
+                                                    onClick={loadUserNFTs}
+                                                    className="text-gradient hover:text-text-primary text-sm mt-2"
+                                                >
+                                                    Refresh
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 ) : (
-                                    <>
-                                        <Sparkles className="w-5 h-5" />
-                                        Create Lottery
-                                    </>
+                                    <div className="p-4 rounded-lg border border-border bg-surface">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+                                                <Image
+                                                    src={getSafeImageUrl(selectedNFT.imageUrl)}
+                                                    alt={selectedNFT.name}
+                                                    fill
+                                                    className="object-cover"
+                                                    unoptimized
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.src = '/placeholder-nft.png';
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="font-medium text-white">{selectedNFT.name}</h3>
+                                                {selectedNFT.collection && (
+                                                    <p className="text-sm text-text-secondary">{selectedNFT.collection}</p>
+                                                )}
+                                                <p className="text-xs text-text-muted mt-1 font-mono">{selectedNFT.id.slice(0, 10)}...</p>
+                                            </div>
+                                            <button
+                                                onClick={() => setSelectedNFT(null)}
+                                                className="text-text-muted hover:text-text-primary transition-colors"
+                                            >
+                                                Change
+                                            </button>
+                                        </div>
+                                    </div>
                                 )}
-                            </button>
+
+                                {/* Create Button */}
+                                <button
+                                    onClick={handleCreateLottery}
+                                    disabled={!selectedNFT || !wonkabarPrice || !maxSupply || !duration || isCreatingLottery}
+                                    className="w-full mt-8 btn-primary py-4 px-6 text-lg font-semibold flex items-center justify-center gap-2"
+                                >
+                                    {isCreatingLottery ? (
+                                        <>
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                            Creating Lottery...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Sparkles className="w-5 h-5 stroke-[1.5]" />
+                                            Create Lottery
+                                        </>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

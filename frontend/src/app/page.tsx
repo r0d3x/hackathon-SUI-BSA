@@ -1,297 +1,225 @@
 'use client';
 
+import { ArrowRight, Shield, Zap, Users, Trophy, ChevronRight, TrendingUp, Lock, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-    ArrowRight, 
-    Zap, 
-    Shield, 
-    TrendingUp, 
-    Users, 
-    Sparkles,
-    ChevronDown,
-    Play,
-    ExternalLink,
-    Coins,
-    Trophy,
-    Clock,
-    Target
-} from 'lucide-react';
-import { useState, useEffect } from 'react';
 
 export default function HomePage() {
-    const [mounted, setMounted] = useState(false);
-    const [activeFeature, setActiveFeature] = useState(0);
-
-    useEffect(() => {
-        setMounted(true);
-        const interval = setInterval(() => {
-            setActiveFeature((prev) => (prev + 1) % 4);
-        }, 4000);
-        return () => clearInterval(interval);
-    }, []);
-
-    const features = [
-        {
-            icon: Zap,
-            title: "Instant NFT Liquidity",
-            description: "Transform your NFTs into immediate SUI tokens through our innovative lottery system",
-            color: "from-blue-400 to-blue-600"
-        },
-        {
-            icon: Shield,
-            title: "Secure & Transparent",
-            description: "Built on Sui blockchain with verifiable smart contracts and provable randomness",
-            color: "from-purple-400 to-purple-600"
-        },
-        {
-            icon: TrendingUp,
-            title: "Win Premium NFTs",
-            description: "Purchase WonkaBars for a chance to win valuable NFTs at fraction of their value",
-            color: "from-pink-400 to-pink-600"
-        },
-        {
-            icon: Users,
-            title: "Community Rewards",
-            description: "Earn ChocoChip tokens as consolation prizes and participate in governance",
-            color: "from-cyan-400 to-cyan-600"
-        }
-    ];
-
-    const stats = [
-        { label: "Total Volume", value: "2.4M SUI", icon: Coins },
-        { label: "NFTs Melted", value: "1,247", icon: Trophy },
-        { label: "Active Users", value: "8,932", icon: Users },
-        { label: "Avg. Response", value: "< 2s", icon: Clock }
-    ];
-
-    if (!mounted) return null;
-
-    return (
-        <div className="min-h-screen">
-            {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Effects */}
-                <div className="absolute inset-0">
-                    <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
-                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
-                </div>
-
-                <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-                    {/* Logo Animation */}
-                    <div className="mb-8 animate-slide-up">
-                        <div className="relative w-24 h-24 mx-auto mb-6 animate-float">
-                            <Image
-                                src="/logo.png"
-                                alt="MeltyFi Logo"
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Main Headline */}
-                    <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                            <span className="gradient-text">Melt</span> Your NFTs
-                            <br />
-                            Into <span className="gradient-text-secondary">Liquid Gold</span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-                            The first NFT liquidity protocol on Sui. Transform your digital assets into immediate liquidity 
-                            through our innovative lottery marketplace.
-                        </p>
-                    </div>
-
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-                        <Link href="/lotteries" className="btn-primary text-lg px-8 py-4 group">
-                            <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                            Explore Lotteries
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link href="/create" className="btn-outline text-lg px-8 py-4 group">
-                            <Zap className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                            Melt Your NFT
-                        </Link>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto animate-slide-up" style={{ animationDelay: '0.6s' }}>
-                        {stats.map((stat, index) => {
-                            const Icon = stat.icon;
-                            return (
-                                <div key={index} className="card text-center group">
-                                    <Icon className="w-8 h-8 mx-auto mb-2 text-blue-400 group-hover:scale-110 transition-transform" />
-                                    <div className="text-2xl font-bold gradient-text">{stat.value}</div>
-                                    <div className="text-sm text-gray-400">{stat.label}</div>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* Scroll Indicator */}
-                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                        <ChevronDown className="w-6 h-6 text-gray-400" />
-                    </div>
-                </div>
-            </section>
-
-            {/* How It Works Section */}
-            <section className="py-24 relative">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                            How <span className="gradient-text">MeltyFi</span> Works
-                        </h2>
-                        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                            Our innovative protocol transforms illiquid NFTs into liquid assets through a fair lottery system
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {/* Step 1 */}
-                        <div className="card-premium text-center group">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Target className="w-8 h-8 text-white" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">1. List Your NFT</h3>
-                            <p className="text-gray-300 leading-relaxed">
-                                Lock your NFT as collateral and receive 95% of the potential lottery earnings immediately as liquid SUI tokens.
-                            </p>
-                        </div>
-
-                        {/* Step 2 */}
-                        <div className="card-premium text-center group">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Users className="w-8 h-8 text-white" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">2. Community Participates</h3>
-                            <p className="text-gray-300 leading-relaxed">
-                                Users purchase WonkaBar lottery tickets for a chance to win your NFT at a fraction of its market value.
-                            </p>
-                        </div>
-
-                        {/* Step 3 */}
-                        <div className="card-premium text-center group">
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Trophy className="w-8 h-8 text-white" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">3. Melt & Claim Rewards</h3>
-                            <p className="text-gray-300 leading-relaxed">
-                                When lottery ends, all participants melt their WonkaBars: winners get the NFT + ChocoChips, others get ChocoChips as rewards.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Features Showcase */}
-            <section className="py-24 relative">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        {/* Feature List */}
-                        <div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                                Why Choose <span className="gradient-text">MeltyFi</span>?
-                            </h2>
-                            <div className="space-y-6">
-                                {features.map((feature, index) => {
-                                    const Icon = feature.icon;
-                                    const isActive = activeFeature === index;
-                                    
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={`
-                                                p-6 rounded-2xl cursor-pointer transition-all duration-500
-                                                ${isActive 
-                                                    ? 'bg-gradient-to-r from-blue-500/20 to-purple-600/20 border border-purple-500/30 scale-105' 
-                                                    : 'hover:bg-white/5 border border-transparent'
-                                                }
-                                            `}
-                                            onClick={() => setActiveFeature(index)}
-                                        >
-                                            <div className="flex items-start space-x-4">
-                                                <div className={`
-                                                    w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
-                                                    ${isActive ? `bg-gradient-to-br ${feature.color}` : 'bg-gray-700'}
-                                                `}>
-                                                    <Icon className="w-6 h-6 text-white" />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h3 className={`text-xl font-bold mb-2 transition-colors ${isActive ? 'text-white' : 'text-gray-300'}`}>
-                                                        {feature.title}
-                                                    </h3>
-                                                    <p className="text-gray-400 leading-relaxed">
-                                                        {feature.description}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Feature Visualization */}
-                        <div className="relative">
-                            <div className="card-premium p-8 text-center">
-                                <div className="relative w-48 h-48 mx-auto mb-6">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-3xl animate-pulse-glow" />
-                                    <div className="absolute inset-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                                        <Image
-                                            src="/logo.png"
-                                            alt="MeltyFi"
-                                            width={80}
-                                            height={80}
-                                            className="animate-float"
-                                        />
-                                    </div>
-                                </div>
-                                <h3 className="text-2xl font-bold mb-4 gradient-text">
-                                    Built on Sui Blockchain
-                                </h3>
-                                <p className="text-gray-300 mb-6">
-                                    Leveraging Sui's high-performance infrastructure for lightning-fast transactions and provable randomness.
-                                </p>
-                                <Link 
-                                    href="https://sui.io" 
-                                    target="_blank"
-                                    className="btn-secondary group"
-                                >
-                                    Learn More
-                                    <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-24 relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-600/10" />
-                <div className="relative max-w-4xl mx-auto px-6 text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                        Ready to <span className="gradient-text">Melt</span> Your NFTs?
-                    </h2>
-                    <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                        Join thousands of users who have already unlocked liquidity from their digital assets.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link href="/create" className="btn-primary text-lg px-8 py-4 group">
-                            <Zap className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                            Start Melting
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link href="/lotteries" className="btn-outline text-lg px-8 py-4">
-                            Browse Lotteries
-                        </Link>
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative py-32 px-4 sm:px-6 lg:px-8">
+        {/* Subtle background effects */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-40 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute top-20 right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-40 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
         </div>
-    );
+
+        <div className="relative max-w-5xl mx-auto">
+          <div className="text-center">
+            {/* Title */}
+            <div className="flex justify-center mb-16 fade-in">
+              <div className="bg-surface-elevated border border-border px-6 py-3 rounded-full">
+                <span className="text-xl font-bold text-gradient">0% Liquidation Risk</span>
+              </div>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-10 slide-up">
+              NFT Lending
+              <br />
+              <span className="text-gradient">Made Simple</span>
+            </h1>
+
+            <p className="text-xl text-text-secondary mb-8 max-w-2xl mx-auto slide-up leading-relaxed">
+            MeltyFi is a protocol enabling NFT holders to lend their NFTs without liquidation risk and allowing for a faster funding of the loan.
+            </p>
+    
+
+
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center slide-up">
+              <Link href="/create" className="btn-primary px-10 py-5 text-lg group">
+                <Sparkles className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                Create Lottery
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link href="/lotteries" className="btn-outline px-10 py-5 text-lg group">
+                Browse Lotteries
+                <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl font-bold text-white mb-6">How It Works</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {/* Step 1 */}
+            <div className="text-center group">
+              <div className="w-20 h-20 border border-border rounded-xl flex items-center justify-center mx-auto mb-8 group-hover:border-border-hover transition-all">
+                <Lock className="w-10 h-10 text-gradient stroke-[1.5]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-4">Create a Loan</h3>
+              <p className="text-text-secondary mb-3">
+                Lock your NFT as collateral and set your terms. You'll receive 95% of all ticket sales immediately.
+              </p>
+              <p className="text-sm text-text-muted">
+                You can cancel the loan anytime before expiration by repaying the funds you've received.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center group">
+              <div className="w-20 h-20 border border-border rounded-xl flex items-center justify-center mx-auto mb-8 group-hover:border-border-hover transition-all">
+                <Users className="w-10 h-10 text-gradient stroke-[1.5]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-4">Participants Buy Tickets</h3>
+              <p className="text-text-secondary mb-3">
+                Users purchase WonkaBar tickets for a chance to win your NFT. Each ticket increases your liquidity.
+              </p>
+              <p className="text-sm text-text-muted">
+                All participants earn ChocoChip rewards regardless of the lottery outcome.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center group">
+              <div className="w-20 h-20 border border-border rounded-xl flex items-center justify-center mx-auto mb-8 group-hover:border-border-hover transition-all">
+                <Trophy className="w-10 h-10 text-gradient stroke-[1.5]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-4">Two Possible Outcomes</h3>
+              <p className="text-text-secondary mb-3">
+                Either repay the loan to reclaim your NFT, or let the lottery conclude and keep the funds.
+              </p>
+              <p className="text-sm text-text-muted">
+                If you don't repay, a winner is selected to receive your NFT plus ChocoChip rewards.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-white mb-12">
+                Why Use MeltyFi?
+              </h2>
+
+              <div className="space-y-10">
+                <div className="flex items-start space-x-6">
+                  <div className="w-12 h-12 border border-border rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-6 h-6 text-gradient stroke-[1.5]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">NFT-Backed Loans</h3>
+                    <p className="text-text-secondary">Get immediate liquidity from your NFTs without having to sell them permanently</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-6">
+                  <div className="w-12 h-12 border border-border rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-6 h-6 text-gradient stroke-[1.5]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Secure & Transparent</h3>
+                    <p className="text-text-secondary">All operations are handled by smart contracts on the Sui blockchain with full transparency</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-6">
+                  <div className="w-12 h-12 border border-border rounded-xl flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-6 h-6 text-gradient stroke-[1.5]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Dual-Sided Benefits</h3>
+                    <p className="text-text-secondary">NFT owners get liquidity, participants get chances to win NFTs and earn rewards</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border border-border rounded-2xl p-12">
+              <div className="text-center">
+                <div className="w-24 h-24 border border-border rounded-2xl flex items-center justify-center mx-auto mb-10">
+                  <Image
+                    src="/logo.png"
+                    alt="MeltyFi"
+                    width={64}
+                    height={64}
+                    className="rounded-lg"
+                  />
+                </div>
+                <div className="text-3xl font-bold text-white mb-6">How It's Different</div>
+                <div className="text-text-secondary mb-8">
+                  MeltyFi combines NFT lending with lottery mechanics
+                </div>
+                <ul className="space-y-4 text-left">
+                  <li className="flex items-center space-x-3">
+                    <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
+                    </div>
+                    <span className="text-text-secondary"><span className="font-bold text-gradient">0% liquidation risk</span> - no forced selling of your NFT</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
+                    </div>
+                    <span className="text-text-secondary">No interest rates or collateral requirements</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
+                    </div>
+                    <span className="text-text-secondary">Immediate liquidity for NFT owners</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <div className="w-6 h-6 rounded-full border border-border flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
+                    </div>
+                    <span className="text-text-secondary">Option to repay and keep your NFT</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Ready to unlock your NFT's value?
+          </h2>
+          <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto">
+            Create your first NFT-backed loan or participate in existing lotteries to win valuable NFTs
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link href="/create" className="btn-primary px-10 py-5 text-lg group">
+              <Sparkles className="mr-2 w-5 h-5 stroke-[1.5] group-hover:rotate-12 transition-transform" />
+              Create a Loan
+              <ArrowRight className="ml-2 w-5 h-5 stroke-[1.5] group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link href="/lotteries" className="btn-outline px-10 py-5 text-lg group">
+              Browse Lotteries
+              <ArrowRight className="ml-2 w-5 h-5 stroke-[1.5] group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

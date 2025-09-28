@@ -1,6 +1,6 @@
 import { ConfigValidator } from '@/components/ConfigValidator'
 import { Footer } from '@/components/Footer'
-import { Navigation } from '@/components/Navigation'
+import Navigation from '@/components/Navigation'
 import { Providers } from '@/components/providers/Providers'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -30,11 +30,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen`}>
+      <body className={`${inter.className} bg-background min-h-screen`}>
         <Providers>
           <ConfigValidator>
             <div className="min-h-screen flex flex-col">
               <Navigation />
+              <div className="h-24" /> {/* Spacer for floating navigation */}
               <main className="flex-1">
                 {children}
               </main>
