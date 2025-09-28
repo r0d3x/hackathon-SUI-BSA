@@ -109,6 +109,28 @@ module meltyfi::choco_chip {
         coin
     }
 
+    /// Protocol mint function - only callable from within this package
+    public(package) fun protocol_mint(
+        factory: &mut ChocolateFactory,
+        amount: u64,
+        recipient: address,
+        ctx: &mut TxContext
+    ): Coin<CHOCO_CHIP> {
+        assert!(amount > 0, EInvalidAmount);
+        assert!(factory.total_supply + amount <= factory.max_supply, ESupplyExceeded);
+
+        factory.total_supply = factory.total_supply + amount;
+        let coin = coin::mint(&mut factory.treasury_cap, amount, ctx);
+
+        event::emit(ChocolateMinted {
+            recipient,
+            amount,
+            minter: @meltyfi,
+        });
+
+        coin
+    }
+
     /// Authorize new minter (admin only)
     public fun authorize_minter(
         factory: &mut ChocolateFactory,

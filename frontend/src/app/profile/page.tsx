@@ -11,6 +11,7 @@ import {
     Coins,
     Copy,
     ExternalLink,
+    Sparkles,
     Ticket,
     Trophy,
     User,
@@ -53,7 +54,7 @@ function LotteryGrid({ lotteries, currentUserAddress, isOwner }: LotteryGridProp
             {lotteries.map((lottery) => {
                 const isExpired = Date.now() > lottery.expirationDate;
                 const isSoldOut = parseInt(lottery.soldCount) >= parseInt(lottery.maxSupply);
-                const canRepay = isOwner && lottery.state === 'ACTIVE' && parseInt(lottery.soldCount) === 0;
+                const canRepay = isOwner && lottery.state === 'ACTIVE' && !isExpired;
                 
                 const timeLeft = lottery.expirationDate - Date.now();
                 const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -153,13 +154,27 @@ function LotteryGrid({ lotteries, currentUserAddress, isOwner }: LotteryGridProp
                             {canRepay ? (
                                 <div className="space-y-3">
                                     <div className="text-center py-2">
-                                        <p className="text-sm text-white/60 mb-3">No participants yet - you can cancel and get your NFT back</p>
+                                        <div className="text-sm text-white/60 mb-3">
+                                            {parseInt(lottery.soldCount) === 0 ? (
+                                                <p>No participants yet - cancel and get your NFT back</p>
+                                            ) : (
+                                                <div>
+                                                    <p className="mb-2">💰 Repay loan to cancel and get your NFT back</p>
+                                                    <p className="text-xs text-yellow-300">
+                                                        Cost: {((parseInt(lottery.totalRaised) || 0) / 1_000_000_000).toFixed(4)} SUI 
+                                                        ({parseInt(lottery.soldCount)} tickets sold)
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
                                         <button
                                             onClick={() => handleRepayLoan(lottery.id)}
                                             disabled={isCancellingLottery}
                                             className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
                                         >
-                                            {isCancellingLottery ? 'Cancelling...' : 'Cancel & Get NFT Back'}
+                                            {isCancellingLottery ? 'Cancelling...' : 
+                                             parseInt(lottery.soldCount) === 0 ? 'Cancel & Get NFT Back' : 
+                                             'Repay Loan & Get NFT Back'}
                                         </button>
                                     </div>
                                 </div>
@@ -169,8 +184,6 @@ function LotteryGrid({ lotteries, currentUserAddress, isOwner }: LotteryGridProp
                                         <p className="text-sm text-blue-400">Lottery completed</p>
                                     ) : lottery.state === 'CANCELLED' ? (
                                         <p className="text-sm text-red-400">Lottery cancelled</p>
-                                    ) : parseInt(lottery.soldCount) > 0 ? (
-                                        <p className="text-sm text-yellow-400">Cannot cancel - WonkaBars already sold</p>
                                     ) : isExpired ? (
                                         <p className="text-sm text-red-400">Lottery has expired</p>
                                     ) : (
@@ -202,9 +215,18 @@ interface WonkaBarGridProps {
     wonkaBars: any[];
     lotteries: any[];
     currentUserAddress?: string;
+    meltWonkaBar: (params: { wonkaBarId: string, lotteryId: string }) => Promise<any>;
+    isMeltingWonkaBar: boolean;
 }
 
-function WonkaBarGrid({ wonkaBars, lotteries, currentUserAddress }: WonkaBarGridProps) {
+function WonkaBarGrid({ wonkaBars, lotteries, currentUserAddress, meltWonkaBar, isMeltingWonkaBar }: WonkaBarGridProps) {
+    const handleMeltWonkaBar = async (wonkaBarId: string, lotteryId: string) => {
+        try {
+            await meltWonkaBar({ wonkaBarId, lotteryId });
+        } catch (error) {
+            console.error('Error melting WonkaBar:', error);
+        }
+    };
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {wonkaBars.map((wonkaBar) => {
@@ -265,6 +287,7 @@ function WonkaBarGrid({ wonkaBars, lotteries, currentUserAddress }: WonkaBarGrid
                                         <p className="text-white font-medium">
                                             {isWinner ? 'Won!' : 
                                              associatedLottery.state === 'CONCLUDED' ? 'Lost' :
+                                             isExpired ? 'Expired' :
                                              associatedLottery.state === 'ACTIVE' ? 'Active' : 
                                              associatedLottery.state}
                                         </p>
@@ -294,28 +317,64 @@ function WonkaBarGrid({ wonkaBars, lotteries, currentUserAddress }: WonkaBarGrid
                             )}
 
                             {/* Status and Actions */}
-                            <div className="flex items-center justify-between">
-                                {associatedLottery && (
-                                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    {associatedLottery && (
+                                                                            <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                                         isWinner ? 'bg-yellow-500/20 text-yellow-400' :
+                                        isExpired ? 'bg-orange-500/20 text-orange-400' :
                                         associatedLottery.state === 'ACTIVE'
                                             ? 'bg-green-500/20 text-green-400'
                                             : associatedLottery.state === 'CONCLUDED'
                                                 ? 'bg-blue-500/20 text-blue-400'
                                                 : 'bg-red-500/20 text-red-400'
                                         }`}>
-                                        {isWinner ? 'Winner' : associatedLottery.state}
+                                        {isWinner ? 'Winner' : isExpired ? 'Expired' : associatedLottery.state}
+                                    </div>
+                                    )}
+                                    
+                                    <a
+                                        href={getExplorerUrl('object', wonkaBar.id)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-xs text-white/40 hover:text-white/60 transition-colors"
+                                    >
+                                        <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                </div>
+
+                                {/* Melt WonkaBar Button */}
+                                {associatedLottery && (associatedLottery.state !== 'ACTIVE' || isExpired) && (
+                                    <button
+                                        onClick={() => handleMeltWonkaBar(wonkaBar.id, associatedLottery.id)}
+                                        disabled={isMeltingWonkaBar}
+                                        className={`w-full btn-primary text-xs py-2 px-3 group ${
+                                            isWinner ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600' : ''
+                                        }`}
+                                    >
+                                        {isMeltingWonkaBar ? (
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin"></div>
+                                                <span>Melting...</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <span>🍫</span>
+                                                <span>
+                                                    {isWinner ? 'Claim NFT + ChocoChips' : 'Melt for ChocoChips'}
+                                                </span>
+                                                <Sparkles className="w-3 h-3 group-hover:rotate-12 transition-transform" />
+                                            </div>
+                                        )}
+                                    </button>
+                                )}
+
+                                {/* Active Lottery Message */}
+                                {associatedLottery && associatedLottery.state === 'ACTIVE' && !isExpired && (
+                                    <div className="text-center text-xs text-gray-400 py-2">
+                                        🕐 Lottery still active - wait for expiration or resolution to melt
                                     </div>
                                 )}
-                                
-                                <a
-                                    href={getExplorerUrl('object', wonkaBar.id)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-xs text-white/40 hover:text-white/60 transition-colors"
-                                >
-                                    <ExternalLink className="w-3 h-3" />
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -337,7 +396,9 @@ export default function ProfilePage() {
         lotteries,
         userWonkaBars,
         isLoadingLotteries,
-        isLoadingWonkaBars
+        isLoadingWonkaBars,
+        meltWonkaBar,
+        isMeltingWonkaBar
     } = useMeltyFi();
 
     const [copiedAddress, setCopiedAddress] = useState(false);
@@ -370,6 +431,17 @@ export default function ProfilePage() {
     // Get user's active lotteries
     const userLotteries = lotteries.filter(lottery => lottery.owner === currentAccount.address);
     const activeLotteries = userLotteries.filter(lottery => lottery.state === 'ACTIVE');
+    
+    // Check for WonkaBars that can be melted (from concluded/cancelled/expired lotteries)
+    const meltableWonkaBars = userWonkaBars.filter(wonkaBar => {
+        const associatedLottery = lotteries.find(l => l.lotteryId === wonkaBar.lotteryId);
+        if (!associatedLottery) return false;
+        
+        const isExpired = Date.now() > associatedLottery.expirationDate;
+        return associatedLottery.state === 'CONCLUDED' || 
+               associatedLottery.state === 'CANCELLED' || 
+               isExpired;
+    });
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
@@ -433,6 +505,30 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Meltable WonkaBars Notification */}
+                {meltableWonkaBars.length > 0 && (
+                    <div className="mb-8 card-premium border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 animate-slide-up">
+                        <div className="flex items-start space-x-4">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0 animate-pulse-glow">
+                                <span className="text-2xl">🍫</span>
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-white mb-2 flex items-center space-x-2">
+                                    <span>Ready to Melt!</span>
+                                    <Sparkles className="w-5 h-5 text-yellow-400" />
+                                </h3>
+                                <p className="text-gray-300 mb-3">
+                                    You have <span className="font-bold text-yellow-400">{meltableWonkaBars.length}</span> WonkaBar{meltableWonkaBars.length > 1 ? 's' : ''} ready to melt! 
+                                    Claim your ChocoChip rewards and any NFT prizes from concluded, cancelled, or expired lotteries.
+                                </p>
+                                <div className="text-sm text-gray-400">
+                                    💰 Winners get NFT + ChocoChips • 🎁 All participants get ChocoChips • 💸 Cancelled lotteries get refunds + ChocoChips • ⏰ Expired lotteries get ChocoChips
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -565,6 +661,8 @@ export default function ProfilePage() {
                             wonkaBars={userWonkaBars} 
                             lotteries={lotteries}
                             currentUserAddress={currentAccount?.address}
+                            meltWonkaBar={meltWonkaBar}
+                            isMeltingWonkaBar={isMeltingWonkaBar}
                         />
                     )}
                 </div>

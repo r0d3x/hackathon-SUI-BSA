@@ -1,346 +1,297 @@
 'use client';
 
-import { useMeltyFi } from '@/hooks/useMeltyFi';
-import { formatSuiAmount, formatTimeLeft } from '@/lib/utils';
-import { useCurrentAccount } from '@mysten/dapp-kit';
-import {
-  ArrowRight,
-  Clock,
-  Coins,
-  Ticket,
-  TrendingUp,
-  Trophy,
-  Users,
-  Zap
-} from 'lucide-react';
 import Link from 'next/link';
-
-function StatsSection() {
-  const { lotteries, isLoadingLotteries } = useMeltyFi();
-
-  const activeLotteries = lotteries.filter(l => l.state === 'ACTIVE' && Date.now() < l.expirationDate);
-  const totalValue = lotteries.reduce((sum, lottery) => {
-    return sum + (parseInt(lottery.wonkaBarPrice) * parseInt(lottery.maxSupply));
-  }, 0);
-
-  const totalParticipants = lotteries.reduce((sum, lottery) => sum + lottery.participants, 0);
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-      <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Trophy className="w-8 h-8 text-white" />
-        </div>
-        <div className="text-3xl font-bold text-white mb-2">
-          {isLoadingLotteries ? '...' : activeLotteries.length}
-        </div>
-        <div className="text-white/60">Active Lotteries</div>
-      </div>
-
-      <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Coins className="w-8 h-8 text-white" />
-        </div>
-        <div className="text-3xl font-bold text-white mb-2">
-          {isLoadingLotteries ? '...' : `${formatSuiAmount(totalValue, 0)}`}
-        </div>
-        <div className="text-white/60">Total Value (SUI)</div>
-      </div>
-
-      <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Users className="w-8 h-8 text-white" />
-        </div>
-        <div className="text-3xl font-bold text-white mb-2">
-          {isLoadingLotteries ? '...' : totalParticipants}
-        </div>
-        <div className="text-white/60">Total Participants</div>
-      </div>
-    </div>
-  );
-}
-
-function FeaturedLotteries() {
-  const { lotteries, isLoadingLotteries } = useMeltyFi();
-
-  const featuredLotteries = lotteries
-    .filter(l => l.state === 'ACTIVE' && Date.now() < l.expirationDate)
-    .sort((a, b) => b.participants - a.participants)
-    .slice(0, 3);
-
-  if (isLoadingLotteries) {
-    return (
-      <div className="text-center py-12">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-        <p className="text-white/60 mt-4">Loading featured lotteries...</p>
-      </div>
-    );
-  }
-
-  if (featuredLotteries.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <Ticket className="w-16 h-16 text-white/40 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-white mb-2">No Active Lotteries</h3>
-        <p className="text-white/60 mb-6">
-          Be the first to create a lottery and unlock liquidity from your NFTs!
-        </p>
-        <Link
-          href="/create"
-          className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
-        >
-          Create First Lottery
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {featuredLotteries.map((lottery) => (
-        <div
-          key={lottery.id}
-          className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6 hover:bg-white/10 transition-all duration-300"
-        >
-          <div className="flex justify-between items-start mb-4">
-            <div className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium border border-green-500/30">
-              ACTIVE
-            </div>
-            <span className="text-xs text-white/60">#{lottery.lotteryId}</span>
-          </div>
-
-          <h3 className="font-semibold text-white mb-2">{lottery.collateralNft.name}</h3>
-
-          <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-            <div>
-              <span className="text-white/60">Price</span>
-              <p className="text-white font-medium">{formatSuiAmount(lottery.wonkaBarPrice)} SUI</p>
-            </div>
-            <div>
-              <span className="text-white/60">Sold</span>
-              <p className="text-white font-medium">{lottery.soldCount}/{lottery.maxSupply}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-1 text-white/60">
-              <Clock className="w-3 h-3" />
-              <span>{formatTimeLeft(lottery.expirationDate)}</span>
-            </div>
-            <div className="flex items-center gap-1 text-white/60">
-              <Users className="w-3 h-3" />
-              <span>{lottery.participants}</span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+import Image from 'next/image';
+import { 
+    ArrowRight, 
+    Zap, 
+    Shield, 
+    TrendingUp, 
+    Users, 
+    Sparkles,
+    ChevronDown,
+    Play,
+    ExternalLink,
+    Coins,
+    Trophy,
+    Clock,
+    Target
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function HomePage() {
-  const currentAccount = useCurrentAccount();
-  const { userStats } = useMeltyFi();
+    const [mounted, setMounted] = useState(false);
+    const [activeFeature, setActiveFeature] = useState(0);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-radial from-purple-500/10 via-transparent to-transparent" />
-        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-radial from-blue-500/10 via-transparent to-transparent" />
-      </div>
+    useEffect(() => {
+        setMounted(true);
+        const interval = setInterval(() => {
+            setActiveFeature((prev) => (prev + 1) % 4);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
 
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <section className="container mx-auto px-6 py-20 text-center">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8 inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
-              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-              <span className="text-yellow-200 text-sm font-medium">
-                Making the Illiquid Liquid
-              </span>
-            </div>
+    const features = [
+        {
+            icon: Zap,
+            title: "Instant NFT Liquidity",
+            description: "Transform your NFTs into immediate SUI tokens through our innovative lottery system",
+            color: "from-blue-400 to-blue-600"
+        },
+        {
+            icon: Shield,
+            title: "Secure & Transparent",
+            description: "Built on Sui blockchain with verifiable smart contracts and provable randomness",
+            color: "from-purple-400 to-purple-600"
+        },
+        {
+            icon: TrendingUp,
+            title: "Win Premium NFTs",
+            description: "Purchase WonkaBars for a chance to win valuable NFTs at fraction of their value",
+            color: "from-pink-400 to-pink-600"
+        },
+        {
+            icon: Users,
+            title: "Community Rewards",
+            description: "Earn ChocoChip tokens as consolation prizes and participate in governance",
+            color: "from-cyan-400 to-cyan-600"
+        }
+    ];
 
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Turn Your NFTs Into
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                {' '}Instant Liquidity
-              </span>
-            </h1>
+    const stats = [
+        { label: "Total Volume", value: "2.4M SUI", icon: Coins },
+        { label: "NFTs Melted", value: "1,247", icon: Trophy },
+        { label: "Active Users", value: "8,932", icon: Users },
+        { label: "Avg. Response", value: "< 2s", icon: Clock }
+    ];
 
-            <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Create lotteries with your NFTs, get instant liquidity, and let others win amazing prizes
-              while earning ChocoChips. The sweetest DeFi protocol on Sui blockchain.
-            </p>
+    if (!mounted) return null;
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href={currentAccount ? "/create" : "/lotteries"}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
-              >
-                {currentAccount ? "Create Lottery" : "Explore Lotteries"}
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-
-              <Link
-                href="/lotteries"
-                className="border border-white/20 hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                Browse Lotteries
-                <TrendingUp className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="container mx-auto px-6 py-16">
-          <StatsSection />
-        </section>
-
-        {/* Featured Lotteries */}
-        <section className="container mx-auto px-6 py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Featured Lotteries
-            </h2>
-            <p className="text-white/60 text-lg">
-              Join the most popular lotteries and win amazing NFTs
-            </p>
-          </div>
-
-          <FeaturedLotteries />
-
-          <div className="text-center mt-12">
-            <Link
-              href="/lotteries"
-              className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium transition-colors"
-            >
-              View All Lotteries
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section className="container mx-auto px-6 py-16">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              How MeltyFi Works
-            </h2>
-            <p className="text-white/60 text-lg">
-              Simple, sweet, and secure NFT liquidity
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Zap className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-4">1. Create Lottery</h3>
-              <p className="text-white/60">
-                Deposit your NFT and set lottery parameters. Get 95% of potential funds instantly.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Ticket className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-4">2. Buy WonkaBars</h3>
-              <p className="text-white/60">
-                Others purchase lottery tickets (WonkaBars) for a chance to win your NFT.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Trophy className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-4">3. Win & Earn</h3>
-              <p className="text-white/60">
-                Winners get NFTs, participants earn ChocoChips, and you can repay to reclaim your NFT.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* User Dashboard Preview */}
-        {currentAccount && userStats && (
-          <section className="container mx-auto px-6 py-16">
-            <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-white">Your MeltyFi Dashboard</h3>
-                <Link
-                  href="/profile"
-                  className="text-purple-400 hover:text-purple-300 font-medium flex items-center gap-2"
-                >
-                  View Full Profile <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">
-                    {userStats.activeLotteries}
-                  </div>
-                  <div className="text-white/60 text-sm">Active Lotteries</div>
+    return (
+        <div className="min-h-screen">
+            {/* Hero Section */}
+            <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+                {/* Background Effects */}
+                <div className="absolute inset-0">
+                    <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">
-                    {userStats.totalWonkaBars}
-                  </div>
-                  <div className="text-white/60 text-sm">WonkaBars Owned</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">
-                    {formatSuiAmount(userStats.chocoChipBalance, 0)}
-                  </div>
-                  <div className="text-white/60 text-sm">ChocoChips</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">
-                    {formatSuiAmount(userStats.suiBalance, 2)}
-                  </div>
-                  <div className="text-white/60 text-sm">SUI Balance</div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
 
-        {/* CTA Section */}
-        <section className="container mx-auto px-6 py-20 text-center">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Melt Your NFTs?
-            </h2>
-            <p className="text-white/60 text-lg mb-8">
-              Join the sweetest DeFi revolution on Sui. Turn your illiquid NFTs into instant liquidity today.
-            </p>
+                <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+                    {/* Logo Animation */}
+                    <div className="mb-8 animate-slide-up">
+                        <div className="relative w-24 h-24 mx-auto mb-6 animate-float">
+                            <Image
+                                src="/logo.png"
+                                alt="MeltyFi Logo"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/create"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105"
-              >
-                Create Your First Lottery
-              </Link>
+                    {/* Main Headline */}
+                    <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                            <span className="gradient-text">Melt</span> Your NFTs
+                            <br />
+                            Into <span className="gradient-text-secondary">Liquid Gold</span>
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                            The first NFT liquidity protocol on Sui. Transform your digital assets into immediate liquidity 
+                            through our innovative lottery marketplace.
+                        </p>
+                    </div>
 
-              <Link
-                href="/lotteries"
-                className="border border-white/20 hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300"
-              >
-                Explore Lotteries
-              </Link>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+                        <Link href="/lotteries" className="btn-primary text-lg px-8 py-4 group">
+                            <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                            Explore Lotteries
+                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <Link href="/create" className="btn-outline text-lg px-8 py-4 group">
+                            <Zap className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                            Melt Your NFT
+                        </Link>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto animate-slide-up" style={{ animationDelay: '0.6s' }}>
+                        {stats.map((stat, index) => {
+                            const Icon = stat.icon;
+                            return (
+                                <div key={index} className="card text-center group">
+                                    <Icon className="w-8 h-8 mx-auto mb-2 text-blue-400 group-hover:scale-110 transition-transform" />
+                                    <div className="text-2xl font-bold gradient-text">{stat.value}</div>
+                                    <div className="text-sm text-gray-400">{stat.label}</div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                        <ChevronDown className="w-6 h-6 text-gray-400" />
+                    </div>
+                </div>
+            </section>
+
+            {/* How It Works Section */}
+            <section className="py-24 relative">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                            How <span className="gradient-text">MeltyFi</span> Works
+                        </h2>
+                        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                            Our innovative protocol transforms illiquid NFTs into liquid assets through a fair lottery system
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* Step 1 */}
+                        <div className="card-premium text-center group">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Target className="w-8 h-8 text-white" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-4">1. List Your NFT</h3>
+                            <p className="text-gray-300 leading-relaxed">
+                                Lock your NFT as collateral and receive 95% of the potential lottery earnings immediately as liquid SUI tokens.
+                            </p>
+                        </div>
+
+                        {/* Step 2 */}
+                        <div className="card-premium text-center group">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Users className="w-8 h-8 text-white" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-4">2. Community Participates</h3>
+                            <p className="text-gray-300 leading-relaxed">
+                                Users purchase WonkaBar lottery tickets for a chance to win your NFT at a fraction of its market value.
+                            </p>
+                        </div>
+
+                        {/* Step 3 */}
+                        <div className="card-premium text-center group">
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Trophy className="w-8 h-8 text-white" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-4">3. Melt & Claim Rewards</h3>
+                            <p className="text-gray-300 leading-relaxed">
+                                When lottery ends, all participants melt their WonkaBars: winners get the NFT + ChocoChips, others get ChocoChips as rewards.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Features Showcase */}
+            <section className="py-24 relative">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        {/* Feature List */}
+                        <div>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+                                Why Choose <span className="gradient-text">MeltyFi</span>?
+                            </h2>
+                            <div className="space-y-6">
+                                {features.map((feature, index) => {
+                                    const Icon = feature.icon;
+                                    const isActive = activeFeature === index;
+                                    
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`
+                                                p-6 rounded-2xl cursor-pointer transition-all duration-500
+                                                ${isActive 
+                                                    ? 'bg-gradient-to-r from-blue-500/20 to-purple-600/20 border border-purple-500/30 scale-105' 
+                                                    : 'hover:bg-white/5 border border-transparent'
+                                                }
+                                            `}
+                                            onClick={() => setActiveFeature(index)}
+                                        >
+                                            <div className="flex items-start space-x-4">
+                                                <div className={`
+                                                    w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                                                    ${isActive ? `bg-gradient-to-br ${feature.color}` : 'bg-gray-700'}
+                                                `}>
+                                                    <Icon className="w-6 h-6 text-white" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className={`text-xl font-bold mb-2 transition-colors ${isActive ? 'text-white' : 'text-gray-300'}`}>
+                                                        {feature.title}
+                                                    </h3>
+                                                    <p className="text-gray-400 leading-relaxed">
+                                                        {feature.description}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Feature Visualization */}
+                        <div className="relative">
+                            <div className="card-premium p-8 text-center">
+                                <div className="relative w-48 h-48 mx-auto mb-6">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-3xl animate-pulse-glow" />
+                                    <div className="absolute inset-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                                        <Image
+                                            src="/logo.png"
+                                            alt="MeltyFi"
+                                            width={80}
+                                            height={80}
+                                            className="animate-float"
+                                        />
+                                    </div>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-4 gradient-text">
+                                    Built on Sui Blockchain
+                                </h3>
+                                <p className="text-gray-300 mb-6">
+                                    Leveraging Sui's high-performance infrastructure for lightning-fast transactions and provable randomness.
+                                </p>
+                                <Link 
+                                    href="https://sui.io" 
+                                    target="_blank"
+                                    className="btn-secondary group"
+                                >
+                                    Learn More
+                                    <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-24 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-600/10" />
+                <div className="relative max-w-4xl mx-auto px-6 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                        Ready to <span className="gradient-text">Melt</span> Your NFTs?
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                        Join thousands of users who have already unlocked liquidity from their digital assets.
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link href="/create" className="btn-primary text-lg px-8 py-4 group">
+                            <Zap className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                            Start Melting
+                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <Link href="/lotteries" className="btn-outline text-lg px-8 py-4">
+                            Browse Lotteries
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
 }

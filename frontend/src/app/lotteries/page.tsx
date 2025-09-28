@@ -7,7 +7,9 @@ import {
     AlertCircle,
     ExternalLink,
     Search,
-    Ticket
+    Ticket,
+    TrendingUp,
+    Trophy
 } from 'lucide-react';
 import { useState } from 'react';
 import SafeImage from '@/components/SafeImage';
@@ -35,7 +37,7 @@ function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCan
     const canPurchase = isConnected && !isExpired && !isSoldOut && lottery.state === 'ACTIVE';
     const isOwner = currentUserAddress && lottery.owner === currentUserAddress;
     const hasReceipt = userLotteryReceipts?.some(r => r.lotteryId === lottery.lotteryId);
-    const canCancel = isOwner && hasReceipt && lottery.state === 'ACTIVE' && parseInt(lottery.soldCount) === 0;
+    const canCancel = isOwner && hasReceipt && lottery.state === 'ACTIVE' && !isExpired;
 
     const timeLeft = lottery.expirationDate - Date.now();
     const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -129,22 +131,36 @@ function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCan
                             </div>
                             {canCancel ? (
                                 <>
-                                    <p className="text-sm text-white/60 mb-3">No participants yet - you can cancel and get your NFT back</p>
+                                    <div className="text-sm text-white/60 mb-3">
+                                        {parseInt(lottery.soldCount) === 0 ? (
+                                            <p>No participants yet - cancel and get your NFT back</p>
+                                        ) : (
+                                            <div>
+                                                <p className="mb-2">💰 Repay loan to cancel and get your NFT back</p>
+                                                <p className="text-xs text-yellow-300">
+                                                    Cost: {formatSuiAmount(lottery.totalRaised)} SUI 
+                                                    ({parseInt(lottery.soldCount)} tickets sold)
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
                                     <button
                                         onClick={() => onCancelLottery(lottery.id)}
                                         disabled={isCancelling}
                                         className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
                                     >
-                                        {isCancelling ? 'Cancelling...' : 'Repay Loan & Get NFT Back'}
+                                        {isCancelling ? 'Cancelling...' : 
+                                         parseInt(lottery.soldCount) === 0 ? 'Cancel & Get NFT Back' : 
+                                         'Repay Loan & Get NFT Back'}
                                     </button>
                                 </>
                             ) : (
                                 <p className="text-sm text-yellow-400">
-                                    {parseInt(lottery.soldCount) > 0 
-                                        ? 'Cannot repay - WonkaBars already sold' 
-                                        : lottery.state !== 'ACTIVE' 
-                                            ? 'Lottery not active' 
-                                            : 'Cannot repay at this time'
+                                    {lottery.state !== 'ACTIVE' 
+                                        ? 'Lottery not active' 
+                                        : isExpired
+                                            ? 'Lottery has expired'
+                                            : 'Cannot cancel at this time'
                                     }
                                 </p>
                             )}
@@ -190,6 +206,35 @@ function LotteryCard({ lottery, onBuyWonkaBars, onCancelLottery, isBuying, isCan
                         ) : (
                             <p className="text-sm text-white/60">Lottery not active</p>
                         )}
+                    </div>
+                )}
+
+                {/* Concluded Lottery - Melt Information */}
+                {(lottery.state === 'CONCLUDED' || lottery.state === 'CANCELLED') && (
+                    <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+                        <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-lg">🍫</span>
+                            <h4 className="text-sm font-semibold text-white">
+                                {lottery.state === 'CONCLUDED' ? 'Lottery Concluded!' : 'Lottery Cancelled'}
+                            </h4>
+                        </div>
+                        <p className="text-xs text-gray-300 mb-3">
+                            {lottery.state === 'CONCLUDED' 
+                                ? 'Participants can now melt their WonkaBars to claim rewards!' 
+                                : 'Participants can melt WonkaBars for full refunds + ChocoChips!'
+                            }
+                        </p>
+                        {lottery.winner && (
+                            <div className="flex items-center space-x-2 mb-2">
+                                <Trophy className="w-4 h-4 text-yellow-400" />
+                                <span className="text-xs text-yellow-400 font-medium">
+                                    Winner: {lottery.winner.slice(0, 6)}...{lottery.winner.slice(-4)}
+                                </span>
+                            </div>
+                        )}
+                        <div className="text-xs text-purple-300">
+                            💰 Winners get NFT + ChocoChips • 🎁 All participants get ChocoChips
+                        </div>
                     </div>
                 )}
 
@@ -298,49 +343,59 @@ export default function LotteriesPage() {
     }).length;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-            {/* Background Elements */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-radial from-purple-500/10 via-transparent to-transparent" />
-                <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-radial from-blue-500/10 via-transparent to-transparent" />
-            </div>
-
-            <div className="relative z-10 container mx-auto px-6 py-12">
+        <div className="min-h-screen py-12">
+            <div className="max-w-7xl mx-auto px-6">
                 {/* Header */}
-                <div className="mb-12">
-                    <h1 className="text-4xl font-bold text-white mb-4">Active Lotteries</h1>
-                    <p className="text-white/60 text-lg">
-                        Discover amazing NFTs, purchase WonkaBars, and win big while earning ChocoChips!
+                <div className="text-center mb-16 animate-slide-up">
+                    <div className="inline-flex items-center space-x-3 mb-6">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center animate-float">
+                            <Ticket className="w-6 h-6 text-white" />
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-black">
+                            <span className="gradient-text">Active</span> Lotteries
+                        </h1>
+                    </div>
+                    <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                        Discover premium NFTs and join lotteries for a chance to win incredible digital assets at fraction of their value
                     </p>
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6 text-center">
-                        <div className="text-3xl font-bold text-white mb-2">{lotteries.length}</div>
-                        <div className="text-white/60">Total Lotteries</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                    <div className="card text-center group">
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Ticket className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="text-3xl font-bold gradient-text mb-2">{lotteries.length}</div>
+                        <div className="text-gray-400">Total Lotteries</div>
                     </div>
-                    <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6 text-center">
+                    <div className="card text-center group">
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <TrendingUp className="w-6 h-6 text-white" />
+                        </div>
                         <div className="text-3xl font-bold text-green-400 mb-2">{activeLotteriesCount}</div>
-                        <div className="text-white/60">Active Now</div>
+                        <div className="text-gray-400">Active Now</div>
                     </div>
-                    <div className="rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm p-6 text-center">
+                    <div className="card text-center group">
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <AlertCircle className="w-6 h-6 text-white" />
+                        </div>
                         <div className="text-3xl font-bold text-yellow-400 mb-2">{endingSoonCount}</div>
-                        <div className="text-white/60">Ending Soon</div>
+                        <div className="text-gray-400">Ending Soon</div>
                     </div>
                 </div>
 
                 {/* Filters and Search */}
-                <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between">
+                <div className="mb-12 space-y-6 md:space-y-0 md:flex md:items-center md:justify-between animate-slide-up" style={{ animationDelay: '0.4s' }}>
                     {/* Search */}
                     <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search lotteries..."
+                            placeholder="Search lotteries by name or type..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-purple-500 transition-colors"
+                            className="input pl-12 pr-4 py-3"
                         />
                     </div>
 
@@ -349,53 +404,63 @@ export default function LotteriesPage() {
                         <select
                             value={filterState}
                             onChange={(e) => setFilterState(e.target.value as any)}
-                            className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                            className="px-4 py-3 rounded-xl glass border border-white/20 text-white focus:outline-none focus:border-blue-400 transition-all duration-300"
                         >
-                            <option value="all">All Lotteries</option>
-                            <option value="active">Active Only</option>
-                            <option value="ending-soon">Ending Soon</option>
+                            <option value="all" className="bg-gray-800">All Lotteries</option>
+                            <option value="active" className="bg-gray-800">Active Only</option>
+                            <option value="ending-soon" className="bg-gray-800">Ending Soon</option>
                         </select>
 
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value as any)}
-                            className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                            className="px-4 py-3 rounded-xl glass border border-white/20 text-white focus:outline-none focus:border-blue-400 transition-all duration-300"
                         >
-                            <option value="newest">Newest First</option>
-                            <option value="ending-soon">Ending Soon</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
+                            <option value="newest" className="bg-gray-800">Newest First</option>
+                            <option value="ending-soon" className="bg-gray-800">Ending Soon</option>
+                            <option value="price-low" className="bg-gray-800">Price: Low to High</option>
+                            <option value="price-high" className="bg-gray-800">Price: High to Low</option>
                         </select>
                     </div>
                 </div>
 
                 {/* Loading State */}
                 {isLoadingLotteries && (
-                    <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <p className="text-white/60 mt-4">Loading lotteries...</p>
+                    <div className="text-center py-24 animate-fade-in">
+                        <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center animate-pulse-glow">
+                            <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </div>
+                        <h3 className="text-xl font-semibold text-white mb-2">Loading Lotteries</h3>
+                        <p className="text-gray-400">Fetching the latest NFT opportunities...</p>
                     </div>
                 )}
 
                 {/* No Results */}
                 {!isLoadingLotteries && filteredLotteries.length === 0 && (
-                    <div className="text-center py-12">
-                        <Ticket className="w-16 h-16 text-white/40 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-white mb-2">
+                    <div className="text-center py-24 animate-fade-in">
+                        <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                            <Ticket className="w-12 h-12 text-gray-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-4">
                             {searchQuery || filterState !== 'all' ? 'No lotteries match your criteria' : 'No lotteries available'}
                         </h3>
-                        <p className="text-white/60">
+                        <p className="text-xl text-gray-400 mb-8 max-w-md mx-auto">
                             {searchQuery || filterState !== 'all'
-                                ? 'Try adjusting your search or filters'
-                                : 'Check back later for new lotteries, or create your own!'
+                                ? 'Try adjusting your search or filters to discover more opportunities'
+                                : 'Be the first to create a lottery and unlock liquidity from your NFTs!'
                             }
                         </p>
+                        {!searchQuery && filterState === 'all' && (
+                            <a href="/create" className="btn-primary">
+                                Create First Lottery
+                            </a>
+                        )}
                     </div>
                 )}
 
                 {/* Lotteries Grid */}
                 {!isLoadingLotteries && filteredLotteries.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up" style={{ animationDelay: '0.6s' }}>
                         {filteredLotteries.map((lottery) => (
                             <LotteryCard
                                 key={lottery.id}
@@ -414,14 +479,23 @@ export default function LotteriesPage() {
 
                 {/* Connection Warning */}
                 {!currentAccount && !isLoadingLotteries && (
-                    <div className="mt-8 rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-4">
-                        <div className="flex items-center gap-2">
-                            <AlertCircle className="w-5 h-5 text-yellow-400" />
-                            <div>
-                                <h3 className="font-medium text-yellow-200">Connect Your Wallet</h3>
-                                <p className="text-sm text-yellow-200/70">
-                                    Connect your Sui wallet to participate in lotteries and purchase WonkaBars.
+                    <div className="mt-12 card-premium border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 animate-slide-up" style={{ animationDelay: '0.8s' }}>
+                        <div className="flex items-start space-x-4">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                                <AlertCircle className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-white mb-2">Connect Your Wallet</h3>
+                                <p className="text-gray-300 mb-4">
+                                    Connect your Sui wallet to participate in lotteries, purchase WonkaBars, and start winning amazing NFTs!
                                 </p>
+                                <div className="flex items-center space-x-3">
+                                    <span className="text-sm text-gray-400">Supported wallets:</span>
+                                    <div className="flex items-center space-x-2">
+                                        <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-md border border-blue-500/30">Sui Wallet</span>
+                                        <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-md border border-purple-500/30">Suiet</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -14,6 +14,7 @@ module meltyfi::meltyfi_core {
     use std::vector;
     use std::option::{Self, Option};
     use std::string::{Self, String};
+    use meltyfi::choco_chip;
 
     // ===== Constants =====
     const PROTOCOL_VERSION: u64 = 1;
@@ -196,10 +197,10 @@ module meltyfi::meltyfi_core {
         protocol.total_lotteries = protocol.total_lotteries + 1;
         let owner = tx_context::sender(ctx);
 
-        // Calculate and transfer initial payout (95% of potential earnings)
+        // No initial payout - borrower only gets paid when tickets are sold
         let max_earnings = wonka_price * max_supply;
         let protocol_fee = (max_earnings * PROTOCOL_FEE_BPS) / BASIS_POINTS;
-        let initial_payout = max_earnings - protocol_fee;
+        let potential_borrower_earnings = max_earnings - protocol_fee;
 
         let nft_type_name = string::utf8(b"NFT"); // Can be enhanced to get actual type name
 
@@ -248,11 +249,11 @@ module meltyfi::meltyfi_core {
             expiration_date,
             wonka_price,
             max_supply,
-            initial_payout,
+            initial_payout: 0, // No initial payout
         });
 
         transfer::share_object(lottery);
-        transfer::transfer(receipt, owner);  // <-- CHANGED: Transfer receipt to owner instead of returning
+        transfer::transfer(receipt, owner);
     }
 
     /// Purchase WonkaBars (lottery tickets)
@@ -276,9 +277,28 @@ module meltyfi::meltyfi_core {
 
         let buyer = tx_context::sender(ctx);
         
-        // Handle payment
+        // Handle payment - split between borrower (95%) and protocol (5%)
         let mut payment_balance = coin::into_balance(payment);
-        let cost_balance = balance::split(&mut payment_balance, total_cost);
+        let mut cost_balance = balance::split(&mut payment_balance, total_cost);
+        
+        // Calculate borrower and protocol shares
+        let protocol_share = (total_cost * PROTOCOL_FEE_BPS) / BASIS_POINTS;
+        let borrower_share = total_cost - protocol_share;
+        
+        // Pay borrower immediately (95%)
+        if (borrower_share > 0) {
+            let borrower_payment = balance::split(&mut cost_balance, borrower_share);
+            let borrower_coin = coin::from_balance(borrower_payment, ctx);
+            transfer::public_transfer(borrower_coin, lottery.owner);
+        };
+        
+        // Send protocol fee to treasury (5%)
+        if (protocol_share > 0) {
+            let protocol_payment = balance::split(&mut cost_balance, protocol_share);
+            balance::join(&mut protocol.treasury, protocol_payment);
+        };
+        
+        // Store remaining funds in lottery (should be 0, but just in case)
         balance::join(&mut lottery.funds, cost_balance);
         
         // Return excess payment if any
@@ -372,7 +392,64 @@ module meltyfi::meltyfi_core {
         });
     }
 
-    /// Claim winnings (for winner) or refund (for participants if cancelled)
+    /// Melt WonkaBar to claim rewards (NFT for winner, ChocoChips for all participants)
+    public fun melt_wonkabar<T: key + store>(
+        lottery: &mut Lottery,
+        wonka_bar: WonkaBar,
+        choco_factory: &mut choco_chip::ChocolateFactory,
+        ctx: &mut TxContext
+    ) {
+        assert!(lottery.state != LOTTERY_ACTIVE, EInvalidLotteryState);
+        let claimer = tx_context::sender(ctx);
+        assert!(wonka_bar.owner == claimer, ENotAuthorized);
+        assert!(wonka_bar.lottery_id == lottery.lottery_id, EInvalidAmount);
+
+        let WonkaBar { id, lottery_id: _, ticket_count, owner: _, purchased_at: _ } = wonka_bar;
+        object::delete(id);
+
+        // Calculate ChocoChip reward based on ticket count
+        let choco_reward_amount = ticket_count * 1000000000; // 1 CHOC per ticket (9 decimals)
+        let choco_reward = choco_chip::protocol_mint(choco_factory, choco_reward_amount, claimer, ctx);
+        
+        // Transfer ChocoChips to the claimer
+        transfer::public_transfer(choco_reward, claimer);
+
+        if (lottery.state == LOTTERY_CONCLUDED) {
+            // Check if claimer is the winner
+            if (option::is_some(&lottery.winner) && *option::borrow(&lottery.winner) == claimer) {
+                // Transfer NFT to winner
+                if (dof::exists_(&lottery.id, b"nft")) {
+                    let nft: T = dof::remove(&mut lottery.id, b"nft");
+                    transfer::public_transfer(nft, claimer);
+                    
+                    event::emit(FundsWithdrawn {
+                        lottery_id: lottery.lottery_id,
+                        recipient: claimer,
+                        amount: 0,
+                        withdrawal_type: string::utf8(b"nft_claim"),
+                    });
+                };
+            };
+        } else if (lottery.state == LOTTERY_CANCELLED) {
+            // For cancelled lotteries, participants get refund + ChocoChips
+            let refund_amount = lottery.wonka_price * ticket_count;
+            
+            if (refund_amount > 0 && balance::value(&lottery.funds) >= refund_amount) {
+                let refund_balance = balance::split(&mut lottery.funds, refund_amount);
+                let refund_coin = coin::from_balance(refund_balance, ctx);
+                transfer::public_transfer(refund_coin, claimer);
+                
+                event::emit(FundsWithdrawn {
+                    lottery_id: lottery.lottery_id,
+                    recipient: claimer,
+                    amount: refund_amount,
+                    withdrawal_type: string::utf8(b"refund"),
+                });
+            };
+        }
+    }
+
+    /// Legacy function for backwards compatibility - use melt_wonkabar instead
     public fun claim_rewards<T: key + store>(
         lottery: &mut Lottery,
         wonka_bar: WonkaBar,
@@ -429,6 +506,7 @@ module meltyfi::meltyfi_core {
     }
 
     /// Cancel lottery (owner only, before expiration)
+    /// Owner must repay 100% of total ticket sales to get their NFT back
     public fun cancel_lottery(
         protocol: &mut Protocol,
         lottery: &mut Lottery,
@@ -442,13 +520,14 @@ module meltyfi::meltyfi_core {
         assert!(receipt.owner == tx_context::sender(ctx), ENotLotteryOwner);
         let sender = tx_context::sender(ctx);
 
-        // Owner must repay the loan (total_raised) when cancelling before expiration.
+        // Owner must repay 100% of total ticket sales (they received 95%, now pay back 100% = 5% interest)
         let payment_amount = coin::value(&repayment);
         assert!(payment_amount >= lottery.total_raised, EInsufficientPayment);
 
         let mut payment_balance = coin::into_balance(repayment);
         let repay_balance = balance::split(&mut payment_balance, lottery.total_raised);
-        // Join the repayment into the lottery funds so participants can claim refunds
+        
+        // Store repayment in lottery funds so participants can get full refunds via melt_wonkabar
         balance::join(&mut lottery.funds, repay_balance);
 
         // Return any excess to sender
@@ -458,7 +537,6 @@ module meltyfi::meltyfi_core {
             balance::destroy_zero(payment_balance);
         };
         
-
         lottery.state = LOTTERY_CANCELLED;
 
         // Remove from active lotteries

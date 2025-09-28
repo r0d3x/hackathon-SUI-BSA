@@ -54,7 +54,17 @@ module meltyfi::meltyfi {
         meltyfi_core::resolve_lottery(protocol, lottery, random, clock, ctx)
     }
     
-    /// Claim winnings or refund
+    /// Melt WonkaBar to claim rewards (NFT for winner, ChocoChips for all participants)
+    public fun melt_wonkabar<T: key + store>(
+        lottery: &mut meltyfi_core::Lottery,
+        wonka_bar: meltyfi_core::WonkaBar,
+        choco_factory: &mut choco_chip::ChocolateFactory,
+        ctx: &mut TxContext
+    ) {
+        meltyfi_core::melt_wonkabar<T>(lottery, wonka_bar, choco_factory, ctx)
+    }
+    
+    /// Legacy function - use melt_wonkabar instead
     public fun claim_rewards<T: key + store>(
         lottery: &mut meltyfi_core::Lottery,
         wonka_bar: meltyfi_core::WonkaBar,

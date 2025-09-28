@@ -2,6 +2,7 @@
 
 import {
     CHOCO_CHIP_TYPE,
+    CHOCOLATE_FACTORY_ID,
     MELTYFI_PACKAGE_ID,
     PROTOCOL_OBJECT_ID,
     WONKA_BAR_TYPE
@@ -705,19 +706,24 @@ export function useMeltyFi() {
                     },
                 });
 
-                return objects.data
+                const receipts = objects.data
                     .map((obj: any) => {
                         if (obj.data?.content?.dataType === 'moveObject') {
                             const fields = obj.data.content.fields;
-                            return {
+                            const receipt = {
                                 id: obj.data.objectId,
                                 lotteryId: fields.lottery_id?.toString() || '0',
                                 owner: fields.owner || ''
                             };
+                            console.log('📋 Found lottery receipt:', receipt);
+                            return receipt;
                         }
                         return null;
                     })
                     .filter((receipt): receipt is { id: string; lotteryId: string; owner: string } => receipt !== null);
+                
+                console.log('📋 Total lottery receipts found:', receipts.length);
+                return receipts;
             } catch (error) {
                 console.error('Error fetching lottery receipts:', error);
                 return [];
@@ -732,18 +738,26 @@ export function useMeltyFi() {
         mutationFn: async ({ lotteryId }: { lotteryId: string }) => {
             if (!currentAccount?.address) throw new Error('Wallet not connected');
 
-            console.log('🚫 Cancelling lottery:', { lotteryId });
+            console.log('🚫 Cancelling lottery:', { 
+                lotteryObjectId: lotteryId,
+                userAddress: currentAccount.address,
+                availableReceipts: userLotteryReceipts.length
+            });
 
-            // Find the lottery receipt for this lottery
-            const receipt = userLotteryReceipts.find(r => r.lotteryId === lotteryId);
-            if (!receipt) {
-                throw new Error('Lottery receipt not found. You may not own this lottery.');
-            }
-
-            // Find the lottery to get the total raised amount
+            // Find the lottery to get the lottery_id field and total raised amount
             const lottery = lotteries.find(l => l.id === lotteryId);
             if (!lottery) {
                 throw new Error('Lottery not found');
+            }
+
+            // Find the lottery receipt using the lottery's lotteryId field (not the object ID)
+            const receipt = userLotteryReceipts.find(r => r.lotteryId === lottery.lotteryId);
+            if (!receipt) {
+                console.error('Receipt search failed:', {
+                    searchingFor: lottery.lotteryId,
+                    availableReceipts: userLotteryReceipts.map(r => ({ id: r.id, lotteryId: r.lotteryId }))
+                });
+                throw new Error('Lottery receipt not found. You may not own this lottery.');
             }
 
             const totalRaisedMist = parseInt(lottery.totalRaised);
@@ -800,6 +814,50 @@ export function useMeltyFi() {
         },
     });
 
+    // Melt WonkaBar mutation - claim rewards and ChocoChips
+    const { mutateAsync: meltWonkaBar, isPending: isMeltingWonkaBar } = useMutation({
+        mutationFn: async ({ wonkaBarId, lotteryId }: { wonkaBarId: string, lotteryId: string }) => {
+            if (!currentAccount?.address) {
+                throw new Error('Wallet not connected');
+            }
+
+            console.log('🍫 Melting WonkaBar:', { wonkaBarId, lotteryId });
+
+            const tx = new Transaction();
+            
+            // Call melt_wonkabar - let the function handle transfers internally
+            tx.moveCall({
+                target: `${MELTYFI_PACKAGE_ID}::meltyfi::melt_wonkabar`,
+                typeArguments: ['0x2::coin::Coin<0x2::sui::SUI>'], // Generic NFT type - should match the actual NFT type
+                arguments: [
+                    tx.object(lotteryId),
+                    tx.object(wonkaBarId),
+                    tx.object(CHOCOLATE_FACTORY_ID),
+                ],
+            });
+
+            // Note: The smart contract will handle transferring ChocoChips and NFTs to the user automatically
+
+            const result = await signAndExecuteTransaction({
+                transaction: tx,
+            });
+
+            console.log('🍫 WonkaBar melted successfully:', result);
+            return result;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['wonkaBars'] });
+            queryClient.invalidateQueries({ queryKey: ['lotteries'] });
+            queryClient.invalidateQueries({ queryKey: ['chocoChipBalance'] });
+            queryClient.invalidateQueries({ queryKey: ['suiBalance'] });
+            toast.success('WonkaBar melted! You received ChocoChips! 🍫✨');
+        },
+        onError: (error) => {
+            console.error('Melt WonkaBar error:', error);
+            toast.error(`Failed to melt WonkaBar: ${error.message}`);
+        },
+    });
+
     return {
         // Data
         lotteries,
@@ -824,5 +882,7 @@ export function useMeltyFi() {
         isRedeemingWonkaBars,
         cancelLottery,
         isCancellingLottery,
+        meltWonkaBar,
+        isMeltingWonkaBar,
     };
 }
