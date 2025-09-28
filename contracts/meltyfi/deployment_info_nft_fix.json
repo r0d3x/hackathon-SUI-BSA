@@ -1,0 +1,12 @@
+{
+  "packageId": "0x1a889923ceba84d9994e0211800594cff0f228e1b231ce6ec5ce2b54f26880fe",
+  "protocolObjectId": "0xce559313c3dc2c59145af9ee1285d8af58e00568f3e56d914e899db989dbc1bc",
+  "chocolateFactoryId": "0xe11da602b8939f6617554f8d4503a0c8e4beb29d0963ee72f9c74c7b5b3cac69",
+  "adminCapId": "0x2a861b06d26fc90fb81bc2a97c59c89171e9d395d573538aa402088e7a480dc3",
+  "factoryAdminId": "0xc4f4265c1060778d374c7af2c5c3a1f7aa927789c4e472ebe7840f06a662222e",
+  "upgradeCapId": "0x24529f293b37f12581f5de1499e875fb1e46d2b3efbf793209a52df8e7adbe32",
+  "network": "testnet",
+  "transactionDigest": "79it921769VeJG4qZ9y1i6F3oPGDkNfV53wZkw4utvTd",
+  "deployedAt": "Sun Sep 28 11:02:50 CEST 2025",
+  "fix": "Added NFT type resolution for cancel_lottery function"
+}

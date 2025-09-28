@@ -74,14 +74,14 @@ module meltyfi::meltyfi {
     }
     
     /// Cancel lottery (owner only)
-    public fun cancel_lottery(
+    public fun cancel_lottery<T: key + store>(
         protocol: &mut meltyfi_core::Protocol,
         lottery: &mut meltyfi_core::Lottery,
         receipt: &meltyfi_core::LotteryReceipt,
         repayment: Coin<sui::sui::SUI>,
         ctx: &mut TxContext
     ) {
-        meltyfi_core::cancel_lottery(protocol, lottery, receipt, repayment, ctx)
+        meltyfi_core::cancel_lottery<T>(protocol, lottery, receipt, repayment, ctx)
     }
     
     // ===== ChocoChip Token Functions =====

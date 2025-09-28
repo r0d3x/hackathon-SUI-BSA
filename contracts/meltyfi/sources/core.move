@@ -507,7 +507,7 @@ module meltyfi::meltyfi_core {
 
     /// Cancel lottery (owner only, before expiration)
     /// Owner must repay 100% of total ticket sales to get their NFT back
-    public fun cancel_lottery(
+    public fun cancel_lottery<T: key + store>(
         protocol: &mut Protocol,
         lottery: &mut Lottery,
         receipt: &LotteryReceipt,
@@ -537,6 +537,10 @@ module meltyfi::meltyfi_core {
             balance::destroy_zero(payment_balance);
         };
         
+        // Return the NFT to the owner
+        let nft: T = dof::remove(&mut lottery.id, b"nft");
+        transfer::public_transfer(nft, sender);
+        
         lottery.state = LOTTERY_CANCELLED;
 
         // Remove from active lotteries
@@ -551,6 +555,8 @@ module meltyfi::meltyfi_core {
             state: LOTTERY_CANCELLED,
         });
     }
+
+
 
     // ===== Admin Functions =====
 

@@ -1,7 +1,7 @@
 // Contract addresses and types for MeltyFi protocol
-export const MELTYFI_PACKAGE_ID = '0x058b863965f418b15866fdf26b159b483f8cee6b4046b3a6c3bd2bcdb4f5a5a6';
-export const PROTOCOL_OBJECT_ID = '0x0538745d9d6a948ca4de66e85bacda39c177e44c02f3d2833b6ef5a310c60bc7';
-export const CHOCOLATE_FACTORY_ID = '0xdd01b9bc0383eaed3ebffbe880ebf5f9cd9b7b3086d5a6ca36d3c361b3dccf27';
+export const MELTYFI_PACKAGE_ID = '0x1a889923ceba84d9994e0211800594cff0f228e1b231ce6ec5ce2b54f26880fe';
+export const PROTOCOL_OBJECT_ID = '0xce559313c3dc2c59145af9ee1285d8af58e00568f3e56d914e899db989dbc1bc';
+export const CHOCOLATE_FACTORY_ID = '0xe11da602b8939f6617554f8d4503a0c8e4beb29d0963ee72f9c74c7b5b3cac69';
 
 // Object types
 export const LOTTERY_TYPE = `${MELTYFI_PACKAGE_ID}::meltyfi_core::Lottery`;

@@ -774,9 +774,40 @@ export function useMeltyFi() {
                 [repaymentCoin] = tx.splitCoins(tx.gas, [0]);
             }
 
+            // Get the NFT type from the lottery object's dynamic fields
+            let nftType = '0x2::coin::Coin<0x2::sui::SUI>'; // Default placeholder
+            try {
+                const lotteryObj = await suiClient.getObject({
+                    id: lotteryId,
+                    options: { showContent: true }
+                });
+                
+                if (lotteryObj.data?.content?.dataType === 'moveObject') {
+                    // Try to get dynamic fields to find the NFT type
+                    const dynamicFields = await suiClient.getDynamicFields({
+                        parentId: lotteryId,
+                    });
+                    
+                    const nftField = dynamicFields.data.find(field => 
+                        field.name.type === 'vector<u8>' && 
+                        field.name.value && 
+                        Buffer.from(field.name.value as any).toString() === 'nft'
+                    );
+                    
+                    if (nftField) {
+                        // Extract the NFT type from the dynamic field
+                        nftType = nftField.objectType || nftType;
+                        console.log('🎨 Found NFT type:', nftType);
+                    }
+                }
+            } catch (err) {
+                console.warn('Could not determine NFT type, using placeholder:', err);
+            }
+
             // Call cancel_lottery function which allows owner to repay and get NFT back
             tx.moveCall({
                 target: `${MELTYFI_PACKAGE_ID}::meltyfi::cancel_lottery`,
+                typeArguments: [nftType],
                 arguments: [
                     tx.object(PROTOCOL_OBJECT_ID),    // protocol: &mut Protocol
                     tx.object(lotteryId),             // lottery: &mut Lottery

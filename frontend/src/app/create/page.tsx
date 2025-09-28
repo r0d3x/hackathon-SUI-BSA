@@ -440,9 +440,11 @@ export default function CreatePage() {
                                             <div className="flex-1">
                                                 <h3 className="font-medium text-white">{selectedNFT.name}</h3>
                                                 {selectedNFT.collection && (
-                                                    <p className="text-sm text-text-secondary">{selectedNFT.collection}</p>
+                                                    <p className="text-sm text-text-secondary truncate max-w-[200px]">
+                                                        {selectedNFT.collection.length > 20 ? `${selectedNFT.collection.slice(0, 20)}...` : selectedNFT.collection}
+                                                    </p>
                                                 )}
-                                                <p className="text-xs text-text-muted mt-1 font-mono">{selectedNFT.id.slice(0, 10)}...</p>
+                                                <p className="text-xs text-text-muted mt-1 font-mono truncate max-w-[200px]">{selectedNFT.id.slice(0, 8)}...</p>
                                             </div>
                                             <button
                                                 onClick={() => setSelectedNFT(null)}

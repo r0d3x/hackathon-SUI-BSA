@@ -1,0 +1,12 @@
+{
+  "packageId": "0x2fbe944e322c7ee2a5f44906e39cd1d955bcd61a3fffdf94fc077eadd9ca986e",
+  "protocolObjectId": "0x52ac97e570c5a1ad567fcfc6cc0b6e8b05119e583e66e9c9f7f6cd533ddac5ed",
+  "chocolateFactoryId": "0xf80ad1063f1994be5c911f8cd4a03072ac9232b4a46449c30e15fe9608e3dfd1",
+  "adminCapId": "0xd92666b10013b7bc2953124f89bf9d16702e5da591eb4278a297e0808ba05ef1",
+  "factoryAdminId": "0x081e06f96af88f6faaebec9b6366cf8ede51fb2ecf49fcd0a656165573dfb037",
+  "upgradeCapId": "0x44589bd31e9da5bdabe92898474ff78cd7662903ef38eef9fabfe468ab68f437",
+  "network": "testnet",
+  "transactionDigest": "H5oERTy1vMhnDXrZVcriivAJsqMPwK8pGbno2EhipV8N",
+  "deployedAt": "Sun Sep 28 10:55:24 CEST 2025",
+  "fix": "Added NFT return to owner in cancel_lottery function"
+}
