@@ -202,12 +202,10 @@ export default function CreatePage() {
                     {/* Header Section */}
                     <div className="text-center mb-16 animate-slide-up">
                         <div className="flex justify-center mb-8 fade-in">
-                            <div className="bg-surface-elevated border border-border px-6 py-3 rounded-full">
-                                <span className="text-xl font-bold text-gradient">Create Your Lottery</span>
-                            </div>
+                            
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 slide-up">
-                            <span className="text-gradient">Loan</span> Against Your NFT
+                            <span className="text-gradient">Create</span> Your Lottery
                         </h1>
                         <p className="text-xl text-text-secondary max-w-2xl mx-auto">
                             Get immediate liquidity without selling your valuable NFTs
